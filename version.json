@@ -1,5 +1,5 @@
 {
-  "version": "1.3.1",
-  "apkUrl": "https://github.com/bsssst99-collab/zilv-os/releases/download/v1.3.1/zilv-os-v1.3.1.apk",
-  "notes": "v1.3.1：心情表情改用你上传的原图（去白底透明，夜间模式无白边）；心情日历去掉方格背景线、底部说明文字，未记录日改为浅灰居中圆点；子页面（半屏弹窗）禁止上下滑动与弹性效果，仅点空白收起。"
+  "version": "1.3.2",
+  "apkUrl": "https://github.com/bsssst99-collab/zilv-os/releases/download/v1.3.2/zilv-os-v1.3.2.apk",
+  "notes": "v1.3.2：心情表情换成你上传的原图并抠掉白底（透明 PNG，夜间模式无白边）；心情日历扩大行/列间距，统一当日绿点与其他日期灰点的位置和大小（与表情 icon 底部对齐），空白灰点下移与表情对齐。"
 }
