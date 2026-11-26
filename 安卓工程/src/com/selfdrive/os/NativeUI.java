@@ -34,6 +34,19 @@ public class NativeUI {
         return "android";
     }
 
+    @JavascriptInterface
+    public void openUrl(final String url) {
+        host.runOnUiThread(new Runnable() {
+            public void run() {
+                try {
+                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    host.startActivity(i);
+                } catch (Exception ignored) {}
+            }
+        });
+    }
+
     /* ===== 通知 ===== */
 
     @JavascriptInterface
@@ -49,7 +62,7 @@ public class NativeUI {
             openNotificationSettings();
             host.runOnUiThread(new Runnable() {
                 public void run() {
-                    Toast.makeText(host, "请在系统设置中开启「自律 OS」的通知",
+                    Toast.makeText(host, "请在系统设置中开启「自律日记」的通知",
                             Toast.LENGTH_LONG).show();
                 }
             });

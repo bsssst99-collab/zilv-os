@@ -21,7 +21,7 @@ public final class Notify {
                 ctx.getSystemService(Context.NOTIFICATION_SERVICE);
         if (nm == null || nm.getNotificationChannel(CHANNEL) != null) return;
         NotificationChannel c = new NotificationChannel(
-                CHANNEL, "自律 OS 提醒", NotificationManager.IMPORTANCE_HIGH);
+                CHANNEL, "自律日记提醒", NotificationManager.IMPORTANCE_HIGH);
         c.setDescription("起床闹钟与就寝提醒");
         c.enableVibration(true);
         c.enableLights(true);

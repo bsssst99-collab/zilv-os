@@ -3,34 +3,36 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#F5F6F8">
+<meta name="theme-color" content="#F4F7EE">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>自律 OS</title>
+<title>自律日记</title>
 <style>
 :root{
-  --accRGB:43,168,74;
-  --acc:#2BA84A; --onacc:#FFFFFF;
-  --alpha:rgba(var(--accRGB),.10);
-  --alphaLine:rgba(var(--accRGB),.26);
-  --bg:#F5F6F8; --card:#FFFFFF; --card2:#F0F2F5; --line:rgba(17,20,24,.09);
+  --accRGB:164,207,74;
+  --acc:#a4cf4a; --onacc:#1B2A08;
+  --accSoft:#edf7be;
+  --alpha:rgba(var(--accRGB),.12);
+  --alphaLine:rgba(var(--accRGB),.30);
+  --bg:#F4F7EE; --card:#FFFFFF; --card2:#F0F3E8; --line:rgba(17,20,24,.08);
   --tx:#15171A; --dim:#71767D; --dim2:#9AA0A6;
-  --sheet:#FFFFFF; --tabbar:rgba(255,255,255,.88); --ph:#FAFBFC;
-  --hero1:#FFFFFF; --hero2:#F1F9F2;
+  --sheet:#FFFFFF; --tabbar:rgba(255,255,255,.9); --ph:#FAFBF5;
+  --hero1:#FFFFFF; --hero2:#EDF6D8;
   --toastBg:#1D2025; --toastTx:#FFFFFF;
   --track:rgba(17,20,24,.07);
-  --shadow:0 1px 2px rgba(16,24,40,.04), 0 10px 26px -16px rgba(16,24,40,.18);
+  --shadow:0 1px 2px rgba(16,24,40,.03), 0 8px 22px -16px rgba(16,24,40,.10);
   --warn:#C97A12; --warnBg:rgba(224,138,30,.13); --bad:#D9483E;
 }
 [data-theme="dark"]{
-  --accRGB:183,240,106;
-  --acc:#B7F06A; --onacc:#0B0C0E;
-  --alpha:rgba(var(--accRGB),.12);
-  --alphaLine:rgba(var(--accRGB),.28);
+  --accRGB:164,207,74;
+  --acc:#a4cf4a; --onacc:#0B0C0E;
+  --accSoft:#2A3318;
+  --alpha:rgba(var(--accRGB),.14);
+  --alphaLine:rgba(var(--accRGB),.34);
   --bg:#0B0C0E; --card:#14161A; --card2:#1B1E24; --line:rgba(255,255,255,.07);
   --tx:#ECEDEF; --dim:#8A9099; --dim2:#5D636B;
   --sheet:#121417; --tabbar:rgba(11,12,14,.82); --ph:#0E1013;
-  --hero1:#1C2029; --hero2:#14161A;
+  --hero1:#161A12; --hero2:#0B0C0E;
   --toastBg:#20242A; --toastTx:#ECEDEF;
   --track:rgba(255,255,255,.08);
   --shadow:none;
@@ -40,9 +42,9 @@
 html,body{margin:0;background:var(--bg);color:var(--tx);
   font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",Arial,sans-serif;
   font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;
-  transition:background .25s,color .25s}
-body{padding-bottom:calc(78px + env(safe-area-inset-bottom))}
-.wrap{max-width:520px;margin:0 auto;padding:0 18px}
+  transition:background .25s,color .25s;overscroll-behavior:none}
+body{padding-bottom:calc(78px + env(safe-area-inset-bottom));overscroll-behavior:none}
+.wrap{max-width:520px;margin:0 auto;padding:0 12px}
 
 /* header */
 .hd{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;
@@ -126,9 +128,9 @@ body{padding-bottom:calc(78px + env(safe-area-inset-bottom))}
 .calwk{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;font-size:10.5px;color:var(--dim);text-align:center;margin-bottom:5px;font-weight:600;letter-spacing:.05em}
 .calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:9px;padding:7px;border-radius:16px}
 .calcell{width:100%;aspect-ratio:1/1.16;border-radius:14px;display:flex;flex-direction:column;align-items:center;
-  padding-top:5px;cursor:pointer;position:relative;background:transparent}
+  padding-top:7px;cursor:pointer;position:relative;background:transparent}
 .calcell .dn{font-size:11px;color:var(--dim);line-height:1;font-weight:500}
-.calcell .de{flex:1;width:100%;display:flex;align-items:center;justify-content:center}
+.calcell .de{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;padding-bottom:12px}
 .calcell .de img{width:40px;height:40px;display:block}
 .calcell .de img.dim{opacity:.4}
 .calcell .dot{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:rgba(17,20,24,.1);display:block}
@@ -220,7 +222,7 @@ textarea::placeholder{color:var(--dim2)}
 .alarm .lab{font-size:13px;color:#8A9099;letter-spacing:.18em;text-transform:uppercase;margin-top:6px}
 .alarm .msg{font-size:15px;color:#C9D3BE;margin:26px 0 0;font-weight:500}
 .alarm .btns{width:100%;max-width:320px;margin-top:34px;display:flex;flex-direction:column;gap:10px}
-.alarm .btn{background:#B7F06A;color:#0B0C0E}
+.alarm .btn{background:var(--acc);color:#0B0C0E}
 .alarm .btn.line{background:transparent;border:1px solid rgba(255,255,255,.16);color:#ECEDEF}
 .toast{position:fixed;left:50%;bottom:96px;transform:translate(-50%,10px);z-index:70;
   background:var(--toastBg);color:var(--toastTx);border-radius:11px;padding:10px 16px;font-size:13px;
@@ -235,6 +237,72 @@ textarea::placeholder{color:var(--dim2)}
 .drow .dv{font-size:11.5px;color:var(--dim);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .nudge{display:flex;gap:11px;align-items:center;background:var(--warnBg);
   border:1px solid rgba(224,138,30,.22);border-radius:16px;padding:13px 14px;margin-bottom:10px;font-size:12.5px}
+
+/* ===== 每日金句卡 ===== */
+.quote{background:linear-gradient(150deg,#edf7be 0%,#f6fbe6 55%,#eef5d6 100%);
+  border:1px solid rgba(164,207,74,.35);border-radius:20px;padding:18px 18px 16px;margin:10px 0 14px;
+  cursor:pointer;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.quote:active{transform:scale(.985)}
+.quote .qtag{font-size:11px;color:#7a8a3e;letter-spacing:.14em;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.quote .qtxt{font-size:18px;font-weight:650;line-height:1.55;color:#2b3318;letter-spacing:-.01em}
+.quote .qsrc{display:flex;align-items:center;gap:9px;margin-top:14px;font-size:12px;color:#5c6b2e}
+.quote .qsrc .qa{width:30px;height:30px;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 30px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.quote .qsrc .qi b{display:block;font-size:12.5px;color:#2b3318;font-weight:600}
+.quote .qsrc .qi span{font-size:11px;color:#7a8a3e}
+[data-theme="dark"] .quote{background:linear-gradient(150deg,#2a3318 0%,#1c2112 100%);border-color:rgba(164,207,74,.25)}
+[data-theme="dark"] .quote .qtag{color:#b8d16a}
+[data-theme="dark"] .quote .qtxt{color:#e8f0c8}
+[data-theme="dark"] .quote .qsrc{color:#9fb05a}
+[data-theme="dark"] .quote .qsrc .qa{background:#1f2415}
+[data-theme="dark"] .quote .qsrc .qi b{color:#e8f0c8}
+[data-theme="dark"] .quote .qsrc .qi span{color:#9fb05a}
+
+/* ===== 今日任务 田字 ===== */
+.taskgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
+.tsk{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 10px;
+  aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  box-shadow:var(--shadow);cursor:pointer;position:relative;text-align:center;transition:.18s}
+.tsk:active{transform:scale(.97)}
+.tsk .ico{width:42px;height:42px;border-radius:13px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:21px}
+.tsk .nm{font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.tsk .st{font-size:11px;color:var(--dim);margin-top:1px;line-height:1.4}
+.tsk .thumb{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:9px;object-fit:cover;border:1px solid var(--line)}
+.tsk.done{background:var(--accSoft);border-color:var(--alphaLine)}
+.tsk.done .nm{color:#2b3318}
+.tsk.done .st{color:#6b7a30}
+[data-theme="dark"] .tsk.done .nm{color:#dce8a8}
+[data-theme="dark"] .tsk.done .st{color:#9fb05a}
+
+/* ===== 拍照范围框 ===== */
+.shotbox{max-width:200px;margin:14px auto 0;aspect-ratio:4/5;border-radius:14px;background:var(--ph);
+  border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;
+  position:relative;cursor:pointer}
+.shotbox img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.shotbox .hint{color:var(--dim);font-size:12px;display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;padding:10px;line-height:1.5}
+.shotbox .hint b{font-size:24px;font-weight:400}
+
+/* ===== 本周 7 段进度 ===== */
+.weekrow{display:flex;align-items:center;gap:10px;margin:11px 0}
+.weekrow .n{font-size:12.5px;width:78px;color:var(--dim);flex:0 0 78px}
+.weekrow .s{flex:1}
+.weekrow .p{font-size:11px;width:30px;text-align:right;color:var(--dim)}
+.seg7{display:flex;gap:5px;height:8px}
+.seg7 i{flex:1;height:8px;border-radius:4px;background:var(--track)}
+.seg7 i.on{background:var(--acc)}
+.weeklab{display:flex;gap:5px;margin:2px 0 0 88px}
+.weeklab span{flex:1;text-align:center;font-size:9.5px;color:var(--dim2)}
+
+/* ===== 单日详情 田字 ===== */
+.daygrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 4px}
+.dcell{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:12px;
+  display:flex;flex-direction:column;gap:5px;cursor:pointer;min-height:96px;transition:.15s}
+.dcell:active{transform:scale(.97)}
+.dcell.ok{background:var(--alpha);border-color:var(--alphaLine)}
+.dcell .dh{display:flex;align-items:center;gap:8px}
+.dcell .dh .di{width:28px;height:28px;border-radius:9px;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 28px}
+.dcell .dh b{font-size:13px;font-weight:600}
+.dcell .dv{font-size:11px;color:var(--dim);line-height:1.5;flex:1}
+.dcell .act{font-size:11px;color:var(--acc);font-weight:600}
 </style>
 </head>
 <body>
@@ -276,7 +344,7 @@ textarea::placeholder{color:var(--dim2)}
 "use strict";
 /* ===== 存储 ===== */
 const LS = "selfdrive.v1";
-const APP_VERSION = "1.3.2";
+const APP_VERSION = "1.3.3";
 /* 更新信息 JSON 地址：GitHub 仓库 version.json 的原始地址。留空时「检查更新」会提示未配置。 */
 const UPDATE_JSON_URL = "https://raw.githubusercontent.com/bsssst99-collab/zilv-os/master/version.json";
 const TASKS = [
@@ -297,6 +365,77 @@ const MOOD_TXT = ["丧", "平静", "开心", "愤怒", "烦恼"];
 function moodImg(score, size, cls){
   const s = Math.max(1, Math.min(5, score||3));
   return `<img class="emo ${cls||""}" src="${MOOD_IMG[s-1]}" style="width:${size}px;height:${size}px" alt="">`;
+}
+
+/* ===== 每日金句（真实书籍/电影公开摘抄，准确出处；按日期确定性选取，同日不变） ===== */
+const QUOTES = [
+  {t:"人是为了活着本身而活着，而不是为了活着之外的任何事物而活着。", src:"活着", who:"余华", type:"book"},
+  {t:"一个人只拥有此生此世是不够的，他还应该拥有诗意的世界。", src:"万寿寺", who:"王小波", type:"book"},
+  {t:"你要做一个不动声色的大人了。不准情绪化，不准偷偷想念，不准回头看。", src:"舞！舞！舞！", who:"村上春树", type:"book"},
+  {t:"我们终此一生，就是要摆脱他人的期待，找到真正的自己。", src:"无声告白", who:"伍绮诗", type:"book"},
+  {t:"世界上只有一种真正的英雄主义，就是在认清生活的真相后依然热爱生活。", src:"米开朗基罗传", who:"罗曼·罗兰", type:"book"},
+  {t:"生活不可能像你想象得那么好，但也不会像你想象得那么糟。", src:"一生", who:"莫泊桑", type:"book"},
+  {t:"我慢慢明白了我为什么不快乐，因为我总是期待一个结果。", src:"允许自己虚度时光", who:"马德", type:"book"},
+  {t:"不乱于心，不困于情。不畏将来，不念过往。", src:"丰子恺散文", who:"丰子恺", type:"book"},
+  {t:"既然选择了远方，便只顾风雨兼程。", src:"热爱生命", who:"汪国真", type:"book"},
+  {t:"你若爱，生活哪里都可爱。", src:"丰子恺散文", who:"丰子恺", type:"book"},
+  {t:"心之何如，有似万丈迷津，遥亘千里，其中并无舟子可以渡人，除了自渡，他人爱莫能助。", src:"送你一匹马", who:"三毛", type:"book"},
+  {t:"一个人的行走范围，就是他的世界。", src:"青灯", who:"北岛", type:"book"},
+  {t:"生命中曾经有过的所有灿烂，终究都需要用寂寞来偿还。", src:"百年孤独", who:"马尔克斯", type:"book"},
+  {t:"过去都是假的，回忆是一条没有尽头的路。", src:"百年孤独", who:"马尔克斯", type:"book"},
+  {t:"真正重要的东西，用眼睛是看不见的。", src:"小王子", who:"圣埃克苏佩里", type:"book"},
+  {t:"所有的大人都曾经是小孩，虽然，只有少数的人记得。", src:"小王子", who:"圣埃克苏佩里", type:"book"},
+  {t:"我们把世界看错，反说它欺骗了我们。", src:"飞鸟集", who:"泰戈尔", type:"book"},
+  {t:"凡是过往，皆为序章。", src:"暴风雨", who:"莎士比亚", type:"book"},
+  {t:"黑夜无论怎样悠长，白昼总会到来。", src:"麦克白", who:"莎士比亚", type:"book"},
+  {t:"一个人知道自己为什么而活，就可以忍受任何一种生活。", src:"查拉图斯特拉如是说", who:"尼采", type:"book"},
+  {t:"那些杀不死我的，必使我更强大。", src:"偶像的黄昏", who:"尼采", type:"book"},
+  {t:"当你凝视深渊时，深渊也在凝视你。", src:"善恶的彼岸", who:"尼采", type:"book"},
+  {t:"未经审视的人生不值得过。", src:"申辩篇", who:"苏格拉底", type:"book"},
+  {t:"认识自己的无知是认识世界的最可靠的方法。", src:"随笔集", who:"蒙田", type:"book"},
+  {t:"未曾哭过长夜的人，不足以语人生。", src:"威廉·迈斯特", who:"歌德", type:"book"},
+  {t:"一个人并不是生来要给打败的，你尽可以把他消灭掉，可就是打不败他。", src:"老人与海", who:"海明威", type:"book"},
+  {t:"把活着的每一天看作生命的最后一天。", src:"假如给我三天光明", who:"海伦·凯勒", type:"book"},
+  {t:"人生如逆旅，我亦是行人。", src:"临江仙·送钱穆父", who:"苏轼", type:"book"},
+  {t:"我步入丛林，因为我希望生活得有意义，我希望活得深刻。", src:"瓦尔登湖", who:"梭罗", type:"book"},
+  {t:"鸟要挣脱出壳。蛋就是世界。谁要诞生，就得摧毁一个世界。", src:"德米安", who:"黑塞", type:"book"},
+  {t:"生活就像骑自行车，要保持平衡就得不断前进。", src:"爱因斯坦语录", who:"爱因斯坦", type:"book"},
+  {t:"你必须成为你希望在世界上看到的改变。", src:"甘地语录", who:"甘地", type:"book"},
+  {t:"种一棵树最好的时间是十年前，其次是现在。", src:"砍掉那颗树", who:"丹比萨·莫约", type:"book"},
+  {t:"我们以为贫穷就是饥饿、衣不蔽体和没有房屋。然而最大的贫穷却是不被需要、没有爱和不被关心。", src:"特蕾莎修女语录", who:"特蕾莎修女", type:"book"},
+  {t:"希望是美好的，也许是人间至善，而美好的事物永不消逝。", src:"肖申克的救赎", who:"豆瓣 9.7", type:"movie"},
+  {t:"有些鸟儿是注定不会被关在牢笼里的，它们的每一片羽毛都闪耀着自由的光辉。", src:"肖申克的救赎", who:"豆瓣 9.7", type:"movie"},
+  {t:"人生就像一盒巧克力，你永远不知道下一块是什么味道。", src:"阿甘正传", who:"豆瓣 9.5", type:"movie"},
+  {t:"如果你不出去走走，你就会以为这就是全世界。", src:"天堂电影院", who:"豆瓣 9.2", type:"movie"},
+  {t:"你要尽全力保护你的梦想，那些嘲笑你的人，他们必定会失败。", src:"当幸福来敲门", who:"豆瓣 9.2", type:"movie"},
+  {t:"生活总是这么艰难吗，还是只有童年如此？总是如此。", src:"这个杀手不太冷", who:"豆瓣 9.4", type:"movie"},
+  {t:"有些人浅薄，有些人金玉其外败絮其中。有一天你会遇到一个彩虹般绚丽的人，从此以后，其他人不过是匆匆浮云。", src:"怦然心动", who:"豆瓣 9.1", type:"movie"},
+  {t:"不管前方的路有多苦，只要走的方向正确，不管多么崎岖不平，都比站在原地更接近幸福。", src:"千与千寻", who:"豆瓣 9.4", type:"movie"},
+  {t:"如果我再也见不到你，祝你早安，午安，晚安。", src:"楚门的世界", who:"豆瓣 9.4", type:"movie"},
+  {t:"不要憎恨你的敌人，那会影响你的判断力。", src:"教父", who:"豆瓣 9.3", type:"movie"},
+  {t:"心很脆弱，你得学会去哄它，不管遇到多大困难，告诉你的心一切顺利。", src:"三傻大闹宝莱坞", who:"豆瓣 9.2", type:"movie"}
+];
+function dayOfYear(d){ const s=new Date(d.getFullYear(),0,0); return Math.floor((d-s)/86400000); }
+function dailyQuote(){ return QUOTES[dayOfYear(new Date()) % QUOTES.length]; }
+function quoteUrl(q){
+  const enc = encodeURIComponent(q.src);
+  if(q.type === "movie") return "https://search.douban.com/movie/subject_search?search_text=" + enc;
+  if(q.type === "podcast") return "https://www.xiaoyuzhoufm.com/search?q=" + enc;
+  return "https://weread.qq.com/search?query=" + enc;
+}
+function openQuote(){
+  const u = quoteUrl(dailyQuote());
+  try{ if(window.NativeUI && typeof NativeUI.openUrl === "function"){ NativeUI.openUrl(u); return; } }catch(e){}
+  window.open(u, "_blank");
+}
+function quoteCard(){
+  const q = dailyQuote();
+  const ico = q.type === "movie" ? "🎬" : (q.type === "podcast" ? "🎙️" : "📖");
+  return `<div class="quote" id="quoteCard">
+    <div class="qtag">✦ 每日一句</div>
+    <div class="qtxt">${esc(q.t)}</div>
+    <div class="qsrc"><div class="qa">${ico}</div><div class="qi"><b>《${esc(q.src)}》</b><span>${esc(q.who)}${q.type==="movie"?"":" · 点击查看出处"}</span></div></div>
+  </div>`;
 }
 function allDone(d){ return !!(d && d.wake && d.out && d.gym && d.mood); }
 const PHOTO_KEEP_DAYS = 24;
@@ -384,7 +523,7 @@ function applyTheme(){
   const btn = document.getElementById("themeBtn");
   if(btn) btn.textContent = dark ? "☀" : "☾";
   const meta = document.querySelector('meta[name="theme-color"]');
-  if(meta) meta.setAttribute("content", dark?"#0B0C0E":"#F5F6F8");
+  if(meta) meta.setAttribute("content", dark?"#0B0C0E":"#F4F7EE");
   try{ if(window.NativeUI && window.NativeUI.setDark) window.NativeUI.setDark(dark); }catch(e){}
 }
 if(window.matchMedia){
@@ -486,37 +625,20 @@ function renderToday(){
   const d = S.days[k] || {};
   const n = doneCount(d);
   const pct = Math.round(n/4*100);
-  const L = level();
   const st = streak();
-  const dash = 2*Math.PI*38;
 
-  let html = `
-  <div class="hero">
-    <div class="ring">
-      <svg viewBox="0 0 96 96">
-        <circle class="track" cx="48" cy="48" r="38" fill="none" stroke-width="4"/>
-        <circle class="fill" cx="48" cy="48" r="38" fill="none" stroke-width="4"
-          stroke-linecap="round" transform="rotate(-90 48 48)"
-          stroke-dasharray="${dash}" stroke-dashoffset="${dash*(1-pct/100)}"/>
-      </svg>
-      <div class="pct"><b>${pct}%</b><span>DONE</span></div>
-    </div>
-    <div class="hinfo">
-      <div class="t">连续达标</div>
-      <div class="s">${st}<em>天</em></div>
-      <div class="xpbar"><i style="width:${(L.cur/L.need*100).toFixed(0)}%"></i></div>
-      <div class="sm">Lv ${L.lv} · ${L.xp} XP · 距下一级 ${L.need-L.cur}</div>
-    </div>
-  </div>`;
+  let html = quoteCard();
 
   const nap = sleepNudge();
   if(nap) html += `<div class="nudge"><div style="font-size:18px">${nap.icon}</div><div>${nap.text}</div></div>`;
 
   html += `<div class="sec"><h2>今日任务</h2><span>${n} / 4 完成</span></div>`;
-  html += taskCard("wake", d.wake, buildWakeSub(d));
-  html += taskCard("out",  d.out,  buildOutSub(d));
-  html += taskCard("gym",  d.gym,  buildGymSub(d));
-  html += taskCard("mood", d.mood, buildMoodSub(d));
+  html += `<div class="taskgrid">`;
+  html += tskCard("wake", d.wake, buildWakeSub(d));
+  html += tskCard("out",  d.out,  buildOutSub(d));
+  html += tskCard("gym",  d.gym,  buildGymSub(d));
+  html += tskCard("mood", d.mood, buildMoodSub(d));
+  html += `</div>`;
 
   if(pct===100){
     html += `<div class="panel" style="border-color:var(--alphaLine);background:var(--alpha);display:flex;gap:12px;align-items:center">
@@ -536,14 +658,10 @@ function renderToday(){
     </div>
   </div>`;
 
-  html += `<div class="help">
-  · 闹钟需要本页面保持打开（建议「添加到主屏幕」后台常驻）<br>
-  · 出门打卡需距离基准点 ≥ ${S.settings.radius} 米，或提交户外实拍照<br>
-  · 数据保存在本机浏览器，可在「设置」里导出备份
-  </div>`;
-
   document.getElementById("main").innerHTML = html;
   bindTasks();
+  const qc = document.getElementById("quoteCard");
+  if(qc) qc.onclick = ()=> openQuote();
 }
 
 function sleepLeft(){
@@ -563,21 +681,23 @@ function sleepNudge(){
   return null;
 }
 
-function taskCard(id, rec, sub){
+function tskCard(id, rec, sub){
   const t = TASKS.find(x=>x.id===id);
-  const hasPhoto = rec && rec.photo;
-  let act = "";
-  if(hasPhoto){
-    act = `<img class="thumb" src="${rec.photo}" data-photo="${id}">`;
-  }else if(rec){
-    act = `<span class="chip${rec.late?" late":""}">${rec.late?"迟到":"完成"} ${fmtT(rec.t)}</span>`;
-  }else{
-    act = `<button class="btn" data-do="${id}">打卡</button>`;
+  const done = !!rec;
+  const thumb = (rec && rec.photo) ? `<img class="thumb" src="${rec.photo}" data-photo="${id}">` : "";
+  let st;
+  if(done){
+    if(id==="mood") st = `${moodImg(rec.score,20)} 已记录`;
+    else if(id==="wake") st = (rec.late?"迟到 ":"")+fmtT(rec.t);
+    else if(id==="out") st = rec.method==="gps"?"定位打卡":"实拍打卡";
+    else if(id==="gym") st = `${rec.type} ${rec.dur}分`;
+  } else {
+    st = sub;
   }
-  return `<div class="task ${rec?"done":""}" data-do="${id}">
+  return `<div class="tsk ${done?"done":""}" data-do="${id}">${thumb}
     <div class="ico">${t.ico}</div>
-    <div class="mid"><div class="nm">${t.nm}</div><div class="sub">${sub}</div></div>
-    <div class="act">${act}</div>
+    <div class="nm">${t.nm}</div>
+    <div class="st">${st}</div>
   </div>`;
 }
 function buildWakeSub(d){
@@ -601,7 +721,7 @@ function buildMoodSub(d){
 }
 
 function bindTasks(){
-  document.querySelectorAll("#main .task").forEach(el=>{
+  document.querySelectorAll("#main .tsk").forEach(el=>{
     el.addEventListener("click", ev=>{
       if(ev.target.closest("[data-photo]")) return;
       const id = el.getAttribute("data-do");
@@ -624,43 +744,64 @@ function viewPhoto(id){
     <button class="btn line wide" onclick="closeSheet()">关闭</button>`);
 }
 function openDetail(id){
-  const d = S.days[today()] || {};
+  const k = today();
+  const d = S.days[k] || {};
   const r = d[id];
   const t = TASKS.find(x=>x.id===id);
   openSheet(`<h3>${t.nm}</h3><p class="d">${fmtT(r.t)} 完成</p>
     <div class="ph">${r.photo?`<img src="${r.photo}">`:`<span>本次未附照片</span>`}</div>
-    <button class="btn line wide" onclick="closeSheet()">知道了</button>`);
+    <button class="btn wide" id="detEdit">重新打卡</button>
+    <button class="btn line wide" id="detClear">清除打卡记录</button>
+    <button class="btn line wide" onclick="closeSheet()">关闭</button>`);
+  document.getElementById("detEdit").onclick = ()=>{
+    closeSheet();
+    if(id==="mood") openMood(k);
+    else if(id==="wake") openWake(k);
+    else if(id==="out") openOut(k);
+    else if(id==="gym") openGym(k);
+  };
+  document.getElementById("detClear").onclick = ()=>{
+    if(S.days[k]){ delete S.days[k][id]; if(!Object.keys(S.days[k]).length) delete S.days[k]; }
+    save(); closeSheet(); renderAll(); toast("已清除打卡记录");
+  };
 }
 
 /* ===== 晨间打卡 ===== */
 function deadlineToday(){
   return new Date(atTime(S.settings.wake).getTime() + S.settings.grace*60000);
 }
-function openWake(){
+function openWake(dateKey){
+  const k = dateKey || today();
   const now = new Date();
-  const dl = deadlineToday();
-  const isLate = now > dl;
+  const rec = S.days[k] && S.days[k].wake;
+  const isEdit = !!rec;
+  const dl = k===today() ? deadlineToday() : null;
+  const isLate = dl && now > dl;
+  const sub = k===today()
+    ? `现在 ${pad(now.getHours())}:${pad(now.getMinutes())}　${isLate?"已超过宽限时间，记为迟到":"宽限至 "+pad(dl.getHours())+":"+pad(dl.getMinutes())}`
+    : `${k.slice(5).replace("-","月")}日 · 编辑记录`;
   openSheet(`<h3>晨间洗漱打卡</h3>
-    <p class="d">现在是 ${pad(now.getHours())}:${pad(now.getMinutes())}　${isLate?"已超过宽限时间，记为迟到":"宽限至 "+pad(dl.getHours())+":"+pad(dl.getMinutes())}</p>
-    <div class="ph" id="shotWrap"><span>拍一张洗漱完的照片</span><span style="font-size:22px">📷</span></div>
-    <button class="btn wide" id="btnShoot">打开相机</button>
-    <button class="btn line wide" id="btnSubmit" disabled>完成打卡</button>`);
-  let shot = null;
+    <p class="d">${sub}</p>
+    <div class="shotbox" id="shotWrap">${isEdit?`<img src="${rec.photo}">`:`<div class="hint"><b>📷</b><span>拍一张洗漱完的照片<br>上传即自动打卡</span></div>`}</div>
+    <button class="btn wide" id="btnShoot">${isEdit?"重新拍照":"拍照打卡"}</button>
+    ${isEdit?`<button class="btn line wide" id="btnClear">清除打卡记录</button>`:""}`);
+  let shot = isEdit ? rec.photo : null;
+  document.getElementById("shotWrap").onclick = ()=> document.getElementById("btnShoot").click();
+  const saveIt = ()=>{
+    const d = day(k);
+    d.wake = {t:Date.now(), photo:shot, late: k===today() ? (new Date() > deadlineToday()) : !!(rec && rec.late)};
+    save(); closeSheet(); if(k===today()) dismissAlarm(); renderAll();
+    toast(d.wake.late ? "已记录，今天迟到" : "打卡成功");
+  };
   document.getElementById("btnShoot").onclick = ()=>{
-    shoot(p=>{
-      shot = p;
-      document.getElementById("shotWrap").innerHTML = `<img src="${p}">`;
-      const b = document.getElementById("btnSubmit");
-      b.disabled = false; b.className = "btn wide";
-    });
+    shoot(p=>{ shot=p; document.getElementById("shotWrap").innerHTML=`<img src="${p}">`; saveIt(); });
   };
-  document.getElementById("btnSubmit").onclick = ()=>{
-    if(!shot) return;
-    const d = day(today());
-    d.wake = {t:Date.now(), photo:shot, late:new Date() > deadlineToday()};
-    save(); closeSheet(); dismissAlarm(); renderAll();
-    toast(d.wake.late ? "已记录，今天迟到" : "打卡成功，今天准时");
-  };
+  if(isEdit){
+    document.getElementById("btnClear").onclick = ()=>{
+      if(S.days[k]){ delete S.days[k].wake; if(!Object.keys(S.days[k]).length) delete S.days[k]; }
+      save(); closeSheet(); renderAll(); toast("已清除打卡记录");
+    };
+  }
 }
 
 /* ===== 出门打卡 ===== */
@@ -671,20 +812,37 @@ function dist(c){
   const x = Math.sin(dLat/2)**2 + Math.cos(a.lat*r)*Math.cos(c.lat*r)*Math.sin(dLng/2)**2;
   return 2*R*Math.asin(Math.sqrt(x));
 }
-function openOut(){
+function openOut(dateKey){
+  const k = dateKey || today();
   const anchor = S.settings.anchor;
+  const rec = S.days[k] && S.days[k].out;
+  const isEdit = !!rec;
+  const sub = k===today()
+    ? `获取定位，证明你已离开基准点 ${S.settings.radius} 米以外；定位不可用时用户外实拍兜底。`
+    : `${k.slice(5).replace("-","月")}日 · 编辑记录`;
+  const initBox = isEdit
+    ? (rec.method==="gps" ? `<b style="color:var(--acc)">${Math.round(rec.dist)} 米</b>已离开基准点` : "已用户外实拍打卡")
+    : "尚未获取定位";
   openSheet(`<h3>出门打卡</h3>
-    <p class="d">获取定位，证明你已离开基准点 ${S.settings.radius} 米以外；定位不可用时用户外实拍兜底。</p>
-    <div class="gps" id="gpsBox">尚未获取定位</div>
+    <p class="d">${sub}</p>
+    <div class="gps" id="gpsBox">${initBox}</div>
     <button class="btn wide" id="btnGps">获取当前定位</button>
-    <div class="ph" id="outShot" style="margin-top:12px;aspect-ratio:16/10"><span>户外实拍照（定位不可用时必填）</span><span style="font-size:20px">🏞️</span></div>
-    <button class="btn line wide" id="btnOutShoot">拍户外照</button>
-    <button class="btn line wide" id="btnOutSubmit" disabled>提交出门打卡</button>`);
+    <div class="shotbox" id="outShot">${isEdit&&rec.photo?`<img src="${rec.photo}">`:`<div class="hint"><b>🏞️</b><span>户外实拍照<br>上传即自动打卡</span></div>`}</div>
+    ${isEdit?`<button class="btn line wide" id="btnClear">清除打卡记录</button>`:""}`);
 
-  let pos = null, shot = null;
-  const refresh = ()=>{
-    const b = document.getElementById("btnOutSubmit");
-    b.disabled = !((pos && (!anchor || dist(pos) >= S.settings.radius)) || shot);
+  let pos = (isEdit && rec.method==="gps") ? {lat:rec.lat, lng:rec.lng} : null;
+  let shot = isEdit ? rec.photo : null;
+  const done = (c, photo)=>{
+    const dd = (c && anchor) ? dist(c) : 0;
+    if(c && !anchor){ S.settings.anchor = {lat:c.lat, lng:c.lng}; toast("已把当前位置设为基础点"); }
+    const late = k===today() ? (new Date() > atTime(S.settings.outBy)) : !!(rec && rec.late);
+    day(k).out = {t:Date.now(), method: c && (!anchor || dd>=S.settings.radius) ? "gps" : "photo",
+                  lat:c?c.lat:null, lng:c?c.lng:null, dist:dd, photo, late};
+    save(); closeSheet(); renderAll();
+    toast(late ? "出门打卡完成，已经过了建议时间" : "出门打卡完成，今天出去了");
+  };
+  document.getElementById("outShot").onclick = ()=>{
+    shoot(p=>{ shot=p; document.getElementById("outShot").innerHTML=`<img src="${p}">`; done(null, p); });
   };
   document.getElementById("btnGps").onclick = ()=>{
     const box = document.getElementById("gpsBox");
@@ -694,137 +852,147 @@ function openOut(){
       const c = {lat:p.coords.latitude, lng:p.coords.longitude, acc:p.coords.accuracy};
       pos = c;
       const dd = anchor ? dist(c) : null;
+      if(anchor && dd < S.settings.radius){
+        box.innerHTML = `<b style="color:var(--warn)">${Math.round(dd)} 米</b>还在附近，再走远一点<br>精度 ±${Math.round(c.acc)} 米`;
+        return;
+      }
       const line = dd===null ? "尚未设置基准点，本次按通过处理" :
-        (dd >= S.settings.radius ? `<b style="color:var(--acc)">${Math.round(dd)} 米</b>已离开基准点` :
-         `<b style="color:var(--warn)">${Math.round(dd)} 米</b>还在附近，再走远一点`);
+        `<b style="color:var(--acc)">${Math.round(dd)} 米</b>已离开基准点`;
       box.innerHTML = line + `<br>精度 ±${Math.round(c.acc)} 米`;
-      refresh();
+      done(c, shot);
     }, err=>{
-      box.innerHTML = "定位失败：" + (err.message||"权限被拒绝") + "<br>请用户外照提交";
-      refresh();
+      box.innerHTML = "定位失败：" + (err.message||"权限被拒绝") + "<br>请点击上方照片框用户外照提交";
     }, {enableHighAccuracy:true, timeout:12000, maximumAge:0});
   };
-  document.getElementById("btnOutShoot").onclick = ()=>{
-    shoot(p=>{ shot=p; document.getElementById("outShot").innerHTML=`<img src="${p}">`; refresh(); });
-  };
-  document.getElementById("btnOutSubmit").onclick = ()=>{
-    const d = day(today());
-    const c = pos || null;
-    const dd = (c && anchor) ? dist(c) : 0;
-    if(c && !anchor){ S.settings.anchor = {lat:c.lat, lng:c.lng}; toast("已把当前位置设为基础点"); }
-    const late = new Date() > atTime(S.settings.outBy);
-    d.out = {t:Date.now(), method: c && (!anchor || dd>=S.settings.radius) ? "gps" : "photo",
-             lat:c?c.lat:null, lng:c?c.lng:null, dist:dd, photo:shot, late};
-    save(); closeSheet(); renderAll();
-    toast(late ? "出门打卡完成，已经过了建议时间" : "出门打卡完成，今天出去了");
-  };
+  if(isEdit){
+    document.getElementById("btnClear").onclick = ()=>{
+      if(S.days[k]){ delete S.days[k].out; if(!Object.keys(S.days[k]).length) delete S.days[k]; }
+      save(); closeSheet(); renderAll(); toast("已清除打卡记录");
+    };
+  }
 }
 
 /* ===== 运动打卡 ===== */
-function openGym(){
+function openGym(dateKey){
+  const k = dateKey || today();
   const types = ["力量训练","跑步","快走","骑行","游泳","拉伸","球类","其他"];
   const durs = [15,20,30,40,60,90];
-  let type = "力量训练", dur = 30, shot = null;
+  const rec = S.days[k] && S.days[k].gym;
+  const isEdit = !!rec;
+  let type = isEdit?rec.type:"力量训练", dur = isEdit?rec.dur:30, shot = isEdit?rec.photo:null;
   openSheet(`<h3>运动打卡</h3><p class="d">练了什么，练了多久。</p>
     <div class="opt" id="tOpt">${types.map(t=>`<button data-t="${t}" class="${t===type?"sel":""}">${t}</button>`).join("")}</div>
     <div class="opt" id="dOpt" style="margin-top:12px">${durs.map(n=>`<button data-n="${n}" class="${n===dur?"sel":""}">${n} 分钟</button>`).join("")}</div>
-    <div class="ph" id="gymShot" style="margin-top:12px;aspect-ratio:16/10"><span>训练照片（可选）</span><span style="font-size:20px">💪</span></div>
-    <button class="btn line wide" id="gymShoot">拍训练照</button>
-    <button class="btn wide" id="gymSubmit">完成打卡</button>`);
+    <div class="shotbox" id="gymShot">${shot?`<img src="${shot}">`:`<div class="hint"><b>💪</b><span>训练照片（可选）<br>点击上传</span></div>`}</div>
+    <button class="btn wide" id="gymSubmit">${isEdit?"保存修改":"完成打卡"}</button>
+    ${isEdit?`<button class="btn line wide" id="gymClear">清除打卡记录</button>`:""}`);
   document.querySelectorAll("#tOpt button").forEach(b=>b.onclick=()=>{
     type=b.dataset.t; document.querySelectorAll("#tOpt button").forEach(x=>x.classList.toggle("sel",x===b));
   });
   document.querySelectorAll("#dOpt button").forEach(b=>b.onclick=()=>{
     dur=+b.dataset.n; document.querySelectorAll("#dOpt button").forEach(x=>x.classList.toggle("sel",x===b));
   });
-  document.getElementById("gymShoot").onclick = ()=>{ shoot(p=>{ shot=p; document.getElementById("gymShot").innerHTML=`<img src="${p}">`; }); };
+  document.getElementById("gymShot").onclick = ()=>{ shoot(p=>{ shot=p; document.getElementById("gymShot").innerHTML=`<img src="${p}">`; }); };
   document.getElementById("gymSubmit").onclick = ()=>{
-    day(today()).gym = {t:Date.now(), type, dur, photo:shot};
+    day(k).gym = {t:Date.now(), type, dur, photo:shot};
     save(); closeSheet(); renderAll(); toast("训练已记录");
   };
+  if(isEdit){
+    document.getElementById("gymClear").onclick = ()=>{
+      if(S.days[k]){ delete S.days[k].gym; if(!Object.keys(S.days[k]).length) delete S.days[k]; }
+      save(); closeSheet(); renderAll(); toast("已清除打卡记录");
+    };
+  }
 }
 
 /* ===== 心情日记 ===== */
 function openMood(dateKey){
   const k = dateKey || today();
   const rec = S.days[k] && S.days[k].mood;
-  const tags = ["疲惫","焦虑","平静","有精神","拖延","专注","孤独","想放弃","还不错"];
   let score = rec ? (rec.score||3) : 3;
-  const picked = new Set(rec && rec.tags ? rec.tags : []);
   const isEdit = !!rec;
   const dayLabel = k===today() ? "今天" : k.slice(5).replace("-","月")+"日";
   openSheet(`<h3>${isEdit?"编辑心情日记":"心情日记"}</h3>
-    <p class="d">${dayLabel}${isEdit?" · 已记录 "+fmtT(rec.t)+"，可以直接改":""}</p>
+    <p class="d">${dayLabel}${isEdit?" · 已记录 "+fmtT(rec.t):""}</p>
     <div class="moodrow" id="mOpt">${MOOD_IMG.map((m,i)=>`<button data-s="${i+1}" class="mbtn ${(i+1)===score?"sel":""}"><img src="${m}" alt=""><span>${MOOD_TXT[i]}</span></button>`).join("")}</div>
-    <div class="opt" id="gOpt" style="margin-top:12px">${tags.map(t=>`<button data-t="${t}" class="${picked.has(t)?"sel":""}">${t}</button>`).join("")}</div>
-    <textarea id="mText" rows="4" placeholder="今天最想记下的一件事…" style="margin-top:14px">${isEdit?esc(rec.text||""):""}</textarea>
-    <button class="btn wide" id="mSubmit">${isEdit?"保存修改":"保存日记"}</button>`);
+    <textarea id="mText" rows="9" placeholder="今天最想记下的一件事…" style="margin-top:14px;min-height:170px">${isEdit?esc(rec.text||""):""}</textarea>
+    <button class="btn wide" id="mSubmit">${isEdit?"保存修改":"保存日记"}</button>
+    ${isEdit?`<button class="btn line wide" id="mClear">清除打卡记录</button>`:""}`);
   document.querySelectorAll("#mOpt button").forEach(b=>b.onclick=()=>{
-    score=+b.dataset.s; document.querySelectorAll("#mOpt button").forEach(x=>x.classList.toggle("sel",x===b));
-  });
-  document.querySelectorAll("#gOpt button").forEach(b=>b.onclick=()=>{
-    const t=b.dataset.t; if(picked.has(t)){picked.delete(t);b.classList.remove("sel");} else {picked.add(t);b.classList.add("sel");}
+    const s=+b.dataset.s;
+    if(score===s){ score=0; document.querySelectorAll("#mOpt button").forEach(x=>x.classList.remove("sel")); }
+    else { score=s; document.querySelectorAll("#mOpt button").forEach(x=>x.classList.toggle("sel",x===b)); }
   });
   document.getElementById("mSubmit").onclick = ()=>{
     const txt = document.getElementById("mText").value.trim();
-    if(!txt && !picked.size) return toast("随便写一句再保存");
+    if(!score && !txt){
+      if(S.days[k]){ delete S.days[k].mood; if(!Object.keys(S.days[k]).length) delete S.days[k]; }
+      save(); closeSheet(); renderAll(); toast("已清除心情记录"); return;
+    }
+    if(!score) return toast("选一个心情表情，或清空文字后清除记录");
     if(!S.days[k]) S.days[k] = {};
-    S.days[k].mood = {t:Date.now(), score, tags:[...picked], text:txt};
+    S.days[k].mood = {t:Date.now(), score, tags:[], text:txt};
     save(); closeSheet(); renderAll();
     toast(isEdit ? "日记已修改" : "日记已保存");
   };
+  if(isEdit){
+    document.getElementById("mClear").onclick = ()=>{
+      if(S.days[k]){ delete S.days[k].mood; if(!Object.keys(S.days[k]).length) delete S.days[k]; }
+      save(); closeSheet(); renderAll(); toast("已清除心情记录");
+    };
+  }
 }
 
 /* ===== 某一天的详情 ===== */
 function openDay(k){
   const d = S.days[k] || {};
   const d2 = new Date(k+"T00:00:00");
-  const row = (icon, title, val, done, late)=>{
-    return `<div class="drow"><div class="di">${icon}</div>
-      <div class="dm"><div class="dt">${title}</div><div class="dv">${val}</div></div>
-      <div>${done?`<span class="chip${late?" late":""}">${late?"迟到":"完成"}</span>`:`<span class="chip late">未完成</span>`}</div>
+  const cell = (icon, title, val, ok, late, id)=>{
+    const act = ok ? (late?"迟到 · 点击修改":"已完成 · 点击修改") : "未打卡 · 点击补录";
+    return `<div class="dcell ${ok?"ok":""}" data-edit="${id}">
+      <div class="dh"><div class="di">${icon}</div><b>${title}</b></div>
+      <div class="dv">${val}</div>
+      <div class="act">${act}</div>
     </div>`;
   };
-  const w = d.wake ? row("☀️","晨间洗漱", fmtT(d.wake.t)+" 拍照打卡", true, d.wake.late)
-                   : row("☀️","晨间洗漱","没有打卡记录", false);
-  const o = d.out ? row("🚪","出门", d.out.method==="gps" ? ("定位打卡 · 距基准点 "+Math.round(d.out.dist)+" 米")
-                                            : ("户外实拍 · "+fmtT(d.out.t)), true, d.out.late)
-                  : row("🚪","出门","没有打卡记录", false);
-  const g = d.gym ? row("🏃","运动", d.gym.type+" · "+d.gym.dur+" 分钟", true)
-                  : row("🏃","运动","没有打卡记录", false);
-  const m = d.mood ? row(moodImg(d.mood.score,28),"心情", (d.mood.text||"（只选了表情）") +
-                        (d.mood.tags&&d.mood.tags.length ? " · "+d.mood.tags.join("/") : ""), true)
-                   : row("🫧","心情","没有记录", false);
+  const w = cell("☀️","晨间洗漱", d.wake?(fmtT(d.wake.t)+" 拍照"+(d.wake.late?"（迟到）":"")):"无记录", !!d.wake, d.wake&&d.wake.late, "wake");
+  const o = cell("🚪","出门", d.out?(d.out.method==="gps"?("定位 · "+Math.round(d.out.dist)+"米"):("实拍 · "+fmtT(d.out.t))):"无记录", !!d.out, d.out&&d.out.late, "out");
+  const g = cell("🏃","运动", d.gym?(d.gym.type+" · "+d.gym.dur+"分"):"无记录", !!d.gym, false, "gym");
+  const m = cell(d.mood?moodImg(d.mood.score,26):"🫧","心情", d.mood?(d.mood.text||"只选了表情"):"无记录", !!d.mood, false, "mood");
 
   openSheet(`<h3>${k.slice(5).replace("-"," 月 ")} 日 · ${WEEK[d2.getDay()]}</h3>
-    <p class="d">${allDone(d)?"四项全部完成，表情已点亮":(qualified(d)?"差一点，还没满 4 项":"这天没有达标")} · ${doneCount(d)}/4 项 · ${pts(d)} XP${d.mood?" · 日记可修改":""}</p>
-    ${w}${o}${g}${m}
-    <button class="btn wide" id="dayMood">${d.mood?"修改这天的日记":"补写这天的日记"}</button>
-    <button class="btn line wide" id="dayClose">关闭</button>`);
-  document.getElementById("dayMood").onclick = ()=> openMood(k);
-  document.getElementById("dayClose").onclick = ()=> closeSheet();
+    <p class="d">${allDone(d)?"四项全部完成":(qualified(d)?"差一点，还没满 4 项":"这天没有达标")} · ${doneCount(d)}/4 项 · ${pts(d)} XP</p>
+    <div class="daygrid">${w}${o}${g}${m}</div>`);
+  document.querySelectorAll(".dcell[data-edit]").forEach(el=>{
+    el.onclick = ()=>{
+      const id = el.getAttribute("data-edit");
+      closeSheet();
+      if(id==="mood") openMood(k);
+      else if(id==="wake") openWake(k);
+      else if(id==="out") openOut(k);
+      else if(id==="gym") openGym(k);
+    };
+  });
 }
 
 /* ===== 渲染：记录 ===== */
 let calYM = { y: new Date().getFullYear(), m: new Date().getMonth() };
 
 function renderStats(){
-  const L = level(), st = streak(), r7 = rate(7), r30 = rate(30);
+  const st = streak(), r30 = rate(30);
   const monNum = (()=>{ const ks=Object.keys(S.days).filter(k=>k.startsWith(calYM.y+"-"+pad(calYM.m+1))); return ks.filter(k=>allDone(S.days[k])).length; })();
   document.getElementById("main").innerHTML = `
-  <div class="grid2">
-    <div class="stat"><div class="k">连续达标</div><div class="v">${st}<em>天</em></div></div>
-    <div class="stat"><div class="k">累计 XP</div><div class="v">${L.xp}<em>Lv ${L.lv}</em></div></div>
-    <div class="stat"><div class="k">近 7 天达标率</div><div class="v">${r7}<em>%</em></div></div>
-    <div class="stat"><div class="k">近 30 天达标率</div><div class="v">${r30}<em>%</em></div></div>
+  <div class="panel">
+    <div class="panel-h">本周项目完成率</div>
+    <div class="bars">${weekBars()}</div>
   </div>
   <div class="panel">
     <div class="panel-h">心情日历 · 本月亮了 ${monNum} 天</div>
     ${monthView()}
   </div>
-  <div class="panel">
-    <div class="panel-h">近 30 天各项目完成率</div>
-    <div class="bars">${bar("晨间洗漱","wake")}${bar("出门","out")}${bar("运动","gym")}${bar("心情日记","mood")}</div>
+  <div class="grid2">
+    <div class="stat"><div class="k">连续达标</div><div class="v">${st}<em>天</em></div></div>
+    <div class="stat"><div class="k">近 30 天达标率</div><div class="v">${r30}<em>%</em></div></div>
   </div>`;
   const prev = document.getElementById("calPrev"), next = document.getElementById("calNext");
   if(prev) prev.onclick = ()=>{ calYM.m--; if(calYM.m<0){ calYM.m=11; calYM.y--; } renderStats(); };
@@ -851,7 +1019,7 @@ function monthView(){
     const isToday = k === today();
     const future = k > today();
     const showEmoji = hasMood;
-    const showDot = !hasMood || isToday;
+    const showDot = !hasMood;
     const inner = showEmoji ? moodImg(rec.mood.score, 40, full ? "" : "dim") : "";
     const dot = showDot ? '<span class="dot"></span>' : "";
     cells += `<div class="calcell${isToday?" today":""}${future?" future":""}"`
@@ -868,11 +1036,20 @@ function monthView(){
     <div class="calwk">${setOf.map(x=>`<span>${x}</span>`).join("")}</div>
     <div class="calgrid">${cells}</div>`;
 }
-function bar(name,f){
-  const arr=[]; for(let i=0;i<30;i++) arr.push(addDays(new Date(),-i));
-  const n = arr.filter(d=>{ const dd=S.days[key(d)]; return dd && dd[f]; }).length;
-  const p = Math.round(n/30*100);
-  return `<div class="barrow"><div class="n">${name}</div><div class="b"><i style="width:${p}%"></i></div><div class="p">${p}%</div></div>`;
+function weekBars(){
+  const items = [["晨间洗漱","wake"],["出门","out"],["运动","gym"],["心情日记","mood"]];
+  const now = new Date();
+  const monday = addDays(now, -((now.getDay()+6)%7));   // 本周一
+  const days = []; for(let i=0;i<7;i++) days.push(key(addDays(monday,i)));
+  const wk = "一二三四五六日";
+  const labs = days.map(k=>{ const d=new Date(k+"T00:00:00"); return wk[(d.getDay()+6)%7]; });
+  let html = `<div class="weeklab">${labs.map(x=>`<span>${x}</span>`).join("")}</div>`;
+  items.forEach(([name,f])=>{
+    const segs = days.map(k=>{ const dd=S.days[k]; return `<i class="${dd&&dd[f]?"on":""}"></i>`; }).join("");
+    const on = days.filter(k=>{const dd=S.days[k];return dd&&dd[f];}).length;
+    html += `<div class="weekrow"><div class="n">${name}</div><div class="s"><div class="seg7">${segs}</div></div><div class="p">${on}/7</div></div>`;
+  });
+  return html;
 }
 /* ===== 原生闹钟同步 ===== */
 function syncNativeAlarms(){
@@ -989,7 +1166,7 @@ function renderSet(){
   <div class="panel">
     <div class="panel-h">关于</div>
     <div class="row">
-      <div><div class="lb">当前版本</div><div class="ds">自律 OS v${APP_VERSION}</div></div>
+      <div><div class="lb">当前版本</div><div class="ds">自律日记 v${APP_VERSION}</div></div>
       <button class="btn ghost" id="btnCheckUpdate">检查更新</button>
     </div>
     <div class="row" style="border-bottom:0">
@@ -1024,7 +1201,7 @@ function renderSet(){
       return;
     }
     try{ NativeUI.enableNotifications(); }catch(e){}
-    toast("请在系统设置里允许「自律 OS」通知，然后返回");
+    toast("请在系统设置里允许「自律日记」通知，然后返回");
     let tries = 0;
     const t = setInterval(()=>{
       tries++;
@@ -1066,7 +1243,7 @@ const jsonInput = document.getElementById("jsonInput");
 function exportData(){
   const payload = {app:"selfdrive", version:1, exportedAt:new Date().toISOString(), settings:S.settings, days:S.days};
   const json = JSON.stringify(payload);
-  const name = "自律OS备份-" + today() + ".json";
+  const name = "自律日记备份-" + today() + ".json";
   let done = false;
   try{
     const blob = new Blob([json], {type:"application/json"});
@@ -1144,7 +1321,7 @@ function fireAlarm(isTest){
   beep(4);
   if(navigator.vibrate) navigator.vibrate([400,200,400,200,600]);
   if(!isTest && S.settings.notify && window.NativeUI){
-    try{ NativeUI.notify("自律 OS · 起床挑战", "拍一张洗漱完的照片，今天才算开始。"); }catch(e){}
+    try{ NativeUI.notify("自律日记 · 起床挑战", "拍一张洗漱完的照片，今天才算开始。"); }catch(e){}
   }
 }
 function dismissAlarm(){ alarmEl.classList.remove("show"); }
@@ -1174,7 +1351,7 @@ function checkNap(){
   const d = S.days[k] || {};
   if(d.mood) return;
   S.flags["nap_"+k] = true; save();
-  if(S.settings.notify && window.NativeUI){ try{ NativeUI.notify("自律 OS · 该写日记了", "到就寝时间了，今天的心情日记还没写"); }catch(e){} }
+  if(S.settings.notify && window.NativeUI){ try{ NativeUI.notify("自律日记 · 该写日记了", "到就寝时间了，今天的心情日记还没写"); }catch(e){} }
   toast("到就寝时间了，今天的心情日记还没写");
 }
 setInterval(()=>{ checkAlarm(); checkNap(); }, 15000);

@@ -15,7 +15,7 @@
     <!-- 覆盖安装更新包 -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <application
-        android:label="自律 OS"
+        android:label="自律日记"
         android:icon="@mipmap/ic_launcher"
         android:theme="@style/AppTheme"
         android:allowBackup="true"

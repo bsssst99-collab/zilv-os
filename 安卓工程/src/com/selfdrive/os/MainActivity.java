@@ -43,7 +43,8 @@ public class MainActivity extends Activity {
         if (Build.VERSION.SDK_INT >= 21) {
             s.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
-        web.setBackgroundColor(0xFFF5F6F8);
+        web.setBackgroundColor(0xFFF4F7EE);
+        web.setOverScrollMode(View.OVER_SCROLL_NEVER);
         web.addJavascriptInterface(new NativeUI(this), "NativeUI");
 
         web.setWebChromeClient(new WebChromeClient() {
@@ -97,7 +98,7 @@ public class MainActivity extends Activity {
     }
 
     void applySystemBars(boolean dark) {
-        int bg = dark ? 0xFF0B0C0E : 0xFFF5F6F8;
+        int bg = dark ? 0xFF0B0C0E : 0xFFF4F7EE;
         getWindow().setStatusBarColor(bg);
         getWindow().setNavigationBarColor(bg);
         View dv = getWindow().getDecorView();
