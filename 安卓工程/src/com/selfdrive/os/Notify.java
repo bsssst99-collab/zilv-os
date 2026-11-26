@@ -6,6 +6,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 
 /** 系统通知工具：创建渠道、判断是否开启、弹出提醒。不依赖 AndroidX。 */
@@ -19,12 +22,22 @@ public final class Notify {
         if (Build.VERSION.SDK_INT < 26) return;
         NotificationManager nm = (NotificationManager)
                 ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (nm == null || nm.getNotificationChannel(CHANNEL) != null) return;
+        if (nm == null) return;
+        NotificationChannel old = nm.getNotificationChannel(CHANNEL);
+        if (old != null && old.getSound() != null) return;   // 已配置铃声，保留用户自定义
+        if (old != null) nm.deleteNotificationChannel(CHANNEL); // 升级：旧渠道无铃声，重建
         NotificationChannel c = new NotificationChannel(
                 CHANNEL, "自律日记提醒", NotificationManager.IMPORTANCE_HIGH);
         c.setDescription("起床闹钟与就寝提醒");
         c.enableVibration(true);
         c.enableLights(true);
+        Uri alarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        if (alarm == null) alarm = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        AudioAttributes aa = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ALARM)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+        c.setSound(alarm, aa);
         nm.createNotificationChannel(c);
     }
 

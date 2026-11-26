@@ -127,13 +127,13 @@ body{padding-bottom:calc(78px + env(safe-area-inset-bottom));overscroll-behavior
 .calnav button:disabled{opacity:.35}
 .calwk{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;font-size:10.5px;color:var(--dim);text-align:center;margin-bottom:5px;font-weight:600;letter-spacing:.05em}
 .calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:9px;padding:7px;border-radius:16px}
-.calcell{width:100%;aspect-ratio:1/1.16;border-radius:14px;display:flex;flex-direction:column;align-items:center;
-  padding-top:7px;cursor:pointer;position:relative;background:transparent}
-.calcell .dn{font-size:11px;color:var(--dim);line-height:1;font-weight:500}
-.calcell .de{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;padding-bottom:12px}
-.calcell .de img{width:40px;height:40px;display:block}
+.calcell{width:100%;border-radius:14px;display:flex;flex-direction:column;align-items:center;
+  padding:6px 0 4px;cursor:pointer;position:relative;background:transparent}
+.calcell .dn{font-size:11px;color:var(--dim);line-height:1;font-weight:500;height:14px;display:flex;align-items:center}
+.calcell .de{width:100%;height:38px;display:flex;align-items:center;justify-content:center}
+.calcell .de img{width:36px;height:36px;display:block}
 .calcell .de img.dim{opacity:.4}
-.calcell .dot{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:rgba(17,20,24,.1);display:block}
+.calcell .dot{width:5px;height:5px;border-radius:50%;background:rgba(17,20,24,.1);display:block}
 .calcell.today .dn{color:var(--acc);font-weight:700}
 .calcell.today .dot{background:var(--acc)}
 .calcell.future{opacity:.4;cursor:default}
@@ -165,7 +165,7 @@ body{padding-bottom:calc(78px + env(safe-area-inset-bottom));overscroll-behavior
 .row input[type=time],.row input[type=number]{background:var(--card2);border:1px solid var(--line);color:var(--tx);
   border-radius:10px;padding:8px 10px;font-size:14px;font-family:inherit;width:112px;text-align:center}
 .row input[type=time]{width:128px}
-.panel-h{font-size:12.5px;color:var(--dim);margin:0 0 10px;font-weight:400}
+.panel-h{font-size:12.5px;color:var(--dim);margin:0 0 8px;font-weight:400}
 .switch{width:46px;height:27px;border-radius:100px;background:var(--track);position:relative;flex:0 0 46px;transition:.2s}
 .switch i{position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;background:#fff;transition:.2s;
   box-shadow:0 1px 3px rgba(0,0,0,.2)}
@@ -240,13 +240,12 @@ textarea::placeholder{color:var(--dim2)}
 
 /* ===== 每日金句卡 ===== */
 .quote{background:linear-gradient(150deg,#edf7be 0%,#f6fbe6 55%,#eef5d6 100%);
-  border:1px solid rgba(164,207,74,.35);border-radius:20px;padding:18px 18px 16px;margin:10px 0 14px;
+  border:1px solid rgba(164,207,74,.35);border-radius:18px;padding:13px 16px 12px;margin:8px 0 10px;
   cursor:pointer;position:relative;overflow:hidden;box-shadow:var(--shadow)}
 .quote:active{transform:scale(.985)}
-.quote .qtag{font-size:11px;color:#7a8a3e;letter-spacing:.14em;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.quote .qtxt{font-size:18px;font-weight:650;line-height:1.55;color:#2b3318;letter-spacing:-.01em}
-.quote .qsrc{display:flex;align-items:center;gap:9px;margin-top:14px;font-size:12px;color:#5c6b2e}
-.quote .qsrc .qa{width:30px;height:30px;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 30px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.quote .qtxt{font-size:16px;font-weight:650;line-height:1.5;color:#2b3318;letter-spacing:-.01em}
+.quote .qsrc{display:flex;align-items:center;gap:9px;margin-top:9px;font-size:12px;color:#5c6b2e}
+.quote .qsrc .qa{width:28px;height:28px;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;flex:0 0 28px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .quote .qsrc .qi b{display:block;font-size:12.5px;color:#2b3318;font-weight:600}
 .quote .qsrc .qi span{font-size:11px;color:#7a8a3e}
 [data-theme="dark"] .quote{background:linear-gradient(150deg,#2a3318 0%,#1c2112 100%);border-color:rgba(164,207,74,.25)}
@@ -277,17 +276,17 @@ textarea::placeholder{color:var(--dim2)}
 .shotbox{max-width:200px;margin:14px auto 0;aspect-ratio:4/5;border-radius:14px;background:var(--ph);
   border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;
   position:relative;cursor:pointer}
-.shotbox img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.shotbox img{width:100%;height:100%;object-fit:cover;display:block}
 .shotbox .hint{color:var(--dim);font-size:12px;display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;padding:10px;line-height:1.5}
 .shotbox .hint b{font-size:24px;font-weight:400}
 
 /* ===== 本周 7 段进度 ===== */
-.weekrow{display:flex;align-items:center;gap:10px;margin:11px 0}
+.weekrow{display:flex;align-items:center;gap:10px;margin:7px 0}
 .weekrow .n{font-size:12.5px;width:78px;color:var(--dim);flex:0 0 78px}
 .weekrow .s{flex:1}
 .weekrow .p{font-size:11px;width:30px;text-align:right;color:var(--dim)}
-.seg7{display:flex;gap:5px;height:8px}
-.seg7 i{flex:1;height:8px;border-radius:4px;background:var(--track)}
+.seg7{display:flex;gap:5px;height:7px}
+.seg7 i{flex:1;height:7px;border-radius:4px;background:var(--track)}
 .seg7 i.on{background:var(--acc)}
 .weeklab{display:flex;gap:5px;margin:2px 0 0 88px}
 .weeklab span{flex:1;text-align:center;font-size:9.5px;color:var(--dim2)}
@@ -295,14 +294,15 @@ textarea::placeholder{color:var(--dim2)}
 /* ===== 单日详情 田字 ===== */
 .daygrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 4px}
 .dcell{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:12px;
-  display:flex;flex-direction:column;gap:5px;cursor:pointer;min-height:96px;transition:.15s}
+  display:flex;flex-direction:column;gap:5px;cursor:pointer;aspect-ratio:1/1;position:relative;transition:.15s;overflow:hidden}
 .dcell:active{transform:scale(.97)}
 .dcell.ok{background:var(--alpha);border-color:var(--alphaLine)}
 .dcell .dh{display:flex;align-items:center;gap:8px}
 .dcell .dh .di{width:28px;height:28px;border-radius:9px;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 28px}
 .dcell .dh b{font-size:13px;font-weight:600}
-.dcell .dv{font-size:11px;color:var(--dim);line-height:1.5;flex:1}
+.dcell .dv{font-size:11px;color:var(--dim);line-height:1.5;flex:1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
 .dcell .act{font-size:11px;color:var(--acc);font-weight:600}
+.dcell .dthumb{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:8px;object-fit:cover;border:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -344,7 +344,7 @@ textarea::placeholder{color:var(--dim2)}
 "use strict";
 /* ===== 存储 ===== */
 const LS = "selfdrive.v1";
-const APP_VERSION = "1.3.3";
+const APP_VERSION = "1.3.4";
 /* 更新信息 JSON 地址：GitHub 仓库 version.json 的原始地址。留空时「检查更新」会提示未配置。 */
 const UPDATE_JSON_URL = "https://raw.githubusercontent.com/bsssst99-collab/zilv-os/master/version.json";
 const TASKS = [
@@ -416,26 +416,50 @@ const QUOTES = [
   {t:"心很脆弱，你得学会去哄它，不管遇到多大困难，告诉你的心一切顺利。", src:"三傻大闹宝莱坞", who:"豆瓣 9.2", type:"movie"}
 ];
 function dayOfYear(d){ const s=new Date(d.getFullYear(),0,0); return Math.floor((d-s)/86400000); }
-function dailyQuote(){ return QUOTES[dayOfYear(new Date()) % QUOTES.length]; }
-function quoteUrl(q){
-  const enc = encodeURIComponent(q.src);
-  if(q.type === "movie") return "https://search.douban.com/movie/subject_search?search_text=" + enc;
-  if(q.type === "podcast") return "https://www.xiaoyuzhoufm.com/search?q=" + enc;
-  return "https://weread.qq.com/search?query=" + enc;
+/* 在线金句：一言 hitokoto（每次请求随机一条，带回真实出处）。
+   分类 j=网易云(情绪/生活)、d=文学、k=哲学、h=影视、i=诗词，偏情绪与人生感悟。
+   失败时回退内置词库 QUOTES。点击卡片=换一条（不再跳外链，避免微信读书/小宇宙 web 404）。 */
+const QUOTE_API = "https://v1.hitokoto.cn/?c=j&c=d&c=k&c=h&c=i";
+let _curQuote = null;                       // 当前展示的金句
+function quoteCacheKey(){ return "selfdrive.quote." + today(); }
+function loadCachedQuote(){ try{ const s=localStorage.getItem(quoteCacheKey()); if(s) return JSON.parse(s); }catch(e){} return null; }
+function saveCachedQuote(q){ try{ localStorage.setItem(quoteCacheKey(), JSON.stringify(q)); }catch(e){} }
+function offlineQuote(){ return QUOTES[dayOfYear(new Date()) % QUOTES.length]; }
+function normalizeQuote(j){
+  if(!j || !j.hitokoto) return null;
+  return {t:j.hitokoto, src:j.from || "一言", who:j.from_who || j.from || "", type:(j.type==="h"?"movie":"book")};
 }
-function openQuote(){
-  const u = quoteUrl(dailyQuote());
-  try{ if(window.NativeUI && typeof NativeUI.openUrl === "function"){ NativeUI.openUrl(u); return; } }catch(e){}
-  window.open(u, "_blank");
+async function fetchOnlineQuote(){
+  try{
+    const r = await fetch(QUOTE_API + "&t=" + Date.now(), {cache:"no-store"});
+    return normalizeQuote(await r.json());
+  }catch(e){ return null; }
 }
-function quoteCard(){
-  const q = dailyQuote();
+function currentQuote(){
+  if(!_curQuote){ _curQuote = loadCachedQuote() || offlineQuote(); }
+  return _curQuote;
+}
+function quoteCardInner(){
+  const q = currentQuote();
   const ico = q.type === "movie" ? "🎬" : (q.type === "podcast" ? "🎙️" : "📖");
-  return `<div class="quote" id="quoteCard">
-    <div class="qtag">✦ 每日一句</div>
-    <div class="qtxt">${esc(q.t)}</div>
-    <div class="qsrc"><div class="qa">${ico}</div><div class="qi"><b>《${esc(q.src)}》</b><span>${esc(q.who)}${q.type==="movie"?"":" · 点击查看出处"}</span></div></div>
-  </div>`;
+  return `<div class="qtxt">${esc(q.t)}</div>
+    <div class="qsrc"><div class="qa">${ico}</div><div class="qi"><b>《${esc(q.src)}》</b><span>${esc(q.who)}</span></div></div>`;
+}
+function quoteCard(){ return `<div class="quote" id="quoteCard">${quoteCardInner()}</div>`; }
+function renderQuoteCard(){ const el=document.getElementById("quoteCard"); if(el) el.innerHTML=quoteCardInner(); }
+/* 点击金句卡：拉一条新的在线金句；网络失败则轮换内置词库。 */
+function refreshQuote(){
+  fetchOnlineQuote().then(q=>{
+    if(q){ _curQuote=q; saveCachedQuote(q); renderQuoteCard(); return; }
+    const idx = QUOTES.findIndex(x=>x.t===(_curQuote&&_curQuote.t));
+    _curQuote = QUOTES[(idx+1)%QUOTES.length];
+    saveCachedQuote(_curQuote); renderQuoteCard();
+  });
+}
+/* 初次渲染后调用：若今天还没缓存过金句，就在线拉一条替换掉离线兜底（同日保持稳定）。 */
+function primeOnlineQuote(){
+  if(loadCachedQuote()) return;
+  fetchOnlineQuote().then(q=>{ if(q){ _curQuote=q; saveCachedQuote(q); renderQuoteCard(); } });
 }
 function allDone(d){ return !!(d && d.wake && d.out && d.gym && d.mood); }
 const PHOTO_KEEP_DAYS = 24;
@@ -661,7 +685,8 @@ function renderToday(){
   document.getElementById("main").innerHTML = html;
   bindTasks();
   const qc = document.getElementById("quoteCard");
-  if(qc) qc.onclick = ()=> openQuote();
+  if(qc) qc.onclick = ()=> refreshQuote();
+  primeOnlineQuote();
 }
 
 function sleepLeft(){
@@ -751,8 +776,7 @@ function openDetail(id){
   openSheet(`<h3>${t.nm}</h3><p class="d">${fmtT(r.t)} 完成</p>
     <div class="ph">${r.photo?`<img src="${r.photo}">`:`<span>本次未附照片</span>`}</div>
     <button class="btn wide" id="detEdit">重新打卡</button>
-    <button class="btn line wide" id="detClear">清除打卡记录</button>
-    <button class="btn line wide" onclick="closeSheet()">关闭</button>`);
+    <button class="btn line wide" id="detClear">清除打卡记录</button>`);
   document.getElementById("detEdit").onclick = ()=>{
     closeSheet();
     if(id==="mood") openMood(k);
@@ -947,17 +971,18 @@ function openMood(dateKey){
 function openDay(k){
   const d = S.days[k] || {};
   const d2 = new Date(k+"T00:00:00");
-  const cell = (icon, title, val, ok, late, id)=>{
+  const cell = (icon, title, val, ok, late, id, photo)=>{
     const act = ok ? (late?"迟到 · 点击修改":"已完成 · 点击修改") : "未打卡 · 点击补录";
+    const thumb = photo ? `<img class="dthumb" src="${photo}">` : "";
     return `<div class="dcell ${ok?"ok":""}" data-edit="${id}">
       <div class="dh"><div class="di">${icon}</div><b>${title}</b></div>
       <div class="dv">${val}</div>
-      <div class="act">${act}</div>
+      <div class="act">${act}</div>${thumb}
     </div>`;
   };
-  const w = cell("☀️","晨间洗漱", d.wake?(fmtT(d.wake.t)+" 拍照"+(d.wake.late?"（迟到）":"")):"无记录", !!d.wake, d.wake&&d.wake.late, "wake");
-  const o = cell("🚪","出门", d.out?(d.out.method==="gps"?("定位 · "+Math.round(d.out.dist)+"米"):("实拍 · "+fmtT(d.out.t))):"无记录", !!d.out, d.out&&d.out.late, "out");
-  const g = cell("🏃","运动", d.gym?(d.gym.type+" · "+d.gym.dur+"分"):"无记录", !!d.gym, false, "gym");
+  const w = cell("☀️","晨间洗漱", d.wake?(fmtT(d.wake.t)+" 拍照"+(d.wake.late?"（迟到）":"")):"无记录", !!d.wake, d.wake&&d.wake.late, "wake", d.wake&&d.wake.photo);
+  const o = cell("🚪","出门", d.out?(d.out.method==="gps"?("定位 · "+Math.round(d.out.dist)+"米"):("实拍 · "+fmtT(d.out.t))):"无记录", !!d.out, d.out&&d.out.late, "out", d.out&&d.out.photo);
+  const g = cell("🏃","运动", d.gym?(d.gym.type+" · "+d.gym.dur+"分"):"无记录", !!d.gym, false, "gym", d.gym&&d.gym.photo);
   const m = cell(d.mood?moodImg(d.mood.score,26):"🫧","心情", d.mood?(d.mood.text||"只选了表情"):"无记录", !!d.mood, false, "mood");
 
   openSheet(`<h3>${k.slice(5).replace("-"," 月 ")} 日 · ${WEEK[d2.getDay()]}</h3>
@@ -983,7 +1008,7 @@ function renderStats(){
   const monNum = (()=>{ const ks=Object.keys(S.days).filter(k=>k.startsWith(calYM.y+"-"+pad(calYM.m+1))); return ks.filter(k=>allDone(S.days[k])).length; })();
   document.getElementById("main").innerHTML = `
   <div class="panel">
-    <div class="panel-h">本周项目完成率</div>
+    <div class="panel-h">本周完成率</div>
     <div class="bars">${weekBars()}</div>
   </div>
   <div class="panel">
@@ -1018,12 +1043,9 @@ function monthView(){
     const full = allDone(rec);
     const isToday = k === today();
     const future = k > today();
-    const showEmoji = hasMood;
-    const showDot = !hasMood;
-    const inner = showEmoji ? moodImg(rec.mood.score, 40, full ? "" : "dim") : "";
-    const dot = showDot ? '<span class="dot"></span>' : "";
+    const inner = hasMood ? moodImg(rec.mood.score, 36, full ? "" : "dim") : '<span class="dot"></span>';
     cells += `<div class="calcell${isToday?" today":""}${future?" future":""}"`
-           + ` data-day="${k}"><div class="dn">${d}</div><div class="de">${inner}</div>${dot}</div>`;
+           + ` data-day="${k}"><div class="dn">${d}</div><div class="de">${inner}</div></div>`;
   }
   const tail = (7 - (lead+days) % 7) % 7;
   for(let i=0;i<tail;i++) cells += '<div class="calcell blank"></div>';
@@ -1036,6 +1058,13 @@ function monthView(){
     <div class="calwk">${setOf.map(x=>`<span>${x}</span>`).join("")}</div>
     <div class="calgrid">${cells}</div>`;
 }
+/* 某项目某天是否点亮：早起迟到不亮、心情只选表情没写文字不亮。 */
+function taskLit(dd, f){
+  if(!dd || !dd[f]) return false;
+  if(f==="wake") return !dd.wake.late;
+  if(f==="mood") return !!(dd.mood.text && String(dd.mood.text).trim());
+  return true;
+}
 function weekBars(){
   const items = [["晨间洗漱","wake"],["出门","out"],["运动","gym"],["心情日记","mood"]];
   const now = new Date();
@@ -1045,8 +1074,8 @@ function weekBars(){
   const labs = days.map(k=>{ const d=new Date(k+"T00:00:00"); return wk[(d.getDay()+6)%7]; });
   let html = `<div class="weeklab">${labs.map(x=>`<span>${x}</span>`).join("")}</div>`;
   items.forEach(([name,f])=>{
-    const segs = days.map(k=>{ const dd=S.days[k]; return `<i class="${dd&&dd[f]?"on":""}"></i>`; }).join("");
-    const on = days.filter(k=>{const dd=S.days[k];return dd&&dd[f];}).length;
+    const segs = days.map(k=>`<i class="${taskLit(S.days[k],f)?"on":""}"></i>`).join("");
+    const on = days.filter(k=>taskLit(S.days[k],f)).length;
     html += `<div class="weekrow"><div class="n">${name}</div><div class="s"><div class="seg7">${segs}</div></div><div class="p">${on}/7</div></div>`;
   });
   return html;
@@ -1058,6 +1087,18 @@ function syncNativeAlarms(){
     if(S.settings.notify) NativeUI.syncAlarms(S.settings.wake, S.settings.sleep);
     else NativeUI.cancelAlarms();
   }catch(e){}
+}
+/* 引导授权精确闹钟（安卓 12+），否则 setExactAndAllowWhileIdle 会被系统延后，息屏不响。 */
+function ensureAlarmPerm(){
+  if(!window.NativeUI){ toast("当前环境不支持系统闹钟"); return; }
+  try{
+    if(typeof NativeUI.canScheduleExactAlarms === "function" && !NativeUI.canScheduleExactAlarms()){
+      NativeUI.requestExactAlarmPermission();
+      toast("请允许「精确闹钟」，否则息屏可能不响");
+    } else {
+      toast("精确闹钟权限已开启");
+    }
+  }catch(e){ toast("无法打开权限设置"); }
 }
 function compareVer(a, b){
   const pa = String(a).split(".").map(n=>parseInt(n,10)||0);
@@ -1145,6 +1186,10 @@ function renderSet(){
       <div><div class="lb">测试闹钟</div><div class="ds">立刻预览起床挑战界面</div></div>
       <button class="btn ghost" id="testAlarm">预览</button>
     </div>
+    <div class="row" style="border-bottom:0">
+      <div><div class="lb">息屏闹钟权限</div><div class="ds">安卓 12+ 需授权精确闹钟，息屏才准时响</div></div>
+      <button class="btn ghost" id="btnAlarmPerm">去授权</button>
+    </div>
   </div>
 
   <div class="panel">
@@ -1177,6 +1222,7 @@ function renderSet(){
   <div class="help">
   · 数据存于本机浏览器，换设备或清缓存会丢，建议定期「导出备份」<br>
   · 定位需要授权浏览器「允许获取位置」<br>
+  · 安卓 12+ 请到「设置 → 提醒 → 息屏闹钟权限」授权精确闹钟，息屏才能准时响铃<br>
   · 照片仅保留最近 ${PHOTO_KEEP_DAYS} 天，节省存储
   </div>`;
 
@@ -1211,7 +1257,7 @@ function renderSet(){
         S.settings.notify = true;
         document.getElementById("setNotify").classList.add("on");
         save(); syncNativeAlarms();
-        toast("通知已开启，闹钟会在后台提醒你");
+        toast("通知已开启；若息屏不响，请到「息屏闹钟权限」允许精确闹钟");
         clearInterval(t);
       } else if(tries > 25){
         clearInterval(t);
@@ -1228,6 +1274,7 @@ function renderSet(){
     }, ()=>toast("定位失败，检查权限"));
   };
   document.getElementById("testAlarm").onclick = ()=> fireAlarm(true);
+  document.getElementById("btnAlarmPerm").onclick = ensureAlarmPerm;
   document.getElementById("btnExport").onclick = exportData;
   document.getElementById("btnImport").onclick = ()=> jsonInput.click();
   document.getElementById("setReset").onclick = ()=>{

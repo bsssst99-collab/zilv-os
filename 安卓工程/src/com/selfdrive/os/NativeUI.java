@@ -1,5 +1,6 @@
 package com.selfdrive.os;
 
+import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -99,6 +100,43 @@ public class NativeUI {
     public void syncAlarms(final String wake, final String sleep) {
         Notify.ensureChannel(host.getApplicationContext());
         AlarmSched.sync(host.getApplicationContext(), wake, sleep);
+        promptExactAlarmIfMissing();
+    }
+
+    /** 安卓 12+：精确闹钟需运行时授权，否则 setExactAndAllowWhileIdle 会被系统延后/不触发。 */
+    private void promptExactAlarmIfMissing() {
+        if (Build.VERSION.SDK_INT < 31) return;
+        AlarmManager am = (AlarmManager) host.getSystemService(Context.ALARM_SERVICE);
+        if (am != null && !am.canScheduleExactAlarms()) {
+            requestExactAlarmPermission();
+        }
+    }
+
+    @JavascriptInterface
+    public boolean canScheduleExactAlarms() {
+        if (Build.VERSION.SDK_INT < 31) return true;
+        AlarmManager am = (AlarmManager) host.getSystemService(Context.ALARM_SERVICE);
+        return am != null && am.canScheduleExactAlarms();
+    }
+
+    @JavascriptInterface
+    public void requestExactAlarmPermission() {
+        if (Build.VERSION.SDK_INT < 31) return;
+        host.runOnUiThread(new Runnable() {
+            public void run() {
+                try {
+                    Intent i = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,
+                            Uri.parse("package:" + host.getPackageName()));
+                    host.startActivity(i);
+                } catch (Exception e) {
+                    try {
+                        Intent i = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                Uri.parse("package:" + host.getPackageName()));
+                        host.startActivity(i);
+                    } catch (Exception ignored) {}
+                }
+            }
+        });
     }
 
     @JavascriptInterface
