@@ -1,0 +1,11 @@
+# 构建产物
+.build/
+*.class
+
+# APK 不放仓库（走 GitHub Releases 上传）
+*.apk
+
+# 系统
+.DS_Store
+Thumbs.db
+*.idsig
