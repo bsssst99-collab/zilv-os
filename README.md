@@ -30,7 +30,9 @@
 
 ## 三、开启自动更新（GitHub 托管）
 
-App 内「检查更新」会读取一个 JSON 来判断是否有新版。把项目放到 GitHub 后按下面配置一次，以后改完发新版，手机上点一下就能更新：
+> ✅ **本仓库已配置好自动更新**：`自律OS.html` 顶部的 `UPDATE_JSON_URL` 已指向 `https://raw.githubusercontent.com/bsssst99-collab/zilv-os/master/version.json`，`version.json` 的 `apkUrl` 已指向 Releases 下载地址。下面的步骤仅供**将来发新版**时参考。
+
+App 内「检查更新」会读取一个 JSON 来判断是否有新版。以后改完发新版，手机上点一下就能更新：
 
 1. **建仓库**：在 GitHub 新建一个仓库（比如 `zilv-os`），把本交付包推上去。
 2. **上传 APK**：在仓库的 **Releases** 里发一个 `v1.3.0`，把 `自律OS-v1.3.apk` 作为附件上传，得到下载地址。
