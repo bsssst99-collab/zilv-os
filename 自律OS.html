@@ -1117,13 +1117,10 @@ function compareVer(a, b){
 async function checkUpdate(){
   if(!UPDATE_JSON_URL){ toast("尚未配置更新地址（GitHub 托管后填入代码里的 UPDATE_JSON_URL）"); return; }
   try{
-    let r;
-    try {
-      r = await fetch(UPDATE_JSON_URL + "?t=" + Date.now(), {cache:"no-store"});
-    } catch(e) {
-      r = await fetch(UPDATE_JSON_URL_FB + "?t=" + Date.now(), {cache:"no-store"});
-    }
-    const j = await r.json();
+    const pick = async (url) => { try { const r = await fetch(url + "?t=" + Date.now(), {cache:"no-store"}); return await r.json(); } catch(e){ return null; } };
+    const [a, b] = await Promise.all([pick(UPDATE_JSON_URL), pick(UPDATE_JSON_URL_FB)]);
+    // 两个源（jsDelivr / gh-proxy）都拉，取版本较新的，避免单一 CDN 缓存滞后导致检测不到更新
+    const j = a && b ? (compareVer(a.version, b.version) >= 0 ? a : b) : (a || b);
     if(!j || !j.version){ toast("更新信息格式不正确"); return; }
     if(compareVer(j.version, APP_VERSION) > 0){
       const notes = j.notes ? ("\n" + j.notes) : "";
