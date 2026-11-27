@@ -126,12 +126,12 @@ body{padding-bottom:calc(78px + env(safe-area-inset-bottom));overscroll-behavior
   box-shadow:0 1px 2px rgba(16,24,40,.04)}
 .calnav button:disabled{opacity:.35}
 .calwk{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;font-size:10.5px;color:var(--dim);text-align:center;margin-bottom:5px;font-weight:600;letter-spacing:.05em}
-.calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));grid-auto-rows:80px;gap:9px;padding:7px;border-radius:16px}
-.calcell{width:100%;height:100%;border-radius:14px;display:flex;flex-direction:column;align-items:center;
-  padding:6px 4px 5px;cursor:pointer;position:relative;background:transparent}
-.calcell .dn{font-size:11px;color:var(--dim);line-height:1;font-weight:500;height:14px;display:flex;align-items:center}
-.calcell .de{width:100%;height:38px;margin-top:auto;display:flex;align-items:center;justify-content:center}
-.calcell .de img{width:36px;height:36px;display:block}
+.calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));grid-auto-rows:54px;gap:6px;padding:7px;border-radius:16px}
+.calcell{width:100%;height:100%;border-radius:12px;display:flex;flex-direction:column;align-items:center;
+  padding:5px 4px 4px;cursor:pointer;position:relative;background:transparent}
+.calcell .dn{font-size:11px;color:var(--dim);line-height:1;font-weight:500;height:14px;flex:0 0 14px;display:flex;align-items:center}
+.calcell .de{width:100%;flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.calcell .de img{width:28px;height:28px;display:block}
 .calcell .de img.dim{opacity:.4}
 .calcell .dot{width:5px;height:5px;border-radius:50%;background:rgba(17,20,24,.1);display:block}
 .calcell.today .dn{color:var(--acc);font-weight:700}
@@ -213,17 +213,6 @@ textarea::placeholder{color:var(--dim2)}
   color:var(--dim);line-height:1.7}
 .gps b{color:var(--tx);font-size:20px;font-weight:650;display:block;margin-bottom:2px}
 
-/* alarm overlay（固定深色） */
-.alarm{position:fixed;inset:0;z-index:60;display:none;flex-direction:column;align-items:center;
-  justify-content:center;background:radial-gradient(circle at 50% 30%,#1C2A17,#07080A 70%);
-  padding:32px;text-align:center;color:#ECEDEF}
-.alarm.show{display:flex}
-.alarm .clock{font-size:56px;font-weight:200;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.alarm .lab{font-size:13px;color:#8A9099;letter-spacing:.18em;text-transform:uppercase;margin-top:6px}
-.alarm .msg{font-size:15px;color:#C9D3BE;margin:26px 0 0;font-weight:500}
-.alarm .btns{width:100%;max-width:320px;margin-top:34px;display:flex;flex-direction:column;gap:10px}
-.alarm .btn{background:var(--acc);color:#0B0C0E}
-.alarm .btn.line{background:transparent;border:1px solid rgba(255,255,255,.16);color:#ECEDEF}
 .toast{position:fixed;left:50%;bottom:96px;transform:translate(-50%,10px);z-index:70;
   background:var(--toastBg);color:var(--toastTx);border-radius:11px;padding:10px 16px;font-size:13px;
   opacity:0;transition:.22s;pointer-events:none;max-width:80%;box-shadow:0 8px 24px rgba(0,0,0,.18)}
@@ -235,26 +224,25 @@ textarea::placeholder{color:var(--dim2)}
 .drow .dm{flex:1;min-width:0}
 .drow .dt{font-size:13.5px;font-weight:600}
 .drow .dv{font-size:11.5px;color:var(--dim);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.nudge{display:flex;gap:11px;align-items:center;background:var(--warnBg);
-  border:1px solid rgba(224,138,30,.22);border-radius:16px;padding:13px 14px;margin-bottom:10px;font-size:12.5px}
 
-/* ===== 每日金句卡 ===== */
-.quote{background:linear-gradient(150deg,#edf7be 0%,#f6fbe6 55%,#eef5d6 100%);
-  border:1px solid rgba(164,207,74,.35);border-radius:18px;padding:20px 16px 20px;margin:8px 0 10px;
+/* ===== 每日金句卡（一言在线 · 点击跳豆瓣） ===== */
+.quote{background:linear-gradient(135deg,#ECD79A 0%,#DCBC6A 100%);
+  border:0;border-radius:20px;padding:24px 20px 20px;margin:8px 0 10px;
   cursor:pointer;position:relative;overflow:hidden;box-shadow:var(--shadow)}
 .quote:active{transform:scale(.985)}
-.quote .qtxt{font-size:16px;font-weight:650;line-height:1.5;color:#2b3318;letter-spacing:-.01em}
-.quote .qsrc{display:flex;align-items:center;gap:9px;margin-top:9px;font-size:12px;color:#5c6b2e}
-.quote .qsrc .qa{width:28px;height:28px;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;flex:0 0 28px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.quote .qsrc .qi b{display:block;font-size:12.5px;color:#2b3318;font-weight:600}
-.quote .qsrc .qi span{font-size:11px;color:#7a8a3e}
-[data-theme="dark"] .quote{background:linear-gradient(150deg,#2a3318 0%,#1c2112 100%);border-color:rgba(164,207,74,.25)}
-[data-theme="dark"] .quote .qtag{color:#b8d16a}
-[data-theme="dark"] .quote .qtxt{color:#e8f0c8}
-[data-theme="dark"] .quote .qsrc{color:#9fb05a}
-[data-theme="dark"] .quote .qsrc .qa{background:#1f2415}
-[data-theme="dark"] .quote .qsrc .qi b{color:#e8f0c8}
-[data-theme="dark"] .quote .qsrc .qi span{color:#9fb05a}
+.quote .qmark{position:absolute;top:-6px;left:10px;font-size:62px;line-height:1;color:rgba(255,255,255,.32);
+  font-family:Georgia,"Times New Roman",serif;font-weight:700;pointer-events:none;user-select:none}
+.quote .qdeco{position:absolute;top:15px;right:15px;font-size:20px;color:rgba(255,255,255,.55);line-height:1;pointer-events:none;user-select:none}
+.quote .qtxt{position:relative;font-size:21px;font-weight:700;line-height:1.45;color:#fff;letter-spacing:-.01em;
+  padding:12px 22px 0;z-index:1;text-shadow:0 1px 3px rgba(120,80,0,.18)}
+.quote .qsrc{position:relative;display:flex;align-items:center;gap:10px;margin-top:18px;z-index:1}
+.quote .qsrc .qa{width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.25);
+  display:flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 30px}
+.quote .qsrc .qi b{display:block;font-size:12.5px;color:rgba(255,255,255,.94);font-weight:600}
+.quote .qsrc .qi span{font-size:11px;color:rgba(255,255,255,.72)}
+[data-theme="dark"] .quote{background:linear-gradient(135deg,#4A3F22 0%,#3A2F18 100%)}
+[data-theme="dark"] .quote .qsrc .qa{background:rgba(255,255,255,.14)}
+[data-theme="dark"] .quote .qtxt{text-shadow:0 1px 3px rgba(0,0,0,.3)}
 
 /* ===== 今日任务 田字 ===== */
 .taskgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
@@ -330,15 +318,6 @@ textarea::placeholder{color:var(--dim2)}
 </nav>
 
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
-<div class="alarm" id="alarm">
-  <div class="clock" id="alClock">07:00</div>
-  <div class="lab">Wake Up</div>
-  <div class="msg" id="alMsg">该起床了。拍一张洗漱完的照片，今天才算开始。</div>
-  <div class="btns">
-    <button class="btn wide" id="alGo">拍照打卡，立刻起床</button>
-    <button class="btn line wide" id="alSnooze">再给我 5 分钟</button>
-  </div>
-</div>
 <div class="toast" id="toast"></div>
 <input id="fileInput" type="file" accept="image/*" capture="environment" style="display:none">
 <input id="jsonInput" type="file" accept="application/json,.json" style="display:none">
@@ -347,7 +326,7 @@ textarea::placeholder{color:var(--dim2)}
 "use strict";
 /* ===== 存储 ===== */
 const LS = "selfdrive.v1";
-const APP_VERSION = "1.3.5";
+const APP_VERSION = "1.3.6";
 /* 更新信息 JSON 地址：走 jsDelivr（国内可达），失败回退 gh-proxy 镜像。留空时「检查更新」会提示未配置。 */
 const UPDATE_JSON_URL = "https://cdn.jsdelivr.net/gh/bsssst99-collab/zilv-os@master/version.json";
 const UPDATE_JSON_URL_FB = "https://gh-proxy.com/https://raw.githubusercontent.com/bsssst99-collab/zilv-os/master/version.json";
@@ -371,67 +350,20 @@ function moodImg(score, size, cls){
   return `<img class="emo ${cls||""}" src="${MOOD_IMG[s-1]}" style="width:${size}px;height:${size}px" alt="">`;
 }
 
-/* ===== 每日金句（真实书籍/电影公开摘抄，准确出处；按日期确定性选取，同日不变） ===== */
-const QUOTES = [
-  {t:"人是为了活着本身而活着，而不是为了活着之外的任何事物而活着。", src:"活着", who:"余华", type:"book"},
-  {t:"一个人只拥有此生此世是不够的，他还应该拥有诗意的世界。", src:"万寿寺", who:"王小波", type:"book"},
-  {t:"你要做一个不动声色的大人了。不准情绪化，不准偷偷想念，不准回头看。", src:"舞！舞！舞！", who:"村上春树", type:"book"},
-  {t:"我们终此一生，就是要摆脱他人的期待，找到真正的自己。", src:"无声告白", who:"伍绮诗", type:"book"},
-  {t:"世界上只有一种真正的英雄主义，就是在认清生活的真相后依然热爱生活。", src:"米开朗基罗传", who:"罗曼·罗兰", type:"book"},
-  {t:"生活不可能像你想象得那么好，但也不会像你想象得那么糟。", src:"一生", who:"莫泊桑", type:"book"},
-  {t:"我慢慢明白了我为什么不快乐，因为我总是期待一个结果。", src:"允许自己虚度时光", who:"马德", type:"book"},
-  {t:"不乱于心，不困于情。不畏将来，不念过往。", src:"丰子恺散文", who:"丰子恺", type:"book"},
-  {t:"既然选择了远方，便只顾风雨兼程。", src:"热爱生命", who:"汪国真", type:"book"},
-  {t:"你若爱，生活哪里都可爱。", src:"丰子恺散文", who:"丰子恺", type:"book"},
-  {t:"心之何如，有似万丈迷津，遥亘千里，其中并无舟子可以渡人，除了自渡，他人爱莫能助。", src:"送你一匹马", who:"三毛", type:"book"},
-  {t:"一个人的行走范围，就是他的世界。", src:"青灯", who:"北岛", type:"book"},
-  {t:"生命中曾经有过的所有灿烂，终究都需要用寂寞来偿还。", src:"百年孤独", who:"马尔克斯", type:"book"},
-  {t:"过去都是假的，回忆是一条没有尽头的路。", src:"百年孤独", who:"马尔克斯", type:"book"},
-  {t:"真正重要的东西，用眼睛是看不见的。", src:"小王子", who:"圣埃克苏佩里", type:"book"},
-  {t:"所有的大人都曾经是小孩，虽然，只有少数的人记得。", src:"小王子", who:"圣埃克苏佩里", type:"book"},
-  {t:"我们把世界看错，反说它欺骗了我们。", src:"飞鸟集", who:"泰戈尔", type:"book"},
-  {t:"凡是过往，皆为序章。", src:"暴风雨", who:"莎士比亚", type:"book"},
-  {t:"黑夜无论怎样悠长，白昼总会到来。", src:"麦克白", who:"莎士比亚", type:"book"},
-  {t:"一个人知道自己为什么而活，就可以忍受任何一种生活。", src:"查拉图斯特拉如是说", who:"尼采", type:"book"},
-  {t:"那些杀不死我的，必使我更强大。", src:"偶像的黄昏", who:"尼采", type:"book"},
-  {t:"当你凝视深渊时，深渊也在凝视你。", src:"善恶的彼岸", who:"尼采", type:"book"},
-  {t:"未经审视的人生不值得过。", src:"申辩篇", who:"苏格拉底", type:"book"},
-  {t:"认识自己的无知是认识世界的最可靠的方法。", src:"随笔集", who:"蒙田", type:"book"},
-  {t:"未曾哭过长夜的人，不足以语人生。", src:"威廉·迈斯特", who:"歌德", type:"book"},
-  {t:"一个人并不是生来要给打败的，你尽可以把他消灭掉，可就是打不败他。", src:"老人与海", who:"海明威", type:"book"},
-  {t:"把活着的每一天看作生命的最后一天。", src:"假如给我三天光明", who:"海伦·凯勒", type:"book"},
-  {t:"人生如逆旅，我亦是行人。", src:"临江仙·送钱穆父", who:"苏轼", type:"book"},
-  {t:"我步入丛林，因为我希望生活得有意义，我希望活得深刻。", src:"瓦尔登湖", who:"梭罗", type:"book"},
-  {t:"鸟要挣脱出壳。蛋就是世界。谁要诞生，就得摧毁一个世界。", src:"德米安", who:"黑塞", type:"book"},
-  {t:"生活就像骑自行车，要保持平衡就得不断前进。", src:"爱因斯坦语录", who:"爱因斯坦", type:"book"},
-  {t:"你必须成为你希望在世界上看到的改变。", src:"甘地语录", who:"甘地", type:"book"},
-  {t:"种一棵树最好的时间是十年前，其次是现在。", src:"砍掉那颗树", who:"丹比萨·莫约", type:"book"},
-  {t:"我们以为贫穷就是饥饿、衣不蔽体和没有房屋。然而最大的贫穷却是不被需要、没有爱和不被关心。", src:"特蕾莎修女语录", who:"特蕾莎修女", type:"book"},
-  {t:"希望是美好的，也许是人间至善，而美好的事物永不消逝。", src:"肖申克的救赎", who:"豆瓣 9.7", type:"movie"},
-  {t:"有些鸟儿是注定不会被关在牢笼里的，它们的每一片羽毛都闪耀着自由的光辉。", src:"肖申克的救赎", who:"豆瓣 9.7", type:"movie"},
-  {t:"人生就像一盒巧克力，你永远不知道下一块是什么味道。", src:"阿甘正传", who:"豆瓣 9.5", type:"movie"},
-  {t:"如果你不出去走走，你就会以为这就是全世界。", src:"天堂电影院", who:"豆瓣 9.2", type:"movie"},
-  {t:"你要尽全力保护你的梦想，那些嘲笑你的人，他们必定会失败。", src:"当幸福来敲门", who:"豆瓣 9.2", type:"movie"},
-  {t:"生活总是这么艰难吗，还是只有童年如此？总是如此。", src:"这个杀手不太冷", who:"豆瓣 9.4", type:"movie"},
-  {t:"有些人浅薄，有些人金玉其外败絮其中。有一天你会遇到一个彩虹般绚丽的人，从此以后，其他人不过是匆匆浮云。", src:"怦然心动", who:"豆瓣 9.1", type:"movie"},
-  {t:"不管前方的路有多苦，只要走的方向正确，不管多么崎岖不平，都比站在原地更接近幸福。", src:"千与千寻", who:"豆瓣 9.4", type:"movie"},
-  {t:"如果我再也见不到你，祝你早安，午安，晚安。", src:"楚门的世界", who:"豆瓣 9.4", type:"movie"},
-  {t:"不要憎恨你的敌人，那会影响你的判断力。", src:"教父", who:"豆瓣 9.3", type:"movie"},
-  {t:"心很脆弱，你得学会去哄它，不管遇到多大困难，告诉你的心一切顺利。", src:"三傻大闹宝莱坞", who:"豆瓣 9.2", type:"movie"}
-];
-function dayOfYear(d){ const s=new Date(d.getFullYear(),0,0); return Math.floor((d-s)/86400000); }
-/* 在线金句：一言 hitokoto（每次请求随机一条，带回真实出处）。
-   分类 j=网易云(情绪/生活)、d=文学、k=哲学、h=影视、i=诗词，偏情绪与人生感悟。
-   失败时回退内置词库 QUOTES。点击卡片=换一条（不再跳外链，避免微信读书/小宇宙 web 404）。 */
+/* ===== 每日金句：一言（hitokoto）纯在线接口，同日缓存保持稳定；点击卡片跳豆瓣搜索出处 ===== */
 const QUOTE_API = "https://v1.hitokoto.cn/?c=j&c=d&c=k&c=h&c=i";
-let _curQuote = null;                       // 当前展示的金句
+let _curQuote = loadCachedQuote();          // 当天缓存，无则 null（显示占位，等在线拉取）
 function quoteCacheKey(){ return "selfdrive.quote." + today(); }
 function loadCachedQuote(){ try{ const s=localStorage.getItem(quoteCacheKey()); if(s) return JSON.parse(s); }catch(e){} return null; }
 function saveCachedQuote(q){ try{ localStorage.setItem(quoteCacheKey(), JSON.stringify(q)); }catch(e){} }
-function offlineQuote(){ return QUOTES[dayOfYear(new Date()) % QUOTES.length]; }
 function normalizeQuote(j){
   if(!j || !j.hitokoto) return null;
-  return {t:j.hitokoto, src:j.from || "一言", who:j.from_who || j.from || "", type:(j.type==="h"?"movie":"book")};
+  let type = "other";
+  const t = j.type;
+  if(t === "h") type = "movie";                          // 影视 → 豆瓣电影
+  else if(t === "d" || t === "b" || t === "i") type = "book";  // 文学/漫画/诗词 → 豆瓣读书
+  else if(t === "j") type = "music";                     // 网易云 → 豆瓣音乐
+  return {t:j.hitokoto, src:j.from || "一言", who:j.from_who || j.from || "", type};
 }
 async function fetchOnlineQuote(){
   try{
@@ -439,28 +371,34 @@ async function fetchOnlineQuote(){
     return normalizeQuote(await r.json());
   }catch(e){ return null; }
 }
-function currentQuote(){
-  if(!_curQuote){ _curQuote = loadCachedQuote() || offlineQuote(); }
-  return _curQuote;
-}
+function currentQuote(){ return _curQuote; }
 function quoteCardInner(){
-  const q = currentQuote();
-  const ico = q.type === "movie" ? "🎬" : (q.type === "podcast" ? "🎙️" : "📖");
-  return `<div class="qtxt">${esc(q.t)}</div>
-    <div class="qsrc"><div class="qa">${ico}</div><div class="qi"><b>《${esc(q.src)}》</b><span>${esc(q.who)}</span></div></div>`;
+  const q = _curQuote;
+  const ico = q ? (q.type==="movie"?"🎬":(q.type==="music"?"🎵":"📖")) : "📖";
+  const txt = q ? esc(q.t) : "点击加载今日金句";
+  const src = q ? esc(q.src) : "一言";
+  const who = q ? esc(q.who) : "hitokoto.cn";
+  return `<div class="qmark">"</div>
+    <div class="qdeco">✦</div>
+    <div class="qtxt">${txt}</div>
+    <div class="qsrc"><div class="qa">${ico}</div><div class="qi"><b>${src}</b><span>${who}</span></div></div>`;
 }
 function quoteCard(){ return `<div class="quote" id="quoteCard">${quoteCardInner()}</div>`; }
 function renderQuoteCard(){ const el=document.getElementById("quoteCard"); if(el) el.innerHTML=quoteCardInner(); }
-/* 点击金句卡：拉一条新的在线金句；网络失败则轮换内置词库。 */
-function refreshQuote(){
-  fetchOnlineQuote().then(q=>{
-    if(q){ _curQuote=q; saveCachedQuote(q); renderQuoteCard(); return; }
-    const idx = QUOTES.findIndex(x=>x.t===(_curQuote&&_curQuote.t));
-    _curQuote = QUOTES[(idx+1)%QUOTES.length];
-    saveCachedQuote(_curQuote); renderQuoteCard();
-  });
+/* 点击金句卡：跳转到豆瓣搜索该金句出处（影视/读书/音乐分类）。无网络时点击重试拉取。 */
+function openQuoteDouban(){
+  const q = _curQuote;
+  if(!q){ primeOnlineQuote(); return; }
+  const kw = encodeURIComponent(q.src || "一言");
+  let url;
+  if(q.type === "movie") url = "https://www.douban.com/search?cat=1002&q=" + kw;
+  else if(q.type === "book") url = "https://www.douban.com/search?cat=1001&q=" + kw;
+  else if(q.type === "music") url = "https://www.douban.com/search?cat=1003&q=" + kw;
+  else url = "https://www.douban.com/search?q=" + kw;
+  if(window.NativeUI){ try{ NativeUI.openUrl(url); return; }catch(e){} }
+  window.open(url, "_blank");
 }
-/* 初次渲染后调用：若今天还没缓存过金句，就在线拉一条替换掉离线兜底（同日保持稳定）。 */
+/* 初次渲染后调用：若今天还没缓存过金句，就在线拉一条（同日保持稳定）。 */
 function primeOnlineQuote(){
   if(loadCachedQuote()) return;
   fetchOnlineQuote().then(q=>{ if(q){ _curQuote=q; saveCachedQuote(q); renderQuoteCard(); } });
@@ -473,7 +411,7 @@ function defState(){
     tab:"today",
     settings:{
       wake:"07:00", sleep:"23:00", outBy:"23:00",
-      grace:30, radius:300, anchor:null, notify:false, theme:"light"
+      grace:30, radius:300, anchor:null, theme:"light"
     },
     days:{},
     flags:{}
@@ -573,24 +511,6 @@ function toast(msg){
   clearTimeout(toast._h); toast._h=setTimeout(()=>t.classList.remove("show"),2200);
 }
 function esc(s){ return (s||"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
-function beep(times){
-  try{
-    const AC = window.AudioContext||window.webkitAudioContext;
-    const ctx = new AC(); let i=0;
-    const burn = ()=>{
-      if(i>=times){ ctx.close(); return; }
-      const o=ctx.createOscillator(), g=ctx.createGain();
-      o.type="sine"; o.frequency.value=880;
-      g.gain.setValueAtTime(0,ctx.currentTime);
-      g.gain.linearRampToValueAtTime(.5,ctx.currentTime+.05);
-      g.gain.linearRampToValueAtTime(0,ctx.currentTime+.32);
-      o.connect(g); g.connect(ctx.destination);
-      o.start(); o.stop(ctx.currentTime+.34);
-      i++; setTimeout(burn,700);
-    };
-    burn();
-  }catch(e){}
-}
 
 /* ===== 拍照 ===== */
 const fileInput = document.getElementById("fileInput");
@@ -657,9 +577,6 @@ function renderToday(){
 
   let html = quoteCard();
 
-  const nap = sleepNudge();
-  if(nap) html += `<div class="nudge"><div style="font-size:18px">${nap.icon}</div><div>${nap.text}</div></div>`;
-
   html += `<div class="sec"><h2>今日任务</h2><span>${n} / 4 完成</span></div>`;
   html += `<div class="taskgrid">`;
   html += tskCard("wake", d.wake, buildWakeSub(d));
@@ -689,7 +606,7 @@ function renderToday(){
   document.getElementById("main").innerHTML = html;
   bindTasks();
   const qc = document.getElementById("quoteCard");
-  if(qc) qc.onclick = ()=> refreshQuote();
+  if(qc) qc.onclick = ()=> openQuoteDouban();
   primeOnlineQuote();
 }
 
@@ -699,15 +616,6 @@ function sleepLeft(){
   if(diff <= 0) return "已过就寝时间";
   const h = Math.floor(diff/3600000), m = Math.floor(diff%3600000/60000);
   return h>0 ? `距就寝 ${h} 小时 ${m} 分` : `距就寝 ${m} 分钟`;
-}
-function sleepNudge(){
-  const d = S.days[today()] || {};
-  const sl = atTime(S.settings.sleep);
-  const now = new Date();
-  if(now >= sl && !d.mood) return {icon:"🫧", text:"已经到就寝时间，今天的心情还没记。一句话就够。"};
-  if(now >= new Date(sl.getTime()-30*60000) && !d.mood)
-    return {icon:"🌙", text:`还有 ${Math.max(1,Math.round((sl-now)/60000))} 分钟就寝，先把今天的日记补上。`};
-  return null;
 }
 
 function tskCard(id, rec, sub){
@@ -731,7 +639,7 @@ function tskCard(id, rec, sub){
 }
 function buildWakeSub(d){
   if(d.wake) return `已记录 ${fmtT(d.wake.t)}${d.wake.late?" · 超出宽限":""}`;
-  return `拍洗漱完的照片 · 闹钟 ${S.settings.wake}`;
+  return `拍洗漱完的照片 · ${S.settings.wake} 起床`;
 }
 function buildOutSub(d){
   if(d.out){
@@ -818,7 +726,7 @@ function openWake(dateKey){
   const saveIt = ()=>{
     const d = day(k);
     d.wake = {t:Date.now(), photo:shot, late: k===today() ? (new Date() > deadlineToday()) : !!(rec && rec.late)};
-    save(); closeSheet(); if(k===today()) dismissAlarm(); renderAll();
+    save(); closeSheet(); renderAll();
     toast(d.wake.late ? "已记录，今天迟到" : "打卡成功");
   };
   document.getElementById("btnShoot").onclick = ()=>{
@@ -1014,7 +922,7 @@ function renderStats(){
   const _wlabs=[]; for(let i=0;i<7;i++){ const d=new Date(addDays(_wmon,i)); _wlabs.push(wk[(d.getDay()+6)%7]); }
   document.getElementById("main").innerHTML = `
   <div class="panel">
-    <div class="weekrow weekhead"><div class="n">本周完成率</div><div class="s"><div class="weeklab">${_wlabs.map(x=>`<span>${x}</span>`).join("")}</div></div><div class="p"></div></div>
+    <div class="weekrow weekhead"><div class="s"><div class="weeklab">${_wlabs.map(x=>`<span>${x}</span>`).join("")}</div></div></div>
     <div class="bars">${weekBars()}</div>
   </div>
   <div class="panel">
@@ -1049,7 +957,7 @@ function monthView(){
     const full = allDone(rec);
     const isToday = k === today();
     const future = k > today();
-    const inner = hasMood ? moodImg(rec.mood.score, 36, full ? "" : "dim") : '<span class="dot"></span>';
+    const inner = hasMood ? moodImg(rec.mood.score, 28, full ? "" : "dim") : '<span class="dot"></span>';
     cells += `<div class="calcell${isToday?" today":""}${future?" future":""}"`
            + ` data-day="${k}"><div class="dn">${d}</div><div class="de">${inner}</div></div>`;
   }
@@ -1084,26 +992,6 @@ function weekBars(){
   });
   return html;
 }
-/* ===== 原生闹钟同步 ===== */
-function syncNativeAlarms(){
-  if(!window.NativeUI) return;
-  try{
-    if(S.settings.notify) NativeUI.syncAlarms(S.settings.wake, S.settings.sleep);
-    else NativeUI.cancelAlarms();
-  }catch(e){}
-}
-/* 引导授权精确闹钟（安卓 12+），否则 setExactAndAllowWhileIdle 会被系统延后，息屏不响。 */
-function ensureAlarmPerm(){
-  if(!window.NativeUI){ toast("当前环境不支持系统闹钟"); return; }
-  try{
-    if(typeof NativeUI.canScheduleExactAlarms === "function" && !NativeUI.canScheduleExactAlarms()){
-      NativeUI.requestExactAlarmPermission();
-      toast("请允许「精确闹钟」，否则息屏可能不响");
-    } else {
-      toast("精确闹钟权限已开启");
-    }
-  }catch(e){ toast("无法打开权限设置"); }
-}
 function compareVer(a, b){
   const pa = String(a).split(".").map(n=>parseInt(n,10)||0);
   const pb = String(b).split(".").map(n=>parseInt(n,10)||0);
@@ -1137,8 +1025,6 @@ async function checkUpdate(){
 /* ===== 渲染：设置 ===== */
 function renderSet(){
   const s = S.settings;
-  // 用户若在系统设置里关掉了通知，开关同步置为关闭
-  if(window.NativeUI && s.notify){ try{ if(!NativeUI.areNotificationsEnabled()){ s.notify=false; save(); } }catch(e){} }
   const anchorTxt = s.anchor ? `${s.anchor.lat.toFixed(5)}, ${s.anchor.lng.toFixed(5)}` : "未设置";
   const themeSeg = [["auto","跟随系统"],["light","浅色"],["dark","深色"]]
     .map(x=>`<button data-theme="${x[0]}" class="${s.theme===x[0]?"on":""}">${x[1]}</button>`).join("");
@@ -1147,11 +1033,11 @@ function renderSet(){
   <div class="panel" style="margin-top:12px">
     <div class="panel-h">作息时间</div>
     <div class="row">
-      <div><div class="lb">起床闹钟</div><div class="ds">到点弹出全屏起床挑战</div></div>
+      <div><div class="lb">起床时间</div><div class="ds">用于作息统计与准时判定</div></div>
       <input type="time" id="setWake" value="${s.wake}">
     </div>
     <div class="row">
-      <div><div class="lb">就寝时间</div><div class="ds">到点提醒你收尾、补日记</div></div>
+      <div><div class="lb">就寝时间</div><div class="ds">用于作息统计</div></div>
       <input type="time" id="setSleep" value="${s.sleep}">
     </div>
     <div class="row">
@@ -1178,26 +1064,6 @@ function renderSet(){
     <div class="row">
       <div><div class="lb">基准点（家）</div><div class="ds">${anchorTxt}</div></div>
       <button class="btn ghost" id="setAnchor">用当前位置</button>
-    </div>
-  </div>
-
-  <div class="panel">
-    <div class="panel-h">提醒</div>
-    <div class="row">
-      <div><div class="lb">系统通知</div><div class="ds">允许后闹钟可推送提醒</div></div>
-      <div class="switch ${s.notify?"on":""}" id="setNotify"><i></i></div>
-    </div>
-    <div class="row">
-      <div><div class="lb">测试闹钟</div><div class="ds">立刻预览起床挑战界面</div></div>
-      <button class="btn ghost" id="testAlarm">预览</button>
-    </div>
-    <div class="row">
-      <div><div class="lb">息屏闹钟权限</div><div class="ds">安卓 12+ 需授权精确闹钟，息屏才准时响</div></div>
-      <button class="btn ghost" id="btnAlarmPerm">去授权</button>
-    </div>
-    <div class="row" style="border-bottom:0">
-      <div><div class="lb">电池优化白名单</div><div class="ds">设为「不优化」后台/息屏更稳；部分机型还需开「锁屏显示」</div></div>
-      <button class="btn ghost" id="btnBatteryOpt">去设置</button>
     </div>
   </div>
 
@@ -1231,14 +1097,12 @@ function renderSet(){
   <div class="help">
   · 数据存于本机浏览器，换设备或清缓存会丢，建议定期「导出备份」<br>
   · 定位需要授权浏览器「允许获取位置」<br>
-  · 安卓 12+ 请到「设置 → 提醒 → 息屏闹钟权限」授权精确闹钟，并在「电池优化白名单」设为不优化<br>
-  · 小米/华为/OPPO 等机型若息屏仍不响，请在系统设置里允许「锁屏显示」「后台弹出界面」<br>
   · 照片仅保留最近 ${PHOTO_KEEP_DAYS} 天，节省存储
   </div>`;
 
   const bindTime = (id, field)=>{
     const el = document.getElementById(id);
-    el.onchange = ()=>{ if(el.value){ S.settings[field] = el.value; save(); renderAll(); if(field==="wake"||field==="sleep") syncNativeAlarms(); } };
+    el.onchange = ()=>{ if(el.value){ S.settings[field] = el.value; save(); renderAll(); } };
   };
   bindTime("setWake","wake"); bindTime("setSleep","sleep"); bindTime("setOutBy","outBy");
   document.getElementById("setGrace").onchange = e=>{ S.settings.grace=Math.max(0,Math.min(180,+e.target.value||0)); save(); renderAll(); };
@@ -1247,34 +1111,6 @@ function renderSet(){
   document.querySelectorAll("#themeSeg button").forEach(b=>b.onclick=()=>{
     S.settings.theme = b.dataset.theme; save(); applyTheme(); renderAll();
   });
-  document.getElementById("setNotify").onclick = ()=>{
-    const el = document.getElementById("setNotify");
-    if(!window.NativeUI){ toast("当前环境不支持系统通知"); return; }
-    if(S.settings.notify){
-      S.settings.notify = false; el.classList.remove("on"); save();
-      try{ NativeUI.cancelAlarms(); }catch(e){}
-      toast("已关闭提醒");
-      return;
-    }
-    try{ NativeUI.enableNotifications(); }catch(e){}
-    toast("请在系统设置里允许「自律日记」通知，然后返回");
-    let tries = 0;
-    const t = setInterval(()=>{
-      tries++;
-      let on = false;
-      try{ on = NativeUI.areNotificationsEnabled(); }catch(e){}
-      if(on){
-        S.settings.notify = true;
-        document.getElementById("setNotify").classList.add("on");
-        save(); syncNativeAlarms();
-        toast("通知已开启；若息屏不响，请到「息屏闹钟权限」允许精确闹钟");
-        clearInterval(t);
-      } else if(tries > 25){
-        clearInterval(t);
-        toast("未检测到通知权限，闹钟将只在 App 打开时提醒");
-      }
-    }, 1000);
-  };
   document.getElementById("btnCheckUpdate").onclick = checkUpdate;
   document.getElementById("setAnchor").onclick = ()=>{
     if(!navigator.geolocation) return toast("不支持定位");
@@ -1282,12 +1118,6 @@ function renderSet(){
       S.settings.anchor = {lat:p.coords.latitude, lng:p.coords.longitude};
       save(); renderAll(); toast("基准点已设为当前位置");
     }, ()=>toast("定位失败，检查权限"));
-  };
-  document.getElementById("testAlarm").onclick = ()=> fireAlarm(true);
-  document.getElementById("btnAlarmPerm").onclick = ensureAlarmPerm;
-  document.getElementById("btnBatteryOpt").onclick = ()=>{
-    if(!window.NativeUI){ toast("当前环境不支持"); return; }
-    try{ NativeUI.requestIgnoreBatteryOptimizations(); toast("请把自律日记设为「不优化」后返回"); }catch(e){ toast("无法打开电池优化设置"); }
   };
   document.getElementById("btnExport").onclick = exportData;
   document.getElementById("btnImport").onclick = ()=> jsonInput.click();
@@ -1368,67 +1198,12 @@ document.querySelectorAll(".tabbar button").forEach(b=>{
   b.onclick = ()=>{ S.tab=b.dataset.tab; closeSheet(); renderAll(); window.scrollTo(0,0); };
 });
 
-/* ===== 闹钟 ===== */
-const alarmEl = document.getElementById("alarm");
-let firedFor = null, snoozeUntil = 0, snoozeCount = 0;
-
-function fireAlarm(isTest){
-  const d = new Date();
-  document.getElementById("alClock").textContent = pad(d.getHours())+":"+pad(d.getMinutes());
-  document.getElementById("alMsg").textContent = isTest
-    ? "这是预览。真实闹钟会在设定时间弹出这个界面。"
-    : "该起床了。拍一张洗漱完的照片，今天才算开始。";
-  alarmEl.classList.add("show");
-  beep(4);
-  if(navigator.vibrate) navigator.vibrate([400,200,400,200,600]);
-  if(!isTest && S.settings.notify && window.NativeUI){
-    try{ NativeUI.notify("自律日记 · 起床挑战", "拍一张洗漱完的照片，今天才算开始。"); }catch(e){}
-  }
-}
-function dismissAlarm(){
-  alarmEl.classList.remove("show");
-  if(window.NativeUI){ try{ NativeUI.stopAlarmSound(); }catch(e){} }
-}
-document.getElementById("alGo").onclick = ()=>{ dismissAlarm(); openWake(); };
-document.getElementById("alSnooze").onclick = ()=>{
-  if(snoozeCount>=2){ toast("最多延后两次，去打卡吧"); return; }
-  snoozeCount++; snoozeUntil = Date.now() + 5*60*1000;
-  dismissAlarm(); toast("5 分钟后再叫你");
-};
-
-function checkAlarm(){
-  if(firedFor === today()) return;
-  if(Date.now() < snoozeUntil) return;
-  const target = atTime(S.settings.wake);
-  if(target > new Date()) return;
-  if(new Date() - target > 6*3600*1000) return;
-  if(S.days[today()] && S.days[today()].wake) return;
-  firedFor = today();
-  fireAlarm(false);
-}
-function checkNap(){
-  const k = today();
-  if(!S.flags) S.flags = {};
-  if(S.flags["nap_"+k]) return;
-  const sl = atTime(S.settings.sleep);
-  if(new Date() < sl) return;
-  const d = S.days[k] || {};
-  if(d.mood) return;
-  S.flags["nap_"+k] = true; save();
-  if(S.settings.notify && window.NativeUI){ try{ NativeUI.notify("自律日记 · 该写日记了", "到就寝时间了，今天的心情日记还没写"); }catch(e){} }
-  toast("到就寝时间了，今天的心情日记还没写");
-}
-setInterval(()=>{ checkAlarm(); checkNap(); }, 15000);
-setTimeout(()=>{ checkAlarm(); }, 800);
-document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) checkAlarm(); });
-
 /* ===== 启动 ===== */
 S = load();
 save();                       /* 补齐旧版本缺失的默认字段 */
 document.getElementById("themeBtn").onclick = toggleTheme;
 applyTheme();
 renderAll();
-syncNativeAlarms();           /* 把闹钟/提醒同步到原生，保证后台也能响 */
 </script>
 </body>
 </html>

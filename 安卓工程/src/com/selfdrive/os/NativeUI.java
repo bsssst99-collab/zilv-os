@@ -1,11 +1,8 @@
 package com.selfdrive.os;
 
-import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
-import android.provider.Settings;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 import java.io.File;
@@ -16,7 +13,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/** 网页与原生之间的桥：状态栏主题 + 通知/闹钟/更新。 */
+/** 网页与原生之间的桥：状态栏主题 + 外链打开 + 版本更新。 */
 public class NativeUI {
 
     private final MainActivity host;
@@ -37,6 +34,7 @@ public class NativeUI {
         return "android";
     }
 
+    /** 用系统浏览器打开外链（金句跳豆瓣等），不在 WebView 内跳走。 */
     @JavascriptInterface
     public void openUrl(final String url) {
         host.runOnUiThread(new Runnable() {
@@ -50,141 +48,7 @@ public class NativeUI {
         });
     }
 
-    /* ===== 通知 ===== */
-
-    @JavascriptInterface
-    public boolean areNotificationsEnabled() {
-        return Notify.areEnabled(host.getApplicationContext());
-    }
-
-    @JavascriptInterface
-    public void enableNotifications() {
-        final Context ctx = host.getApplicationContext();
-        Notify.ensureChannel(ctx);
-        if (!Notify.areEnabled(ctx)) {
-            openNotificationSettings();
-            host.runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(host, "请在系统设置中开启「自律日记」的通知",
-                            Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-    }
-
-    @JavascriptInterface
-    public void openNotificationSettings() {
-        host.runOnUiThread(new Runnable() {
-            public void run() {
-                try {
-                    Intent i = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
-                    i.putExtra(Settings.EXTRA_APP_PACKAGE, host.getPackageName());
-                    host.startActivity(i);
-                } catch (Exception e) {
-                    try {
-                        Intent i = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                                Uri.parse("package:" + host.getPackageName()));
-                        host.startActivity(i);
-                    } catch (Exception ignored) {}
-                }
-            }
-        });
-    }
-
-    @JavascriptInterface
-    public void notify(final String title, final String body) {
-        Notify.show(host.getApplicationContext(), title, body, 2001);
-    }
-
-    /* ===== 后台闹钟 ===== */
-
-    @JavascriptInterface
-    public void syncAlarms(final String wake, final String sleep) {
-        Notify.ensureChannel(host.getApplicationContext());
-        AlarmSched.sync(host.getApplicationContext(), wake, sleep);
-        promptExactAlarmIfMissing();
-    }
-
-    /** 安卓 12+：精确闹钟需运行时授权，否则 setExactAndAllowWhileIdle 会被系统延后/不触发。 */
-    private void promptExactAlarmIfMissing() {
-        if (Build.VERSION.SDK_INT < 31) return;
-        AlarmManager am = (AlarmManager) host.getSystemService(Context.ALARM_SERVICE);
-        if (am != null && !am.canScheduleExactAlarms()) {
-            requestExactAlarmPermission();
-        }
-    }
-
-    @JavascriptInterface
-    public boolean canScheduleExactAlarms() {
-        if (Build.VERSION.SDK_INT < 31) return true;
-        AlarmManager am = (AlarmManager) host.getSystemService(Context.ALARM_SERVICE);
-        return am != null && am.canScheduleExactAlarms();
-    }
-
-    @JavascriptInterface
-    public void requestExactAlarmPermission() {
-        if (Build.VERSION.SDK_INT < 31) return;
-        host.runOnUiThread(new Runnable() {
-            public void run() {
-                try {
-                    Intent i = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,
-                            Uri.parse("package:" + host.getPackageName()));
-                    host.startActivity(i);
-                } catch (Exception e) {
-                    try {
-                        Intent i = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                                Uri.parse("package:" + host.getPackageName()));
-                        host.startActivity(i);
-                    } catch (Exception ignored) {}
-                }
-            }
-        });
-    }
-
-    @JavascriptInterface
-    public void cancelAlarms() {
-        AlarmSched.cancelAll(host.getApplicationContext());
-    }
-
-    /* ===== 闹钟响铃控制 / 电池优化白名单 ===== */
-
-    @JavascriptInterface
-    public void stopAlarmSound() {
-        AlarmRinger.stop();
-    }
-
-    @JavascriptInterface
-    public boolean isIgnoringBatteryOptimizations() {
-        if (Build.VERSION.SDK_INT < 23) return true;
-        try {
-            android.os.PowerManager pm = (android.os.PowerManager)
-                    host.getSystemService(Context.POWER_SERVICE);
-            return pm != null && pm.isIgnoringBatteryOptimizations(host.getPackageName());
-        } catch (Exception e) {
-            return true;
-        }
-    }
-
-    @JavascriptInterface
-    public void requestIgnoreBatteryOptimizations() {
-        if (Build.VERSION.SDK_INT < 23) return;
-        host.runOnUiThread(new Runnable() {
-            public void run() {
-                try {
-                    Intent i = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
-                            Uri.parse("package:" + host.getPackageName()));
-                    host.startActivity(i);
-                } catch (Exception e) {
-                    try {
-                        host.startActivity(
-                                new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS));
-                    } catch (Exception ignored) {}
-                }
-            }
-        });
-    }
-
-    /* ===== 版本更新：下载并覆盖安装 ===== */
+    /* ===== 版本更新：下载并覆盖安装（保留作兜底，默认走前端浏览器下载） ===== */
 
     @JavascriptInterface
     public void downloadAndInstall(final String url, final String version) {
@@ -196,7 +60,6 @@ public class NativeUI {
         });
         new Thread(new Runnable() {
             public void run() {
-                // 主地址 + 国内可达的 GitHub 镜像兜底；全部失败则交给浏览器手动下载。
                 final String[] mirrors = new String[]{
                         url,
                         "https://gh-proxy.com/" + url,
@@ -229,7 +92,6 @@ public class NativeUI {
         }).start();
     }
 
-    /** 下载单个地址到缓存文件。手动跟随重定向，兼容部分 ROM 跨域不自动跟随的情况。 */
     private File downloadToFile(String urlStr) throws Exception {
         Context ctx = host.getApplicationContext();
         File out = new File(ctx.getCacheDir(), "update.apk");
@@ -272,7 +134,6 @@ public class NativeUI {
         return out;
     }
 
-    /** 校验文件确为 APK/ZIP（魔数 PK\x03\x04），避免把镜像的错误页当成安装包。 */
     private boolean isApkValid(File f) {
         if (f == null || f.length() < 1024) return false;
         try (FileInputStream fis = new FileInputStream(f)) {
