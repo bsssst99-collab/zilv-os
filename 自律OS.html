@@ -82,7 +82,7 @@ body{padding-bottom:calc(78px + env(safe-area-inset-bottom));overscroll-behavior
 .hinfo .sm{font-size:11.5px;color:var(--dim);margin-top:6px}
 
 /* section title */
-.sec{display:flex;justify-content:space-between;align-items:baseline;margin:18px 0 10px}
+.sec{display:flex;justify-content:space-between;align-items:baseline;margin:10px 0 8px}
 .sec h2{font-size:13px;font-weight:600;color:var(--dim);letter-spacing:.05em;margin:0}
 .sec span{font-size:12px;color:var(--dim)}
 
@@ -227,16 +227,17 @@ textarea::placeholder{color:var(--dim2)}
 
 /* ===== 每日金句卡（一言在线 · 点击跳豆瓣） ===== */
 .quote{background:linear-gradient(135deg,#ECD79A 0%,#DCBC6A 100%);
-  border:0;border-radius:20px;padding:14px 20px 8px;margin:8px 0 10px;
-  cursor:pointer;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+  border:0;border-radius:20px;height:118px;padding:12px 20px 10px;margin:8px 0 6px;
+  cursor:pointer;position:relative;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;box-sizing:border-box}
 .quote:active{transform:scale(.985)}
 .quote .qmark{position:absolute;top:0;left:14px;font-size:62px;line-height:1;color:rgba(255,255,255,.28);
   font-family:Georgia,"Times New Roman",serif;font-weight:700;pointer-events:none;user-select:none;
   filter:blur(3px);z-index:0}
 .quote .qtxt{position:relative;font-size:18px;font-weight:700;line-height:1.45;color:#fff;letter-spacing:-.01em;
   font-family:"Songti SC","STSong","SimSun","Noto Serif CJK SC","Source Han Serif SC",serif;
-  padding:8px 4px 0;z-index:1;text-shadow:0 1px 3px rgba(120,80,0,.18)}
-.quote .qsrc{position:relative;display:flex;align-items:center;gap:10px;margin-top:8px;z-index:1}
+  padding:6px 4px 0;z-index:1;text-shadow:0 1px 3px rgba(120,80,0,.18);
+  flex:1;min-height:0;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.quote .qsrc{position:relative;display:flex;align-items:center;gap:10px;margin-top:6px;z-index:1;flex:0 0 30px}
 .quote .qsrc .qa{width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.25);
   display:flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 30px}
 .quote .qsrc .qi b{display:block;font-size:12.5px;color:rgba(255,255,255,.95);font-weight:600;line-height:1.5}
@@ -259,17 +260,22 @@ textarea::placeholder{color:var(--dim2)}
 .ubtn.ghost{background:var(--track);color:var(--dim)}
 .ubtn.primary{background:var(--acc);color:var(--onacc)}
 .ubtn:disabled{opacity:.55}
+/* ===== 全勤烟花 ===== */
+.fxwrap{position:fixed;inset:0;z-index:999;pointer-events:none;display:none}
+.fxwrap.show{display:block}
+.fxwrap canvas{position:absolute;top:0;left:0;width:100%;height:100%}
 
 /* ===== 今日任务 田字 ===== */
-.taskgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
-.tsk{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 10px;
-  aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
-  box-shadow:var(--shadow);cursor:pointer;position:relative;text-align:center;transition:.18s}
+.taskgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0}
+.tsk{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:8px 10px;
+  height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  box-shadow:var(--shadow);cursor:pointer;position:relative;text-align:center;transition:.18s;box-sizing:border-box}
 .tsk:active{transform:scale(.97)}
 .tsk .ico{width:42px;height:42px;border-radius:13px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:21px}
 .tsk .nm{font-size:13.5px;font-weight:600;letter-spacing:-.01em}
 .tsk .st{font-size:11px;color:var(--dim);margin-top:1px;line-height:1.4}
 .tsk .thumb{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:9px;object-fit:cover;border:1px solid var(--line)}
+.tsk .thumb.moodth{width:40px;height:40px;border:0;border-radius:12px;top:6px;right:6px}
 .tsk.done{background:var(--accSoft);border-color:var(--alphaLine)}
 .tsk.done .nm{color:#2b3318}
 .tsk.done .st{color:#6b7a30}
@@ -278,10 +284,10 @@ textarea::placeholder{color:var(--dim2)}
 
 /* ===== 拍照范围框 ===== */
 .shotbox{width:100%;max-width:200px;height:250px;margin:14px auto 16px;border-radius:14px;background:var(--ph);
-  border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;
+  border:1px dashed var(--line);display:block;overflow:hidden;
   position:relative;cursor:pointer}
-.shotbox img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.shotbox .hint{color:var(--dim);font-size:12px;display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;padding:10px;line-height:1.5}
+.shotbox img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block}
+.shotbox .hint{position:absolute;top:0;left:0;width:100%;height:100%;color:var(--dim);font-size:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center;padding:10px;line-height:1.5;box-sizing:border-box}
 .shotbox .hint b{font-size:24px;font-weight:400}
 
 /* ===== 本周 7 段进度 ===== */
@@ -354,7 +360,7 @@ textarea::placeholder{color:var(--dim2)}
 "use strict";
 /* ===== 存储 ===== */
 const LS = "selfdrive.v1";
-const APP_VERSION = "1.3.10";
+const APP_VERSION = "1.3.11";
 /* 更新信息 JSON 地址：走 jsDelivr（国内可达），失败回退 gh-proxy 镜像。留空时「检查更新」会提示未配置。 */
 const UPDATE_JSON_URL = "https://cdn.jsdelivr.net/gh/bsssst99-collab/zilv-os@master/version.json";
 const UPDATE_JSON_URL_FB = "https://gh-proxy.com/https://raw.githubusercontent.com/bsssst99-collab/zilv-os/master/version.json";
@@ -376,6 +382,10 @@ const MOOD_TXT = ["丧", "平静", "开心", "愤怒", "烦恼"];
 function moodImg(score, size, cls){
   const s = Math.max(1, Math.min(5, score||3));
   return `<img class="emo ${cls||""}" src="${MOOD_IMG[s-1]}" style="width:${size}px;height:${size}px" alt="">`;
+}
+/* 拍照框内照片：内联样式强制铺满框体（不依赖外部 CSS 与 inset，兼容旧 WebView），与占位框同大同位、居中 */
+function SHOT_IMG(p){
+  return `<img src="${p}" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit">`;
 }
 
 /* ===== 每日金句：一言（hitokoto）纯在线接口，同日缓存保持稳定；点击卡片跳豆瓣搜索出处 ===== */
@@ -634,19 +644,15 @@ function renderToday(){
   html += tskCard("mood", d.mood, buildMoodSub(d));
   html += `</div>`;
 
-  if(pct===100){
-    html += `<div class="panel" style="border-color:var(--alphaLine);background:var(--alpha);display:flex;gap:12px;align-items:center">
-      <div style="font-size:22px">🌱</div>
-      <div><div style="font-size:14px;font-weight:600">今天全部完成</div>
-      <div style="font-size:11.5px;color:var(--dim);margin-top:2px">连续 ${st} 天 · 别在今天晚上把它弄丢</div></div>
-    </div>`;
-  }
+  const todayBlock = pct===100
+    ? `<div style="font-size:24px;line-height:1">🌱</div>
+       <div><div style="font-size:13px;font-weight:650">今天全部完成 · 连续 ${st} 天</div>
+       <div style="font-size:11px;color:var(--dim);margin-top:2px">四项点亮，别忘了烟花已经为你放过啦</div></div>`
+    : `<div><div style="font-size:12.5px;color:var(--dim)">今日作息</div>
+       <div style="font-size:19px;font-weight:650;letter-spacing:-.02em;margin-top:3px">${S.settings.wake} — ${S.settings.sleep}</div></div>`;
 
-  html += `<div class="panel" style="margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:12px">
-    <div>
-      <div style="font-size:12.5px;color:var(--dim)">今日作息</div>
-      <div style="font-size:19px;font-weight:650;letter-spacing:-.02em;margin-top:3px">${S.settings.wake} — ${S.settings.sleep}</div>
-    </div>
+  html += `<div class="panel" style="margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px">
+    <div style="display:flex;align-items:center;gap:11px">${todayBlock}</div>
     <div style="text-align:right;font-size:11.5px;color:var(--dim);line-height:1.6">
       ${sleepLeft()}<br>宽限 ${S.settings.grace} 分钟
     </div>
@@ -672,7 +678,7 @@ function tskCard(id, rec, sub){
   const done = !!rec;
   let thumb = "";
   if(rec && rec.photo) thumb = `<img class="thumb" src="${rec.photo}" data-photo="${id}">`;
-  else if(id==="mood" && rec && rec.score) thumb = `<img class="thumb" src="${MOOD_IMG[Math.max(1,Math.min(5,rec.score||3))-1]}">`;
+  else if(id==="mood" && rec && rec.score) thumb = `<img class="thumb moodth" src="${MOOD_IMG[Math.max(1,Math.min(5,rec.score||3))-1]}">`;
   let st;
   if(done){
     if(id==="mood") st = `已记录`;
@@ -769,7 +775,7 @@ function openWake(dateKey){
     : `${k.slice(5).replace("-","月")}日 · 编辑记录`;
   openSheet(`<h3>早起打卡</h3>
     <p class="d">${sub}</p>
-    <div class="shotbox" id="shotWrap">${isEdit?`<img src="${rec.photo}">`:`<div class="hint"><b>📷</b><span>拍一张洗漱完的照片<br>上传即自动打卡</span></div>`}</div>
+    <div class="shotbox" id="shotWrap">${isEdit?SHOT_IMG(rec.photo):`<div class="hint"><b>📷</b><span>拍一张洗漱完的照片<br>上传即自动打卡</span></div>`}</div>
     <button class="btn wide" id="btnShoot">${isEdit?"重新拍照":"拍照打卡"}</button>
     ${isEdit?`<button class="btn line wide" id="btnClear">清除打卡记录</button>`:""}`);
   let shot = isEdit ? rec.photo : null;
@@ -781,7 +787,7 @@ function openWake(dateKey){
     toast(d.wake.late ? "已记录，今天迟到" : "打卡成功");
   };
   document.getElementById("btnShoot").onclick = ()=>{
-    shoot(p=>{ shot=p; document.getElementById("shotWrap").innerHTML=`<img src="${p}">`; saveIt(); });
+    shoot(p=>{ shot=p; document.getElementById("shotWrap").innerHTML=SHOT_IMG(p); saveIt(); });
   };
   if(isEdit){
     document.getElementById("btnClear").onclick = ()=>{
@@ -814,7 +820,7 @@ function openOut(dateKey){
     <p class="d">${sub}</p>
     <div class="gps" id="gpsBox">${initBox}</div>
     <button class="btn wide" id="btnGps">获取当前定位</button>
-    <div class="shotbox" id="outShot">${isEdit&&rec.photo?`<img src="${rec.photo}">`:`<div class="hint"><b>🏞️</b><span>户外实拍照<br>上传即自动打卡</span></div>`}</div>
+    <div class="shotbox" id="outShot">${isEdit&&rec.photo?SHOT_IMG(rec.photo):`<div class="hint"><b>🏞️</b><span>户外实拍照<br>上传即自动打卡</span></div>`}</div>
     ${isEdit?`<button class="btn line wide" id="btnClear">清除打卡记录</button>`:""}`);
 
   let pos = (isEdit && rec.method==="gps") ? {lat:rec.lat, lng:rec.lng} : null;
@@ -829,7 +835,7 @@ function openOut(dateKey){
     toast(late ? "出门打卡完成，已经过了建议时间" : "出门打卡完成，今天出去了");
   };
   document.getElementById("outShot").onclick = ()=>{
-    shoot(p=>{ shot=p; document.getElementById("outShot").innerHTML=`<img src="${p}">`; done(null, p); });
+    shoot(p=>{ shot=p; document.getElementById("outShot").innerHTML=SHOT_IMG(p); done(null, p); });
   };
   document.getElementById("btnGps").onclick = ()=>{
     const box = document.getElementById("gpsBox");
@@ -870,7 +876,7 @@ function openGym(dateKey){
   openSheet(`<h3>运动打卡</h3><p class="d">练了什么，练了多久。</p>
     <div class="opt" id="tOpt">${types.map(t=>`<button data-t="${t}" class="${t===type?"sel":""}">${t}</button>`).join("")}</div>
     <div class="opt" id="dOpt" style="margin-top:12px">${durs.map(n=>`<button data-n="${n}" class="${n===dur?"sel":""}">${n} 分钟</button>`).join("")}</div>
-    <div class="shotbox" id="gymShot">${shot?`<img src="${shot}">`:`<div class="hint"><b>💪</b><span>训练照片（可选）<br>点击上传</span></div>`}</div>
+    <div class="shotbox" id="gymShot">${shot?SHOT_IMG(shot):`<div class="hint"><b>💪</b><span>训练照片（可选）<br>点击上传</span></div>`}</div>
     <button class="btn wide" id="gymSubmit">${isEdit?"保存修改":"完成打卡"}</button>
     ${isEdit?`<button class="btn line wide" id="gymClear">清除打卡记录</button>`:""}`);
   document.querySelectorAll("#tOpt button").forEach(b=>b.onclick=()=>{
@@ -879,7 +885,7 @@ function openGym(dateKey){
   document.querySelectorAll("#dOpt button").forEach(b=>b.onclick=()=>{
     dur=+b.dataset.n; document.querySelectorAll("#dOpt button").forEach(x=>x.classList.toggle("sel",x===b));
   });
-  document.getElementById("gymShot").onclick = ()=>{ shoot(p=>{ shot=p; document.getElementById("gymShot").innerHTML=`<img src="${p}">`; }); };
+  document.getElementById("gymShot").onclick = ()=>{ shoot(p=>{ shot=p; document.getElementById("gymShot").innerHTML=SHOT_IMG(p); }); };
   document.getElementById("gymSubmit").onclick = ()=>{
     day(k).gym = {t:Date.now(), type, dur, photo:shot};
     save(); closeSheet(); renderAll(); toast("训练已记录");
@@ -1125,6 +1131,62 @@ function downloadUpdate(){
     x.send();
   }catch(e){ fallback(); }
 }
+/* ===== 全勤烟花：四项全部点亮时，屏幕中间放 1 秒烟花 + 奖励音效（每天只放一次） ===== */
+function celebrate(){
+  const w = document.createElement("div"); w.className = "fxwrap show";
+  const c = document.createElement("canvas"); w.appendChild(c); document.body.appendChild(w);
+  const dpr = window.devicePixelRatio || 1;
+  c.width = innerWidth * dpr; c.height = innerHeight * dpr;
+  const x = c.getContext("2d"); x.scale(dpr, dpr);
+  const cx = innerWidth / 2, cy = innerHeight / 2.4;
+  const cols = ["#a4cf4a","#ffd166","#ef476f","#4cc9f0","#f6fbe6"];
+  const parts = [];
+  for(let b = 0; b < 3; b++){
+    const bx = cx + (b - 1) * innerWidth * 0.17, by = cy + (b % 2 ? 16 : -12);
+    const col = cols[b % cols.length];
+    for(let i = 0; i < 46; i++){
+      const a = Math.PI * 2 * i / 46, sp = (Math.random() * 2.2 + 1.5) * (b === 1 ? 1.25 : 1);
+      parts.push({x:bx, y:by, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, life:1, col, r:Math.random()*2+1.3});
+    }
+  }
+  const t0 = performance.now();
+  (function frame(t){
+    const el = (t - t0) / 1000;
+    x.clearRect(0, 0, innerWidth, innerHeight);
+    parts.forEach(p=>{
+      p.x += p.vx; p.y += p.vy; p.vy += 0.045; p.vx *= 0.985; p.vy *= 0.985;
+      p.life = 1 - el / 1.05;
+      if(p.life > 0){
+        x.globalAlpha = Math.max(0, p.life); x.fillStyle = p.col;
+        x.beginPath(); x.arc(p.x, p.y, p.r, 0, 7); x.fill();
+      }
+    });
+    x.globalAlpha = 1;
+    if(el < 1.1) requestAnimationFrame(frame); else w.remove();
+  })(t0);
+  /* 奖励音效：上行琶音（WebAudio 合成，无外部音频） */
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext;
+    const ac = new AC();
+    [523.25, 659.25, 783.99, 1046.5].forEach((f, i)=>{
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = "triangle"; o.frequency.value = f;
+      const t1 = ac.currentTime + i * 0.09;
+      g.gain.setValueAtTime(0.0001, t1);
+      g.gain.linearRampToValueAtTime(0.25, t1 + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.001, t1 + 0.5);
+      o.connect(g); g.connect(ac.destination); o.start(t1); o.stop(t1 + 0.55);
+    });
+  }catch(e){}
+}
+/* 四项点亮规则与记录页一致：早起按时、出门(定位≥半径或实拍)、运动有记录、心情有表情且有文字 */
+function checkCelebrate(){
+  const k = today(), d = S.days[k];
+  if(!["wake","out","gym","mood"].every(f => taskLit(d, f))) return;
+  if(S.flags["cel_" + k]) return;
+  S.flags["cel_" + k] = true; save();
+  setTimeout(celebrate, 350);   /* 等 renderAll 完成后再放 */
+}
 /* 同步打卡/就寝提醒到原生（无原生桥时静默跳过） */
 function syncRemindersNative(){
   if(!window.NativeUI) return;
@@ -1323,6 +1385,7 @@ function renderAll(){
   if(S.tab==="today") renderToday();
   else if(S.tab==="stats") renderStats();
   else renderSet();
+  checkCelebrate();
 }
 document.querySelectorAll(".tabbar button").forEach(b=>{
   b.onclick = ()=>{ S.tab=b.dataset.tab; closeSheet(); renderAll(); window.scrollTo(0,0); };
