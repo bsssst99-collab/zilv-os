@@ -1,5 +1,5 @@
 {
-  "version": "1.3.8",
-  "apkUrl": "https://cdn.jsdelivr.net/gh/bsssst99-collab/zilv-os@master/dist/zilv-os-v1.3.8.apk",
-  "notes": "v1.3.8：金句卡片版式精修——左上角大引号加虚化效果并垫到金句文字后方；移除右上角四芒星装饰；出处与作者改为相同字号字重、仅以深浅区分，两行紧凑并左对齐书本图标；卡片整体高度缩窄约 30px。"
+  "version": "1.3.9",
+  "apkUrl": "https://cdn.jsdelivr.net/gh/bsssst99-collab/zilv-os@master/dist/zilv-os-v1.3.9.apk",
+  "notes": "v1.3.9：① 金句点击优先尝试在豆瓣 App 内打开（安装了豆瓣 App 时不再跳浏览器网页版），未安装或无法处理时自动回退浏览器。② 金句卡支持双击：500ms 内双击换一条金句，单击（500ms 确认）跳转豆瓣搜索出处。"
 }

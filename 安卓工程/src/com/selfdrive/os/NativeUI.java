@@ -43,11 +43,34 @@ public class NativeUI {
         return "android";
     }
 
-    /** 用系统浏览器打开外链（金句跳豆瓣等），不在 WebView 内跳走。 */
+    /** 用系统浏览器打开外链，不在 WebView 内跳走。 */
     @JavascriptInterface
     public void openUrl(final String url) {
         host.runOnUiThread(new Runnable() {
             public void run() {
+                try {
+                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    host.startActivity(i);
+                } catch (Exception ignored) {}
+            }
+        });
+    }
+
+    /** 智能打开外链：豆瓣链接优先定向到豆瓣 App（包名 com.douban.frodo），打不开再回退系统浏览器。 */
+    @JavascriptInterface
+    public void openUrlSmart(final String url) {
+        host.runOnUiThread(new Runnable() {
+            public void run() {
+                if (url != null && url.contains("douban.com")) {
+                    try {
+                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        i.setPackage("com.douban.frodo");
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        host.startActivity(i);
+                        return;
+                    } catch (Exception ignored) {}
+                }
                 try {
                     Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -353,7 +353,7 @@ textarea::placeholder{color:var(--dim2)}
 "use strict";
 /* ===== 存储 ===== */
 const LS = "selfdrive.v1";
-const APP_VERSION = "1.3.8";
+const APP_VERSION = "1.3.9";
 /* 更新信息 JSON 地址：走 jsDelivr（国内可达），失败回退 gh-proxy 镜像。留空时「检查更新」会提示未配置。 */
 const UPDATE_JSON_URL = "https://cdn.jsdelivr.net/gh/bsssst99-collab/zilv-os@master/version.json";
 const UPDATE_JSON_URL_FB = "https://gh-proxy.com/https://raw.githubusercontent.com/bsssst99-collab/zilv-os/master/version.json";
@@ -421,8 +421,27 @@ function openQuoteDouban(){
   else if(q.type === "book") url = "https://www.douban.com/search?cat=1001&q=" + kw;
   else if(q.type === "music") url = "https://www.douban.com/search?cat=1003&q=" + kw;
   else url = "https://www.douban.com/search?q=" + kw;
+  if(window.NativeUI && typeof NativeUI.openUrlSmart === "function"){ try{ NativeUI.openUrlSmart(url); return; }catch(e){} }
   if(window.NativeUI){ try{ NativeUI.openUrl(url); return; }catch(e){} }
   window.location.href = url;
+}
+/* 双击金句卡：强制换一条（仍写当日缓存，之后保持稳定）。 */
+function refreshQuote(){
+  const apply = q => {
+    if(!q){ toast("网络不给力，稍后再试"); return; }
+    _curQuote = q; saveCachedQuote(q); renderQuoteCard(); toast("已换一条金句");
+  };
+  fetchOnlineQuote().then(q=>{
+    if(q && _curQuote && q.t === _curQuote.t){
+      fetchOnlineQuote().then(q2=>{ if(q2 && q2.t === q.t){ apply(q); } else { apply(q2); } });
+    } else { apply(q); }
+  });
+}
+/* 单击跳豆瓣 / 双击刷新：500ms 窗口判定 */
+let _quoteClickTimer = null;
+function onQuoteTap(){
+  if(_quoteClickTimer){ clearTimeout(_quoteClickTimer); _quoteClickTimer = null; refreshQuote(); return; }
+  _quoteClickTimer = setTimeout(()=>{ _quoteClickTimer = null; openQuoteDouban(); }, 500);
 }
 /* 初次渲染后调用：优先恢复当日缓存，缓存也没有才在线拉一条（同日保持稳定）。 */
 function primeOnlineQuote(){
@@ -635,7 +654,7 @@ function renderToday(){
   document.getElementById("main").innerHTML = html;
   bindTasks();
   const qc = document.getElementById("quoteCard");
-  if(qc) qc.onclick = ()=> openQuoteDouban();
+  if(qc) qc.onclick = onQuoteTap;
   primeOnlineQuote();
 }
 
