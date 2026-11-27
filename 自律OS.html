@@ -233,8 +233,9 @@ textarea::placeholder{color:var(--dim2)}
 .quote .qmark{position:absolute;top:0;left:14px;font-size:62px;line-height:1;color:rgba(255,255,255,.28);
   font-family:Georgia,"Times New Roman",serif;font-weight:700;pointer-events:none;user-select:none;
   filter:blur(3px);z-index:0}
-.quote .qtxt{position:relative;font-size:21px;font-weight:700;line-height:1.45;color:#fff;letter-spacing:-.01em;
-  padding:8px 22px 0;z-index:1;text-shadow:0 1px 3px rgba(120,80,0,.18)}
+.quote .qtxt{position:relative;font-size:18px;font-weight:700;line-height:1.45;color:#fff;letter-spacing:-.01em;
+  font-family:"Songti SC","STSong","SimSun","Noto Serif CJK SC","Source Han Serif SC",serif;
+  padding:8px 4px 0;z-index:1;text-shadow:0 1px 3px rgba(120,80,0,.18)}
 .quote .qsrc{position:relative;display:flex;align-items:center;gap:10px;margin-top:8px;z-index:1}
 .quote .qsrc .qa{width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.25);
   display:flex;align-items:center;justify-content:center;font-size:15px;flex:0 0 30px}
@@ -276,7 +277,7 @@ textarea::placeholder{color:var(--dim2)}
 [data-theme="dark"] .tsk.done .st{color:#9fb05a}
 
 /* ===== 拍照范围框 ===== */
-.shotbox{width:100%;max-width:200px;margin:14px auto 0;aspect-ratio:4/5;border-radius:14px;background:var(--ph);
+.shotbox{width:100%;max-width:200px;height:250px;margin:14px auto 16px;border-radius:14px;background:var(--ph);
   border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;
   position:relative;cursor:pointer}
 .shotbox img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
@@ -353,12 +354,12 @@ textarea::placeholder{color:var(--dim2)}
 "use strict";
 /* ===== 存储 ===== */
 const LS = "selfdrive.v1";
-const APP_VERSION = "1.3.9";
+const APP_VERSION = "1.3.10";
 /* 更新信息 JSON 地址：走 jsDelivr（国内可达），失败回退 gh-proxy 镜像。留空时「检查更新」会提示未配置。 */
 const UPDATE_JSON_URL = "https://cdn.jsdelivr.net/gh/bsssst99-collab/zilv-os@master/version.json";
 const UPDATE_JSON_URL_FB = "https://gh-proxy.com/https://raw.githubusercontent.com/bsssst99-collab/zilv-os/master/version.json";
 const TASKS = [
-  {id:"wake", nm:"晨间洗漱打卡", ico:"☀️"},
+  {id:"wake", nm:"早起打卡", ico:"☀️"},
   {id:"out",  nm:"出门打卡",     ico:"🚪"},
   {id:"gym",  nm:"运动打卡",     ico:"🏃"},
   {id:"mood", nm:"心情日记",     ico:"🫧"},
@@ -669,10 +670,12 @@ function sleepLeft(){
 function tskCard(id, rec, sub){
   const t = TASKS.find(x=>x.id===id);
   const done = !!rec;
-  const thumb = (rec && rec.photo) ? `<img class="thumb" src="${rec.photo}" data-photo="${id}">` : "";
+  let thumb = "";
+  if(rec && rec.photo) thumb = `<img class="thumb" src="${rec.photo}" data-photo="${id}">`;
+  else if(id==="mood" && rec && rec.score) thumb = `<img class="thumb" src="${MOOD_IMG[Math.max(1,Math.min(5,rec.score||3))-1]}">`;
   let st;
   if(done){
-    if(id==="mood") st = `${moodImg(rec.score,20)} 已记录`;
+    if(id==="mood") st = `已记录`;
     else if(id==="wake") st = (rec.late?"迟到 ":"")+fmtT(rec.t);
     else if(id==="out") st = rec.method==="gps"?"定位打卡":"实拍打卡";
     else if(id==="gym") st = `${rec.type} ${rec.dur}分`;
@@ -764,7 +767,7 @@ function openWake(dateKey){
   const sub = k===today()
     ? `现在 ${pad(now.getHours())}:${pad(now.getMinutes())}　${isLate?"已超过宽限时间，记为迟到":"宽限至 "+pad(dl.getHours())+":"+pad(dl.getMinutes())}`
     : `${k.slice(5).replace("-","月")}日 · 编辑记录`;
-  openSheet(`<h3>晨间洗漱打卡</h3>
+  openSheet(`<h3>早起打卡</h3>
     <p class="d">${sub}</p>
     <div class="shotbox" id="shotWrap">${isEdit?`<img src="${rec.photo}">`:`<div class="hint"><b>📷</b><span>拍一张洗漱完的照片<br>上传即自动打卡</span></div>`}</div>
     <button class="btn wide" id="btnShoot">${isEdit?"重新拍照":"拍照打卡"}</button>
@@ -860,7 +863,7 @@ function openOut(dateKey){
 function openGym(dateKey){
   const k = dateKey || today();
   const types = ["力量训练","跑步","快走","骑行","游泳","拉伸","球类","其他"];
-  const durs = [15,20,30,40,60,90];
+  const durs = [15,20,30,40];
   const rec = S.days[k] && S.days[k].gym;
   const isEdit = !!rec;
   let type = isEdit?rec.type:"力量训练", dur = isEdit?rec.dur:30, shot = isEdit?rec.photo:null;
@@ -940,9 +943,9 @@ function openDay(k){
       <div class="act">${act}</div>${thumb}
     </div>`;
   };
-  const w = cell("☀️","晨间洗漱", d.wake?(fmtT(d.wake.t)+" 拍照"+(d.wake.late?"（迟到）":"")):"无记录", !!d.wake, d.wake&&d.wake.late, "wake", d.wake&&d.wake.photo);
-  const o = cell("🚪","出门", d.out?(d.out.method==="gps"?("定位 · "+Math.round(d.out.dist)+"米"):("实拍 · "+fmtT(d.out.t))):"无记录", !!d.out, d.out&&d.out.late, "out", d.out&&d.out.photo);
-  const g = cell("🏃","运动", d.gym?(d.gym.type+" · "+d.gym.dur+"分"):"无记录", !!d.gym, false, "gym", d.gym&&d.gym.photo);
+  const w = cell("☀️","早起打卡", d.wake?(fmtT(d.wake.t)+" 拍照"+(d.wake.late?"（迟到）":"")):"无记录", !!d.wake, d.wake&&d.wake.late, "wake", d.wake&&d.wake.photo);
+  const o = cell("🚪","出门打卡", d.out?(d.out.method==="gps"?("定位 · "+Math.round(d.out.dist)+"米"):("实拍 · "+fmtT(d.out.t))):"无记录", !!d.out, d.out&&d.out.late, "out", d.out&&d.out.photo);
+  const g = cell("🏃","运动打卡", d.gym?(d.gym.type+" · "+d.gym.dur+"分"):"无记录", !!d.gym, false, "gym", d.gym&&d.gym.photo);
   const m = cell(d.mood?moodImg(d.mood.score,26):"🫧","心情", d.mood?(d.mood.text||"只选了表情"):"无记录", !!d.mood, false, "mood");
 
   openSheet(`<h3>${k.slice(5).replace("-"," 月 ")} 日 · ${WEEK[d2.getDay()]}</h3>
@@ -1028,7 +1031,7 @@ function taskLit(dd, f){
   return true;
 }
 function weekBars(){
-  const items = [["晨间洗漱","wake"],["出门","out"],["运动","gym"],["心情日记","mood"]];
+  const items = [["早起打卡","wake"],["出门打卡","out"],["运动打卡","gym"],["心情日记","mood"]];
   const now = new Date();
   const monday = addDays(now, -((now.getDay()+6)%7));   // 本周一
   const days = []; for(let i=0;i<7;i++) days.push(key(addDays(monday,i)));
