@@ -56,9 +56,14 @@ public final class Notify {
     }
 
     public static void show(Context ctx, String title, String body, int id) {
+        show(ctx, title, body, id, false);
+    }
+
+    public static void show(Context ctx, String title, String body, int id, boolean fromAlarm) {
         ensureChannel(ctx);
         Intent open = new Intent(ctx, MainActivity.class);
         open.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if (fromAlarm) open.putExtra("fromAlarm", true);
         int flags = PendingIntent.FLAG_UPDATE_CURRENT;
         if (Build.VERSION.SDK_INT >= 23) flags |= PendingIntent.FLAG_IMMUTABLE;
         PendingIntent pi = PendingIntent.getActivity(ctx, id, open, flags);

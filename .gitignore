@@ -2,9 +2,10 @@
 .build/
 *.class
 
-# APK 不放仓库（走 GitHub Releases 上传）
+# APK 默认不放仓库；dist/ 下的发布包例外（供 jsDelivr CDN 分发，国内可达）
 *.apk
 *.idsig
+!dist/*.apk
 
 # 系统
 .DS_Store

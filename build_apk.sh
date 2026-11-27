@@ -17,8 +17,8 @@ BUILD="$ROOT/.build"
 OUT="${OUT:-$ROOT/自律OS-v1.3.apk}"
 KS="$APP/签名/selfdrive.jks"
 
-VER_CODE="${VER_CODE:-8}"
-VER_NAME="${VER_NAME:-1.3.4}"
+VER_CODE="${VER_CODE:-9}"
+VER_NAME="${VER_NAME:-1.3.5}"
 MIN_SDK=21
 # targetSdk 保持 32：通知权限在安装时自动授予，小米/安卓 13 上最稳。
 TGT_SDK=32

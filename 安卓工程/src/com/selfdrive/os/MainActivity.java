@@ -25,6 +25,7 @@ public class MainActivity extends Activity {
     private WebView web;
     private ValueCallback<Uri[]> pending;
     private Uri cameraUri;
+    private boolean pendingAlarm = false;
 
     @Override
     protected void onCreate(Bundle state) {
@@ -90,9 +91,50 @@ public class MainActivity extends Activity {
             }
         });
 
-        web.setWebViewClient(new WebViewClient());
+        web.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView v, String url) {
+                // 由闹钟拉起时，页面加载完立刻弹全屏起床界面
+                if (pendingAlarm) {
+                    pendingAlarm = false;
+                    v.evaluateJavascript("try{fireAlarm(false)}catch(e){}", null);
+                }
+            }
+            private boolean openExternal(String url) {
+                if (url == null) return false;
+                // 下载安装包交给系统浏览器/下载管理器（前端下载链路，不走原生安装）
+                if (url.toLowerCase().contains(".apk")) {
+                    try {
+                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(i);
+                    } catch (Exception ignored) {}
+                    return true;
+                }
+                return false;
+            }
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView v, String url) {
+                return openExternal(url);
+            }
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView v, android.webkit.WebResourceRequest req) {
+                try {
+                    return openExternal(req.getUrl() == null ? null : req.getUrl().toString());
+                } catch (Exception e) {
+                    return false;
+                }
+            }
+        });
         setContentView(web);
         web.loadUrl("file:///android_asset/index.html");
+
+        // 由闹钟全屏通知/广播拉起：标记待弹 + 立刻原生响铃
+        Intent startIntent = getIntent();
+        if (startIntent != null && startIntent.getBooleanExtra("fromAlarm", false)) {
+            pendingAlarm = true;
+            AlarmRinger.start(this);
+        }
 
         if (!hasCam() || !hasLoc()) requestPerms();
     }
@@ -156,6 +198,20 @@ public class MainActivity extends Activity {
             return;
         }
         super.onActivityResult(req, res, data);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        if (intent != null && intent.getBooleanExtra("fromAlarm", false)) {
+            pendingAlarm = true;
+            AlarmRinger.start(this);
+            // 页面已加载，直接弹全屏界面
+            if (web != null) {
+                web.evaluateJavascript("try{fireAlarm(false)}catch(e){}", null);
+            }
+        }
     }
 
     @Override

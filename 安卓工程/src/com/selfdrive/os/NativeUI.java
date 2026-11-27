@@ -9,7 +9,9 @@ import android.provider.Settings;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -144,6 +146,44 @@ public class NativeUI {
         AlarmSched.cancelAll(host.getApplicationContext());
     }
 
+    /* ===== 闹钟响铃控制 / 电池优化白名单 ===== */
+
+    @JavascriptInterface
+    public void stopAlarmSound() {
+        AlarmRinger.stop();
+    }
+
+    @JavascriptInterface
+    public boolean isIgnoringBatteryOptimizations() {
+        if (Build.VERSION.SDK_INT < 23) return true;
+        try {
+            android.os.PowerManager pm = (android.os.PowerManager)
+                    host.getSystemService(Context.POWER_SERVICE);
+            return pm != null && pm.isIgnoringBatteryOptimizations(host.getPackageName());
+        } catch (Exception e) {
+            return true;
+        }
+    }
+
+    @JavascriptInterface
+    public void requestIgnoreBatteryOptimizations() {
+        if (Build.VERSION.SDK_INT < 23) return;
+        host.runOnUiThread(new Runnable() {
+            public void run() {
+                try {
+                    Intent i = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
+                            Uri.parse("package:" + host.getPackageName()));
+                    host.startActivity(i);
+                } catch (Exception e) {
+                    try {
+                        host.startActivity(
+                                new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS));
+                    } catch (Exception ignored) {}
+                }
+            }
+        });
+    }
+
     /* ===== 版本更新：下载并覆盖安装 ===== */
 
     @JavascriptInterface
@@ -156,32 +196,92 @@ public class NativeUI {
         });
         new Thread(new Runnable() {
             public void run() {
-                try {
-                    Context ctx = host.getApplicationContext();
-                    File out = new File(ctx.getCacheDir(), "update.apk");
-                    if (out.exists()) out.delete();
-                    HttpURLConnection c = (HttpURLConnection) new URL(url).openConnection();
-                    c.setConnectTimeout(15000);
-                    c.setReadTimeout(90000);
-                    c.setInstanceFollowRedirects(true);
-                    InputStream in = c.getInputStream();
-                    FileOutputStream fos = new FileOutputStream(out);
-                    byte[] buf = new byte[8192];
-                    int n;
-                    while ((n = in.read(buf)) != -1) fos.write(buf, 0, n);
-                    fos.close();
-                    in.close();
-                    installApk(ctx, out);
-                } catch (final Exception e) {
+                // 主地址 + 国内可达的 GitHub 镜像兜底；全部失败则交给浏览器手动下载。
+                final String[] mirrors = new String[]{
+                        url,
+                        "https://gh-proxy.com/" + url,
+                        "https://ghproxy.net/" + url
+                };
+                File out = null;
+                String lastErr = "未知错误";
+                for (String u : mirrors) {
+                    try {
+                        File f = downloadToFile(u);
+                        if (f != null && isApkValid(f)) { out = f; break; }
+                        lastErr = "下载的文件不是有效安装包";
+                    } catch (Exception e) {
+                        lastErr = (e.getMessage() == null ? e.toString() : e.getMessage());
+                    }
+                }
+                if (out != null) {
+                    installApk(host.getApplicationContext(), out);
+                } else {
+                    final String err = lastErr;
                     host.runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(host, "下载失败：" + e.getMessage(),
+                            Toast.makeText(host, "下载失败：" + err + "，正在打开浏览器手动下载",
                                     Toast.LENGTH_LONG).show();
+                            openUrl(url);
                         }
                     });
                 }
             }
         }).start();
+    }
+
+    /** 下载单个地址到缓存文件。手动跟随重定向，兼容部分 ROM 跨域不自动跟随的情况。 */
+    private File downloadToFile(String urlStr) throws Exception {
+        Context ctx = host.getApplicationContext();
+        File out = new File(ctx.getCacheDir(), "update.apk");
+        if (out.exists()) out.delete();
+        String loc = urlStr;
+        HttpURLConnection c = null;
+        int redirects = 0;
+        while (true) {
+            c = (HttpURLConnection) new URL(loc).openConnection();
+            c.setConnectTimeout(20000);
+            c.setReadTimeout(120000);
+            c.setInstanceFollowRedirects(false);
+            c.setRequestProperty("User-Agent",
+                    "Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Mobile Safari/537.36");
+            int code = c.getResponseCode();
+            if (code >= 300 && code < 400) {
+                String next = c.getHeaderField("Location");
+                c.disconnect();
+                if (next == null || redirects++ > 6) throw new IOException("重定向失败 (HTTP " + code + ")");
+                loc = next;
+                continue;
+            }
+            if (code != 200) {
+                c.disconnect();
+                throw new IOException("HTTP " + code);
+            }
+            break;
+        }
+        try {
+            InputStream in = c.getInputStream();
+            FileOutputStream fos = new FileOutputStream(out);
+            byte[] buf = new byte[16384];
+            int n;
+            while ((n = in.read(buf)) != -1) fos.write(buf, 0, n);
+            fos.close();
+            in.close();
+        } finally {
+            c.disconnect();
+        }
+        return out;
+    }
+
+    /** 校验文件确为 APK/ZIP（魔数 PK\x03\x04），避免把镜像的错误页当成安装包。 */
+    private boolean isApkValid(File f) {
+        if (f == null || f.length() < 1024) return false;
+        try (FileInputStream fis = new FileInputStream(f)) {
+            byte[] h = new byte[4];
+            int r = fis.read(h);
+            return r == 4 && h[0] == 0x50 && h[1] == 0x4B && h[2] == 0x03 && h[3] == 0x04;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private void installApk(Context ctx, File apk) {

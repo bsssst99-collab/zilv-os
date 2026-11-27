@@ -126,11 +126,11 @@ body{padding-bottom:calc(78px + env(safe-area-inset-bottom));overscroll-behavior
   box-shadow:0 1px 2px rgba(16,24,40,.04)}
 .calnav button:disabled{opacity:.35}
 .calwk{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;font-size:10.5px;color:var(--dim);text-align:center;margin-bottom:5px;font-weight:600;letter-spacing:.05em}
-.calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:9px;padding:7px;border-radius:16px}
-.calcell{width:100%;border-radius:14px;display:flex;flex-direction:column;align-items:center;
-  padding:6px 0 4px;cursor:pointer;position:relative;background:transparent}
+.calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));grid-auto-rows:80px;gap:9px;padding:7px;border-radius:16px}
+.calcell{width:100%;height:100%;border-radius:14px;display:flex;flex-direction:column;align-items:center;
+  padding:6px 4px 5px;cursor:pointer;position:relative;background:transparent}
 .calcell .dn{font-size:11px;color:var(--dim);line-height:1;font-weight:500;height:14px;display:flex;align-items:center}
-.calcell .de{width:100%;height:38px;display:flex;align-items:center;justify-content:center}
+.calcell .de{width:100%;height:38px;margin-top:auto;display:flex;align-items:center;justify-content:center}
 .calcell .de img{width:36px;height:36px;display:block}
 .calcell .de img.dim{opacity:.4}
 .calcell .dot{width:5px;height:5px;border-radius:50%;background:rgba(17,20,24,.1);display:block}
@@ -240,7 +240,7 @@ textarea::placeholder{color:var(--dim2)}
 
 /* ===== 每日金句卡 ===== */
 .quote{background:linear-gradient(150deg,#edf7be 0%,#f6fbe6 55%,#eef5d6 100%);
-  border:1px solid rgba(164,207,74,.35);border-radius:18px;padding:13px 16px 12px;margin:8px 0 10px;
+  border:1px solid rgba(164,207,74,.35);border-radius:18px;padding:20px 16px 20px;margin:8px 0 10px;
   cursor:pointer;position:relative;overflow:hidden;box-shadow:var(--shadow)}
 .quote:active{transform:scale(.985)}
 .quote .qtxt{font-size:16px;font-weight:650;line-height:1.5;color:#2b3318;letter-spacing:-.01em}
@@ -273,10 +273,10 @@ textarea::placeholder{color:var(--dim2)}
 [data-theme="dark"] .tsk.done .st{color:#9fb05a}
 
 /* ===== 拍照范围框 ===== */
-.shotbox{max-width:200px;margin:14px auto 0;aspect-ratio:4/5;border-radius:14px;background:var(--ph);
+.shotbox{width:100%;max-width:200px;margin:14px auto 0;aspect-ratio:4/5;border-radius:14px;background:var(--ph);
   border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;
   position:relative;cursor:pointer}
-.shotbox img{width:100%;height:100%;object-fit:cover;display:block}
+.shotbox img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .shotbox .hint{color:var(--dim);font-size:12px;display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;padding:10px;line-height:1.5}
 .shotbox .hint b{font-size:24px;font-weight:400}
 
@@ -290,6 +290,9 @@ textarea::placeholder{color:var(--dim2)}
 .seg7 i.on{background:var(--acc)}
 .weeklab{display:flex;gap:5px;margin:2px 0 0 88px}
 .weeklab span{flex:1;text-align:center;font-size:9.5px;color:var(--dim2)}
+.weekrow.weekhead{margin:0 0 6px;align-items:baseline}
+.weekrow.weekhead .n{color:var(--dim);font-size:12.5px;font-weight:400}
+.weekrow.weekhead .weeklab{margin:0}
 
 /* ===== 单日详情 田字 ===== */
 .daygrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 4px}
@@ -344,9 +347,10 @@ textarea::placeholder{color:var(--dim2)}
 "use strict";
 /* ===== 存储 ===== */
 const LS = "selfdrive.v1";
-const APP_VERSION = "1.3.4";
-/* 更新信息 JSON 地址：GitHub 仓库 version.json 的原始地址。留空时「检查更新」会提示未配置。 */
-const UPDATE_JSON_URL = "https://raw.githubusercontent.com/bsssst99-collab/zilv-os/master/version.json";
+const APP_VERSION = "1.3.5";
+/* 更新信息 JSON 地址：走 jsDelivr（国内可达），失败回退 gh-proxy 镜像。留空时「检查更新」会提示未配置。 */
+const UPDATE_JSON_URL = "https://cdn.jsdelivr.net/gh/bsssst99-collab/zilv-os@master/version.json";
+const UPDATE_JSON_URL_FB = "https://gh-proxy.com/https://raw.githubusercontent.com/bsssst99-collab/zilv-os/master/version.json";
 const TASKS = [
   {id:"wake", nm:"晨间洗漱打卡", ico:"☀️"},
   {id:"out",  nm:"出门打卡",     ico:"🚪"},
@@ -1006,9 +1010,11 @@ let calYM = { y: new Date().getFullYear(), m: new Date().getMonth() };
 function renderStats(){
   const st = streak(), r30 = rate(30);
   const monNum = (()=>{ const ks=Object.keys(S.days).filter(k=>k.startsWith(calYM.y+"-"+pad(calYM.m+1))); return ks.filter(k=>allDone(S.days[k])).length; })();
+  const wk="一二三四五六日", _wn=new Date(), _wmon=addDays(_wn,-((_wn.getDay()+6)%7));
+  const _wlabs=[]; for(let i=0;i<7;i++){ const d=new Date(addDays(_wmon,i)); _wlabs.push(wk[(d.getDay()+6)%7]); }
   document.getElementById("main").innerHTML = `
   <div class="panel">
-    <div class="panel-h">本周完成率</div>
+    <div class="weekrow weekhead"><div class="n">本周完成率</div><div class="s"><div class="weeklab">${_wlabs.map(x=>`<span>${x}</span>`).join("")}</div></div><div class="p"></div></div>
     <div class="bars">${weekBars()}</div>
   </div>
   <div class="panel">
@@ -1070,9 +1076,7 @@ function weekBars(){
   const now = new Date();
   const monday = addDays(now, -((now.getDay()+6)%7));   // 本周一
   const days = []; for(let i=0;i<7;i++) days.push(key(addDays(monday,i)));
-  const wk = "一二三四五六日";
-  const labs = days.map(k=>{ const d=new Date(k+"T00:00:00"); return wk[(d.getDay()+6)%7]; });
-  let html = `<div class="weeklab">${labs.map(x=>`<span>${x}</span>`).join("")}</div>`;
+  let html = "";
   items.forEach(([name,f])=>{
     const segs = days.map(k=>`<i class="${taskLit(S.days[k],f)?"on":""}"></i>`).join("");
     const on = days.filter(k=>taskLit(S.days[k],f)).length;
@@ -1113,15 +1117,19 @@ function compareVer(a, b){
 async function checkUpdate(){
   if(!UPDATE_JSON_URL){ toast("尚未配置更新地址（GitHub 托管后填入代码里的 UPDATE_JSON_URL）"); return; }
   try{
-    const r = await fetch(UPDATE_JSON_URL + (UPDATE_JSON_URL.indexOf("?")>=0?"&":"?") + "t=" + Date.now(), {cache:"no-store"});
+    let r;
+    try {
+      r = await fetch(UPDATE_JSON_URL + "?t=" + Date.now(), {cache:"no-store"});
+    } catch(e) {
+      r = await fetch(UPDATE_JSON_URL_FB + "?t=" + Date.now(), {cache:"no-store"});
+    }
     const j = await r.json();
     if(!j || !j.version){ toast("更新信息格式不正确"); return; }
     if(compareVer(j.version, APP_VERSION) > 0){
       const notes = j.notes ? ("\n" + j.notes) : "";
       if(confirm("发现新版本 v" + j.version + notes + "\n\n是否立即下载并更新？")){
-        toast("开始下载更新包…");
-        if(window.NativeUI){ try{ NativeUI.downloadAndInstall(j.apkUrl, j.version); return; }catch(e){} }
-        window.open(j.apkUrl, "_blank");
+        toast("正在打开下载页，请在浏览器中下载后覆盖安装…");
+        try{ window.location.href = j.apkUrl; }catch(e){ window.open(j.apkUrl, "_blank"); }
       }
     } else {
       toast("当前已是最新版本 v" + APP_VERSION);
@@ -1186,9 +1194,13 @@ function renderSet(){
       <div><div class="lb">测试闹钟</div><div class="ds">立刻预览起床挑战界面</div></div>
       <button class="btn ghost" id="testAlarm">预览</button>
     </div>
-    <div class="row" style="border-bottom:0">
+    <div class="row">
       <div><div class="lb">息屏闹钟权限</div><div class="ds">安卓 12+ 需授权精确闹钟，息屏才准时响</div></div>
       <button class="btn ghost" id="btnAlarmPerm">去授权</button>
+    </div>
+    <div class="row" style="border-bottom:0">
+      <div><div class="lb">电池优化白名单</div><div class="ds">设为「不优化」后台/息屏更稳；部分机型还需开「锁屏显示」</div></div>
+      <button class="btn ghost" id="btnBatteryOpt">去设置</button>
     </div>
   </div>
 
@@ -1222,7 +1234,8 @@ function renderSet(){
   <div class="help">
   · 数据存于本机浏览器，换设备或清缓存会丢，建议定期「导出备份」<br>
   · 定位需要授权浏览器「允许获取位置」<br>
-  · 安卓 12+ 请到「设置 → 提醒 → 息屏闹钟权限」授权精确闹钟，息屏才能准时响铃<br>
+  · 安卓 12+ 请到「设置 → 提醒 → 息屏闹钟权限」授权精确闹钟，并在「电池优化白名单」设为不优化<br>
+  · 小米/华为/OPPO 等机型若息屏仍不响，请在系统设置里允许「锁屏显示」「后台弹出界面」<br>
   · 照片仅保留最近 ${PHOTO_KEEP_DAYS} 天，节省存储
   </div>`;
 
@@ -1275,6 +1288,10 @@ function renderSet(){
   };
   document.getElementById("testAlarm").onclick = ()=> fireAlarm(true);
   document.getElementById("btnAlarmPerm").onclick = ensureAlarmPerm;
+  document.getElementById("btnBatteryOpt").onclick = ()=>{
+    if(!window.NativeUI){ toast("当前环境不支持"); return; }
+    try{ NativeUI.requestIgnoreBatteryOptimizations(); toast("请把自律日记设为「不优化」后返回"); }catch(e){ toast("无法打开电池优化设置"); }
+  };
   document.getElementById("btnExport").onclick = exportData;
   document.getElementById("btnImport").onclick = ()=> jsonInput.click();
   document.getElementById("setReset").onclick = ()=>{
@@ -1371,7 +1388,10 @@ function fireAlarm(isTest){
     try{ NativeUI.notify("自律日记 · 起床挑战", "拍一张洗漱完的照片，今天才算开始。"); }catch(e){}
   }
 }
-function dismissAlarm(){ alarmEl.classList.remove("show"); }
+function dismissAlarm(){
+  alarmEl.classList.remove("show");
+  if(window.NativeUI){ try{ NativeUI.stopAlarmSound(); }catch(e){} }
+}
 document.getElementById("alGo").onclick = ()=>{ dismissAlarm(); openWake(); };
 document.getElementById("alSnooze").onclick = ()=>{
   if(snoozeCount>=2){ toast("最多延后两次，去打卡吧"); return; }
