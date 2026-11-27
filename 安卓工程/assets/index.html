@@ -43,19 +43,18 @@ html,body{margin:0;background:var(--bg);color:var(--tx);
   font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",Arial,sans-serif;
   font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;
   transition:background .25s,color .25s;overscroll-behavior:none}
-body{padding-bottom:calc(64px + env(safe-area-inset-bottom));overscroll-behavior:none}
+body{padding-bottom:calc(78px + env(safe-area-inset-bottom));overscroll-behavior:none}
 .wrap{max-width:520px;margin:0 auto;padding:0 12px}
 
 /* header */
-.hd{display:flex;align-items:center;justify-content:space-between;gap:10px;
+.hd{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;
   padding:calc(18px + env(safe-area-inset-top)) 0 6px}
 .hd .date{font-size:12.5px;color:var(--dim);letter-spacing:.06em}
 .hd .hello{font-size:22px;font-weight:650;letter-spacing:-.02em;margin-top:2px}
-.hdright{display:flex;align-items:center;gap:8px;align-self:flex-end}
-.themebtn{width:34px;height:34px;border-radius:50%;background:var(--card);border:1px solid var(--line);
-  margin-bottom:-2px;
-  color:var(--dim);font-size:15px;line-height:1;display:flex;align-items:center;justify-content:center;
-  font-family:inherit;cursor:pointer;box-shadow:var(--shadow)}
+.hdright{display:flex;align-items:center;gap:8px;align-self:flex-start}
+.themebtn{width:51px;height:51px;border-radius:50%;background:var(--card);border:1px solid var(--line);
+  color:var(--dim);font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;
+  font-family:inherit;cursor:pointer;box-shadow:var(--shadow);margin-top:-2px}
 .themebtn:active{transform:scale(.94)}
 
 /* hero */
@@ -78,7 +77,7 @@ body{padding-bottom:calc(64px + env(safe-area-inset-bottom));overscroll-behavior
 .hinfo .sm{font-size:11.5px;color:var(--dim);margin-top:6px}
 
 /* section title */
-.sec{display:flex;justify-content:space-between;align-items:baseline;margin:6px 0 6px}
+.sec{display:flex;justify-content:space-between;align-items:baseline;margin:10px 0 8px}
 .sec h2{font-size:13px;font-weight:600;color:var(--dim);letter-spacing:.05em;margin:0}
 .sec span{font-size:12px;color:var(--dim)}
 
@@ -223,7 +222,7 @@ textarea::placeholder{color:var(--dim2)}
 
 /* ===== 每日金句卡（一言在线 · 点击跳豆瓣） ===== */
 .quote{background:linear-gradient(135deg,#ECD79A 0%,#DCBC6A 100%);
-  border:0;border-radius:20px;height:118px;padding:12px 20px 10px;margin:6px 0 4px;
+  border:0;border-radius:20px;height:118px;padding:12px 20px 10px;margin:8px 0 6px;
   cursor:pointer;position:relative;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;box-sizing:border-box}
 .quote:active{transform:scale(.985)}
 .quote .qmark{position:absolute;top:0;left:14px;font-size:62px;line-height:1;color:rgba(255,255,255,.28);
@@ -262,9 +261,9 @@ textarea::placeholder{color:var(--dim2)}
 .fxwrap canvas{position:absolute;top:0;left:0;width:100%;height:100%}
 
 /* ===== 今日任务 田字 ===== */
-.taskgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 auto;max-width:330px}
-.tsk{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 10px;
-  aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+.taskgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0}
+.tsk{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:8px 10px;
+  height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
   box-shadow:var(--shadow);cursor:pointer;position:relative;text-align:center;transition:.18s;box-sizing:border-box}
 .tsk:active{transform:scale(.97)}
 .tsk .ico{width:42px;height:42px;border-radius:13px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:21px}
@@ -280,11 +279,10 @@ textarea::placeholder{color:var(--dim2)}
 
 /* ===== 拍照范围框 ===== */
 .shotbox{width:100%;max-width:200px;height:250px;margin:14px auto 16px;border-radius:14px;background:var(--ph);
-  border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden;
-  position:relative;cursor:pointer;box-sizing:border-box}
-/* 与单日详情 .ph img 同一套流内机制（不依赖 absolute/inset，任何 WebView 内核都兼容） */
-.shotbox img{position:static;width:100%;height:100%;object-fit:cover;display:block}
-.shotbox .hint{color:var(--dim);font-size:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center;padding:10px;line-height:1.5;box-sizing:border-box}
+  border:1px dashed var(--line);display:block;overflow:hidden;
+  position:relative;cursor:pointer}
+.shotbox img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block}
+.shotbox .hint{position:absolute;top:0;left:0;width:100%;height:100%;color:var(--dim);font-size:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center;padding:10px;line-height:1.5;box-sizing:border-box}
 .shotbox .hint b{font-size:24px;font-weight:400}
 
 /* ===== 本周 7 段进度 ===== */
@@ -356,7 +354,7 @@ textarea::placeholder{color:var(--dim2)}
 "use strict";
 /* ===== 存储 ===== */
 const LS = "selfdrive.v1";
-const APP_VERSION = "1.3.12";
+const APP_VERSION = "1.3.13";
 /* 更新信息 JSON 地址：走 jsDelivr（国内可达），失败回退 gh-proxy 镜像。留空时「检查更新」会提示未配置。 */
 const UPDATE_JSON_URL = "https://cdn.jsdelivr.net/gh/bsssst99-collab/zilv-os@master/version.json";
 const UPDATE_JSON_URL_FB = "https://gh-proxy.com/https://raw.githubusercontent.com/bsssst99-collab/zilv-os/master/version.json";
@@ -381,7 +379,7 @@ function moodImg(score, size, cls){
 }
 /* 拍照框内照片：内联样式强制铺满框体（不依赖外部 CSS 与 inset，兼容旧 WebView），与占位框同大同位、居中 */
 function SHOT_IMG(p){
-  return `<img src="${p}" style="width:100%;height:100%;object-fit:cover;display:block">`;
+  return `<img src="${p}" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit">`;
 }
 
 /* ===== 每日金句：一言（hitokoto）纯在线接口，同日缓存保持稳定；点击卡片跳豆瓣搜索出处 ===== */
@@ -647,7 +645,7 @@ function renderToday(){
     : `<div><div style="font-size:12.5px;color:var(--dim)">今日作息</div>
        <div style="font-size:19px;font-weight:650;letter-spacing:-.02em;margin-top:3px">${S.settings.wake} — ${S.settings.sleep}</div></div>`;
 
-  html += `<div class="panel" style="margin-top:6px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px">
+  html += `<div class="panel" style="margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px">
     <div style="display:flex;align-items:center;gap:11px">${todayBlock}</div>
     <div style="text-align:right;font-size:11.5px;color:var(--dim);line-height:1.6">
       ${sleepLeft()}<br>宽限 ${S.settings.grace} 分钟
@@ -710,17 +708,19 @@ function buildMoodSub(d){
   return "一句话记录今天的状态";
 }
 
+/* 任务编辑半屏统一入口：今日任务与「记录-心情日历」共用同一套子页面代码 */
+function openTaskEdit(id, k){
+  closeSheet();
+  if(id==="mood") openMood(k);
+  else if(id==="wake") openWake(k);
+  else if(id==="out") openOut(k);
+  else if(id==="gym") openGym(k);
+}
 function bindTasks(){
   document.querySelectorAll("#main .tsk").forEach(el=>{
     el.addEventListener("click", ev=>{
       if(ev.target.closest("[data-photo]")) return;
-      const id = el.getAttribute("data-do");
-      const d = S.days[today()] || {};
-      if(id==="mood"){ openMood(today()); return; }
-      if(d[id]){ openDetail(id); return; }
-      if(id==="wake") openWake();
-      else if(id==="out") openOut();
-      else if(id==="gym") openGym();
+      openTaskEdit(el.getAttribute("data-do"), today());
     });
   });
   document.querySelectorAll("#main [data-photo]").forEach(el=>{
@@ -733,28 +733,6 @@ function viewPhoto(id){
     <div class="ph"><img src="${d[id].photo}"></div>
     <button class="btn line wide" onclick="closeSheet()">关闭</button>`);
 }
-function openDetail(id){
-  const k = today();
-  const d = S.days[k] || {};
-  const r = d[id];
-  const t = TASKS.find(x=>x.id===id);
-  openSheet(`<h3>${t.nm}</h3><p class="d">${fmtT(r.t)} 完成</p>
-    <div class="ph">${r.photo?`<img src="${r.photo}">`:`<span>本次未附照片</span>`}</div>
-    <button class="btn wide" id="detEdit">重新打卡</button>
-    <button class="btn line wide" id="detClear">清除打卡记录</button>`);
-  document.getElementById("detEdit").onclick = ()=>{
-    closeSheet();
-    if(id==="mood") openMood(k);
-    else if(id==="wake") openWake(k);
-    else if(id==="out") openOut(k);
-    else if(id==="gym") openGym(k);
-  };
-  document.getElementById("detClear").onclick = ()=>{
-    if(S.days[k]){ delete S.days[k][id]; if(!Object.keys(S.days[k]).length) delete S.days[k]; }
-    save(); closeSheet(); renderAll(); toast("已清除打卡记录");
-  };
-}
-
 /* ===== 晨间打卡 ===== */
 function deadlineToday(){
   return new Date(atTime(S.settings.wake).getTime() + S.settings.grace*60000);
@@ -954,14 +932,7 @@ function openDay(k){
     <p class="d">${allDone(d)?"四项全部完成":(qualified(d)?"差一点，还没满 4 项":"这天没有达标")} · ${doneCount(d)}/4 项 · ${pts(d)} XP</p>
     <div class="daygrid">${w}${o}${g}${m}</div>`);
   document.querySelectorAll(".dcell[data-edit]").forEach(el=>{
-    el.onclick = ()=>{
-      const id = el.getAttribute("data-edit");
-      closeSheet();
-      if(id==="mood") openMood(k);
-      else if(id==="wake") openWake(k);
-      else if(id==="out") openOut(k);
-      else if(id==="gym") openGym(k);
-    };
+    el.onclick = ()=> openTaskEdit(el.getAttribute("data-edit"), k);
   });
 }
 
