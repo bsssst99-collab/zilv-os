@@ -129,7 +129,8 @@ public class MainActivity extends Activity {
     void applySystemBars(boolean dark) {
         int bg = dark ? 0xFF0B0C0E : 0xFFF4F7EE;
         getWindow().setStatusBarColor(bg);
-        getWindow().setNavigationBarColor(bg);
+        // 底部小白条(手势条)区域与底层 tab 栏同色（白），而不是页面淡绿背景
+        getWindow().setNavigationBarColor(dark ? 0xFF14161A : 0xFFFFFFFF);
         View dv = getWindow().getDecorView();
         if (Build.VERSION.SDK_INT >= 23) {
             int flags = dv.getSystemUiVisibility();
