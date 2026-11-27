@@ -36,6 +36,9 @@ public class MainActivity extends Activity {
         s.setJavaScriptEnabled(true);
         s.setDomStorageEnabled(true);
         s.setAllowFileAccess(true);
+        // 允许 file:// 页面跨域访问 https 接口（一言金句 / 版本检查 / 更新包下载），否则 fetch 会被静默拦截
+        s.setAllowFileAccessFromFileURLs(true);
+        s.setAllowUniversalAccessFromFileURLs(true);
         s.setAllowContentAccess(true);
         s.setMediaPlaybackRequiresUserGesture(false);
         s.setGeolocationEnabled(true);

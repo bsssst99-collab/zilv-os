@@ -1,25 +1,34 @@
 package com.selfdrive.os;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
+import android.util.Base64;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.Calendar;
 
-/** 网页与原生之间的桥：状态栏主题 + 外链打开 + 版本更新。 */
+/** 网页与原生之间的桥：状态栏主题 + 外链打开 + 打卡/就寝提醒 + 更新包安装。 */
 public class NativeUI {
+
+    private static final String PREFS = "reminders";
 
     private final MainActivity host;
 
     NativeUI(MainActivity host) {
         this.host = host;
+    }
+
+    private Context ctx() {
+        return host.getApplicationContext();
     }
 
     @JavascriptInterface
@@ -48,90 +57,111 @@ public class NativeUI {
         });
     }
 
-    /* ===== 版本更新：下载并覆盖安装（保留作兜底，默认走前端浏览器下载） ===== */
+    /* ===== 打卡/就寝到点提醒（普通通知，不响铃声不弹全屏） ===== */
 
+    /** wake/sleep 传 "HH:mm"；传空串表示关闭该提醒。 */
     @JavascriptInterface
-    public void downloadAndInstall(final String url, final String version) {
-        host.runOnUiThread(new Runnable() {
-            public void run() {
-                Toast.makeText(host, "开始下载更新包 v" + version + "…",
-                        Toast.LENGTH_LONG).show();
-            }
-        });
-        new Thread(new Runnable() {
-            public void run() {
-                final String[] mirrors = new String[]{
-                        url,
-                        "https://gh-proxy.com/" + url,
-                        "https://ghproxy.net/" + url
-                };
-                File out = null;
-                String lastErr = "未知错误";
-                for (String u : mirrors) {
-                    try {
-                        File f = downloadToFile(u);
-                        if (f != null && isApkValid(f)) { out = f; break; }
-                        lastErr = "下载的文件不是有效安装包";
-                    } catch (Exception e) {
-                        lastErr = (e.getMessage() == null ? e.toString() : e.getMessage());
-                    }
-                }
-                if (out != null) {
-                    installApk(host.getApplicationContext(), out);
-                } else {
-                    final String err = lastErr;
-                    host.runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(host, "下载失败：" + err + "，正在打开浏览器手动下载",
-                                    Toast.LENGTH_LONG).show();
-                            openUrl(url);
-                        }
-                    });
-                }
-            }
-        }).start();
+    public void syncReminders(final String wake, final String sleep) {
+        prefs().edit()
+                .putString("wake", wake == null ? "" : wake)
+                .putString("sleep", sleep == null ? "" : sleep)
+                .commit();
+        scheduleDaily(ctx(), 1001, wake, "自律日记 · 打卡提醒", "新的一天开始了，完成晨间洗漱打卡吧");
+        scheduleDaily(ctx(), 1002, sleep, "自律日记 · 就寝提醒", "到就寝时间了，记得写今天的心情日记");
     }
 
-    private File downloadToFile(String urlStr) throws Exception {
-        Context ctx = host.getApplicationContext();
-        File out = new File(ctx.getCacheDir(), "update.apk");
-        if (out.exists()) out.delete();
-        String loc = urlStr;
-        HttpURLConnection c = null;
-        int redirects = 0;
-        while (true) {
-            c = (HttpURLConnection) new URL(loc).openConnection();
-            c.setConnectTimeout(20000);
-            c.setReadTimeout(120000);
-            c.setInstanceFollowRedirects(false);
-            c.setRequestProperty("User-Agent",
-                    "Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Mobile Safari/537.36");
-            int code = c.getResponseCode();
-            if (code >= 300 && code < 400) {
-                String next = c.getHeaderField("Location");
-                c.disconnect();
-                if (next == null || redirects++ > 6) throw new IOException("重定向失败 (HTTP " + code + ")");
-                loc = next;
-                continue;
-            }
-            if (code != 200) {
-                c.disconnect();
-                throw new IOException("HTTP " + code);
-            }
-            break;
+    @JavascriptInterface
+    public void cancelReminders() {
+        AlarmManager am = (AlarmManager) ctx().getSystemService(Context.ALARM_SERVICE);
+        if (am != null) {
+            am.cancel(pi(ctx(), 1001, "", ""));
+            am.cancel(pi(ctx(), 1002, "", ""));
         }
+        prefs().edit().clear().commit();
+    }
+
+    /** 开机后按上次保存的时间重排提醒（BootReceiver 调用）。 */
+    static void rescheduleFromPrefs(Context c) {
+        SharedPreferences p = c.getSharedPreferences(PREFS, 0);
+        scheduleDaily(c, 1001, p.getString("wake", ""),
+                "自律日记 · 打卡提醒", "新的一天开始了，完成晨间洗漱打卡吧");
+        scheduleDaily(c, 1002, p.getString("sleep", ""),
+                "自律日记 · 就寝提醒", "到就寝时间了，记得写今天的心情日记");
+    }
+
+    private SharedPreferences prefs() {
+        return ctx().getSharedPreferences(PREFS, 0);
+    }
+
+    private static void scheduleDaily(Context c, int code, String hhmm, String title, String text) {
+        AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
+        if (am == null) return;
+        PendingIntent p = pi(c, code, title, text);
+        if (hhmm == null || !hhmm.matches("\\d{1,2}:\\d{2}")) {
+            am.cancel(p);
+            return;
+        }
+        String[] hm = hhmm.split(":");
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hm[0]));
+        cal.set(Calendar.MINUTE, Integer.parseInt(hm[1]));
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        if (cal.getTimeInMillis() <= System.currentTimeMillis()) {
+            cal.add(Calendar.DAY_OF_YEAR, 1);
+        }
+        long t = cal.getTimeInMillis();
         try {
-            InputStream in = c.getInputStream();
-            FileOutputStream fos = new FileOutputStream(out);
-            byte[] buf = new byte[16384];
-            int n;
-            while ((n = in.read(buf)) != -1) fos.write(buf, 0, n);
-            fos.close();
-            in.close();
-        } finally {
-            c.disconnect();
+            if (Build.VERSION.SDK_INT >= 31 && !am.canScheduleExactAlarms()) {
+                throw new Exception("exact alarm not permitted");
+            }
+            if (Build.VERSION.SDK_INT >= 23) {
+                am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, t, p);
+            } else {
+                am.setExact(AlarmManager.RTC_WAKEUP, t, p);
+            }
+        } catch (Exception e) {
+            if (Build.VERSION.SDK_INT >= 23) {
+                am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, t, p);
+            } else {
+                am.set(AlarmManager.RTC_WAKEUP, t, p);
+            }
         }
-        return out;
+    }
+
+    private static PendingIntent pi(Context c, int code, String title, String text) {
+        Intent i = new Intent(c, ReminderReceiver.class);
+        i.putExtra(ReminderReceiver.EXTRA_TITLE, title);
+        i.putExtra(ReminderReceiver.EXTRA_TEXT, text);
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        if (Build.VERSION.SDK_INT >= 23) flags |= PendingIntent.FLAG_IMMUTABLE;
+        return PendingIntent.getBroadcast(c, code, i, flags);
+    }
+
+    /* ===== 更新：前端带进度条下载完成后，把安装包交给原生校验并调起安装 ===== */
+
+    /** 入参为 base64 编码的 APK 内容；校验后调起系统安装器覆盖安装。 */
+    @JavascriptInterface
+    public void saveAndInstallApk(final String b64) {
+        try {
+            byte[] data = Base64.decode(b64, Base64.DEFAULT);
+            Context c = ctx();
+            File f = new File(c.getCacheDir(), "update.apk");
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(data);
+            fos.close();
+            if (!isApkValid(f)) {
+                f.delete();
+                throw new IOException("安装包校验失败");
+            }
+            installApk(c, f);
+        } catch (final Exception e) {
+            host.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(host, "安装失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 
     private boolean isApkValid(File f) {

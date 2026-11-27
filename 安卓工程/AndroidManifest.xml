@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 覆盖安装更新包 -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <!-- 打卡/就寝到点提醒 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <application
         android:label="自律日记"
         android:icon="@mipmap/ic_launcher"
@@ -27,5 +30,12 @@
             android:authorities="com.selfdrive.os.files"
             android:exported="false"
             android:grantUriPermissions="true" />
+
+        <receiver android:name=".ReminderReceiver" android:exported="false" />
+        <receiver android:name=".BootReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

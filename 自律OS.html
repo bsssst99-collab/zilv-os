@@ -130,10 +130,10 @@ body{padding-bottom:calc(78px + env(safe-area-inset-bottom));overscroll-behavior
 .calcell{width:100%;height:100%;border-radius:12px;display:flex;flex-direction:column;align-items:center;
   padding:5px 4px 4px;cursor:pointer;position:relative;background:transparent}
 .calcell .dn{font-size:11px;color:var(--dim);line-height:1;font-weight:500;height:14px;flex:0 0 14px;display:flex;align-items:center}
-.calcell .de{width:100%;flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
-.calcell .de img{width:28px;height:28px;display:block}
+.calcell .de{width:100%;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding-top:15px}
+.calcell .de img{width:40px;height:40px;display:block}
 .calcell .de img.dim{opacity:.4}
-.calcell .dot{width:5px;height:5px;border-radius:50%;background:rgba(17,20,24,.1);display:block}
+.calcell .dot{width:7px;height:7px;border-radius:50%;background:rgba(17,20,24,.1);display:block}
 .calcell.today .dn{color:var(--acc);font-weight:700}
 .calcell.today .dot{background:var(--acc)}
 .calcell.future{opacity:.4;cursor:default}
@@ -243,6 +243,21 @@ textarea::placeholder{color:var(--dim2)}
 [data-theme="dark"] .quote{background:linear-gradient(135deg,#4A3F22 0%,#3A2F18 100%)}
 [data-theme="dark"] .quote .qsrc .qa{background:rgba(255,255,255,.14)}
 [data-theme="dark"] .quote .qtxt{text-shadow:0 1px 3px rgba(0,0,0,.3)}
+/* ===== 更新弹窗 ===== */
+.umask{position:fixed;inset:0;background:rgba(8,10,12,.45);display:flex;align-items:center;justify-content:center;z-index:99;padding:26px}
+.ucard{background:var(--card);border-radius:20px;padding:20px;max-width:340px;width:100%;box-shadow:0 18px 50px rgba(0,0,0,.28)}
+.ucard .ut{font-size:16.5px;font-weight:800;color:var(--tx)}
+.ucard .ut b{color:var(--acc)}
+.ucard .un{margin:10px 0 14px;font-size:12.5px;line-height:1.65;color:var(--dim);max-height:180px;overflow:auto;white-space:pre-wrap}
+.uprog{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.uprog .ubar{flex:1;height:6px;border-radius:3px;background:var(--track);overflow:hidden}
+.uprog .ubar i{display:block;height:100%;width:0%;background:var(--acc);border-radius:3px;transition:width .2s}
+.uprog span{font-size:11px;color:var(--dim);min-width:34px;text-align:right}
+.ubtns{display:flex;gap:10px}
+.ubtn{flex:1;height:40px;border-radius:12px;border:0;font-size:14px;font-weight:700;cursor:pointer}
+.ubtn.ghost{background:var(--track);color:var(--dim)}
+.ubtn.primary{background:var(--acc);color:var(--onacc)}
+.ubtn:disabled{opacity:.55}
 
 /* ===== 今日任务 田字 ===== */
 .taskgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
@@ -269,14 +284,14 @@ textarea::placeholder{color:var(--dim2)}
 .shotbox .hint b{font-size:24px;font-weight:400}
 
 /* ===== 本周 7 段进度 ===== */
-.weekrow{display:flex;align-items:center;gap:10px;margin:7px 0}
+.weekrow{display:flex;align-items:center;gap:10px;margin:6px 0}
 .weekrow .n{font-size:12.5px;width:78px;color:var(--dim);flex:0 0 78px}
 .weekrow .s{flex:1}
 .weekrow .p{font-size:11px;width:30px;text-align:right;color:var(--dim)}
 .seg7{display:flex;gap:5px;height:7px}
 .seg7 i{flex:1;height:7px;border-radius:4px;background:var(--track)}
 .seg7 i.on{background:var(--acc)}
-.weeklab{display:flex;gap:5px;margin:2px 0 0 88px}
+.weeklab{display:flex;gap:5px;margin:0}
 .weeklab span{flex:1;text-align:center;font-size:9.5px;color:var(--dim2)}
 .weekrow.weekhead{margin:0 0 6px;align-items:baseline}
 .weekrow.weekhead .n{color:var(--dim);font-size:12.5px;font-weight:400}
@@ -318,6 +333,18 @@ textarea::placeholder{color:var(--dim2)}
 </nav>
 
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+
+<div class="umask" id="updMask" style="display:none">
+  <div class="ucard">
+    <div class="ut">发现新版本 <b id="updVer"></b></div>
+    <div class="un" id="updNotes"></div>
+    <div class="uprog" id="updProgWrap" style="display:none"><div class="ubar"><i id="updBar"></i></div><span id="updPct">0%</span></div>
+    <div class="ubtns">
+      <button class="ubtn ghost" id="updLater">暂不更新</button>
+      <button class="ubtn primary" id="updGo">立即更新</button>
+    </div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 <input id="fileInput" type="file" accept="image/*" capture="environment" style="display:none">
 <input id="jsonInput" type="file" accept="application/json,.json" style="display:none">
@@ -326,7 +353,7 @@ textarea::placeholder{color:var(--dim2)}
 "use strict";
 /* ===== 存储 ===== */
 const LS = "selfdrive.v1";
-const APP_VERSION = "1.3.6";
+const APP_VERSION = "1.3.7";
 /* 更新信息 JSON 地址：走 jsDelivr（国内可达），失败回退 gh-proxy 镜像。留空时「检查更新」会提示未配置。 */
 const UPDATE_JSON_URL = "https://cdn.jsdelivr.net/gh/bsssst99-collab/zilv-os@master/version.json";
 const UPDATE_JSON_URL_FB = "https://gh-proxy.com/https://raw.githubusercontent.com/bsssst99-collab/zilv-os/master/version.json";
@@ -352,7 +379,7 @@ function moodImg(score, size, cls){
 
 /* ===== 每日金句：一言（hitokoto）纯在线接口，同日缓存保持稳定；点击卡片跳豆瓣搜索出处 ===== */
 const QUOTE_API = "https://v1.hitokoto.cn/?c=j&c=d&c=k&c=h&c=i";
-let _curQuote = loadCachedQuote();          // 当天缓存，无则 null（显示占位，等在线拉取）
+let _curQuote = null;                       // 启动后由 primeOnlineQuote 从当日缓存恢复（此处不能提前读，today 依赖的后置 const 尚未初始化）
 function quoteCacheKey(){ return "selfdrive.quote." + today(); }
 function loadCachedQuote(){ try{ const s=localStorage.getItem(quoteCacheKey()); if(s) return JSON.parse(s); }catch(e){} return null; }
 function saveCachedQuote(q){ try{ localStorage.setItem(quoteCacheKey(), JSON.stringify(q)); }catch(e){} }
@@ -396,11 +423,13 @@ function openQuoteDouban(){
   else if(q.type === "music") url = "https://www.douban.com/search?cat=1003&q=" + kw;
   else url = "https://www.douban.com/search?q=" + kw;
   if(window.NativeUI){ try{ NativeUI.openUrl(url); return; }catch(e){} }
-  window.open(url, "_blank");
+  window.location.href = url;
 }
-/* 初次渲染后调用：若今天还没缓存过金句，就在线拉一条（同日保持稳定）。 */
+/* 初次渲染后调用：优先恢复当日缓存，缓存也没有才在线拉一条（同日保持稳定）。 */
 function primeOnlineQuote(){
-  if(loadCachedQuote()) return;
+  if(_curQuote) return;
+  const c = loadCachedQuote();
+  if(c){ _curQuote = c; renderQuoteCard(); return; }
   fetchOnlineQuote().then(q=>{ if(q){ _curQuote=q; saveCachedQuote(q); renderQuoteCard(); } });
 }
 function allDone(d){ return !!(d && d.wake && d.out && d.gym && d.mood); }
@@ -411,7 +440,8 @@ function defState(){
     tab:"today",
     settings:{
       wake:"07:00", sleep:"23:00", outBy:"23:00",
-      grace:30, radius:300, anchor:null, theme:"light"
+      grace:30, radius:300, anchor:null,
+      notifyWake:true, notifySleep:true, theme:"light"
     },
     days:{},
     flags:{}
@@ -922,7 +952,7 @@ function renderStats(){
   const _wlabs=[]; for(let i=0;i<7;i++){ const d=new Date(addDays(_wmon,i)); _wlabs.push(wk[(d.getDay()+6)%7]); }
   document.getElementById("main").innerHTML = `
   <div class="panel">
-    <div class="weekrow weekhead"><div class="s"><div class="weeklab">${_wlabs.map(x=>`<span>${x}</span>`).join("")}</div></div></div>
+    <div class="weekrow weekhead"><div class="n"></div><div class="s"><div class="weeklab">${_wlabs.map(x=>`<span>${x}</span>`).join("")}</div></div><div class="p"></div></div>
     <div class="bars">${weekBars()}</div>
   </div>
   <div class="panel">
@@ -957,7 +987,7 @@ function monthView(){
     const full = allDone(rec);
     const isToday = k === today();
     const future = k > today();
-    const inner = hasMood ? moodImg(rec.mood.score, 28, full ? "" : "dim") : '<span class="dot"></span>';
+    const inner = hasMood ? moodImg(rec.mood.score, 40, full ? "" : "dim") : '<span class="dot"></span>';
     cells += `<div class="calcell${isToday?" today":""}${future?" future":""}"`
            + ` data-day="${k}"><div class="dn">${d}</div><div class="de">${inner}</div></div>`;
   }
@@ -1001,25 +1031,90 @@ function compareVer(a, b){
   }
   return 0;
 }
-/* ===== 版本更新 ===== */
-async function checkUpdate(){
-  if(!UPDATE_JSON_URL){ toast("尚未配置更新地址（GitHub 托管后填入代码里的 UPDATE_JSON_URL）"); return; }
+/* ===== 版本更新：启动自动检查，发现新版弹窗；弹窗内带进度条下载，交给原生安装 ===== */
+let _updMeta = null, _updBusy = false;
+function showUpdModal(j){
+  _updMeta = j; _updBusy = false;
+  document.getElementById("updVer").textContent = "v" + j.version;
+  document.getElementById("updNotes").textContent = j.notes || "";
+  document.getElementById("updProgWrap").style.display = "none";
+  document.getElementById("updBar").style.width = "0%";
+  document.getElementById("updPct").textContent = "0%";
+  const go = document.getElementById("updGo");
+  go.disabled = false; go.textContent = "立即更新";
+  document.getElementById("updMask").style.display = "flex";
+}
+function closeUpdModal(){ if(_updBusy) return; document.getElementById("updMask").style.display = "none"; }
+/* silent=true 时静默检查（启动自动检查），仅在发现新版本时弹窗 */
+async function checkUpdate(silent){
+  if(!UPDATE_JSON_URL){ if(!silent) toast("尚未配置更新地址"); return; }
+  let j = null;
   try{
     const pick = async (url) => { try { const r = await fetch(url + "?t=" + Date.now(), {cache:"no-store"}); return await r.json(); } catch(e){ return null; } };
     const [a, b] = await Promise.all([pick(UPDATE_JSON_URL), pick(UPDATE_JSON_URL_FB)]);
     // 两个源（jsDelivr / gh-proxy）都拉，取版本较新的，避免单一 CDN 缓存滞后导致检测不到更新
-    const j = a && b ? (compareVer(a.version, b.version) >= 0 ? a : b) : (a || b);
-    if(!j || !j.version){ toast("更新信息格式不正确"); return; }
-    if(compareVer(j.version, APP_VERSION) > 0){
-      const notes = j.notes ? ("\n" + j.notes) : "";
-      if(confirm("发现新版本 v" + j.version + notes + "\n\n是否立即下载并更新？")){
-        toast("正在打开下载页，请在浏览器中下载后覆盖安装…");
-        try{ window.location.href = j.apkUrl; }catch(e){ window.open(j.apkUrl, "_blank"); }
+    j = a && b ? (compareVer(a.version, b.version) >= 0 ? a : b) : (a || b);
+  }catch(e){}
+  if(!j || !j.version){ if(!silent) toast("检查更新失败，请稍后再试"); return; }
+  if(compareVer(j.version, APP_VERSION) > 0){ showUpdModal(j); }
+  else if(!silent){ toast("当前已是最新版本 v" + APP_VERSION); }
+}
+/* 弹窗内下载：XHR 实时进度 → base64 交给原生校验安装；无原生桥时退回浏览器下载 */
+function downloadUpdate(){
+  if(_updBusy || !_updMeta || !_updMeta.apkUrl) return;
+  const go = document.getElementById("updGo");
+  const fallback = ()=>{
+    _updBusy = false; go.disabled = false; go.textContent = "重试更新";
+    toast("改用浏览器下载安装包");
+    try{ window.location.href = _updMeta.apkUrl; }catch(e){}
+  };
+  if(!window.NativeUI || typeof NativeUI.saveAndInstallApk !== "function"){ fallback(); return; }
+  _updBusy = true; go.disabled = true;
+  document.getElementById("updProgWrap").style.display = "flex";
+  document.getElementById("updBar").style.width = "0%";
+  document.getElementById("updPct").textContent = "0%";
+  try{
+    const x = new XMLHttpRequest();
+    x.open("GET", _updMeta.apkUrl + "?t=" + Date.now(), true);
+    x.responseType = "blob";
+    x.onprogress = e => {
+      if(e.lengthComputable){
+        const p = Math.min(100, Math.round(e.loaded / e.total * 100));
+        document.getElementById("updBar").style.width = p + "%";
+        document.getElementById("updPct").textContent = p + "%";
+        go.textContent = "下载中 " + p + "%";
       }
-    } else {
-      toast("当前已是最新版本 v" + APP_VERSION);
+    };
+    x.onerror = () => { fallback(); };
+    x.onload = () => {
+      if(x.status !== 200 || !x.response){ fallback(); return; }
+      document.getElementById("updBar").style.width = "100%";
+      document.getElementById("updPct").textContent = "100%";
+      go.textContent = "正在安装…";
+      const r = new FileReader();
+      r.onload = () => {
+        try{
+          NativeUI.saveAndInstallApk(String(r.result).split(",")[1] || "");
+          setTimeout(closeUpdModal, 600);
+        }catch(e){ fallback(); }
+      };
+      r.onerror = () => { _updBusy = false; go.disabled = false; go.textContent = "重试更新"; toast("安装包处理失败"); };
+      r.readAsDataURL(x.response);
+    };
+    x.send();
+  }catch(e){ fallback(); }
+}
+/* 同步打卡/就寝提醒到原生（无原生桥时静默跳过） */
+function syncRemindersNative(){
+  if(!window.NativeUI) return;
+  try{
+    const s = S.settings;
+    if((s.notifyWake || s.notifySleep) && typeof NativeUI.syncReminders === "function"){
+      NativeUI.syncReminders(s.notifyWake ? s.wake : "", s.notifySleep ? s.sleep : "");
+    }else if(typeof NativeUI.cancelReminders === "function"){
+      NativeUI.cancelReminders();
     }
-  }catch(e){ toast("检查更新失败：" + (e&&e.message?e.message:e)); }
+  }catch(e){}
 }
 
 /* ===== 渲染：设置 ===== */
@@ -1047,6 +1142,18 @@ function renderSet(){
     <div class="row">
       <div><div class="lb">宽限时间</div><div class="ds">起床后多少分钟内算准时</div></div>
       <input type="number" id="setGrace" value="${s.grace}" min="0" max="180" step="5">
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-h">提醒</div>
+    <div class="row">
+      <div><div class="lb">打卡提醒</div><div class="ds">每天 ${s.wake} 发通知提醒晨间打卡</div></div>
+      <div class="switch ${s.notifyWake?"on":""}" id="setNotifyWake"><i></i></div>
+    </div>
+    <div class="row" style="border-bottom:0">
+      <div><div class="lb">就寝提醒</div><div class="ds">每天 ${s.sleep} 发通知提醒写心情日记</div></div>
+      <div class="switch ${s.notifySleep?"on":""}" id="setNotifySleep"><i></i></div>
     </div>
   </div>
 
@@ -1102,16 +1209,18 @@ function renderSet(){
 
   const bindTime = (id, field)=>{
     const el = document.getElementById(id);
-    el.onchange = ()=>{ if(el.value){ S.settings[field] = el.value; save(); renderAll(); } };
+    el.onchange = ()=>{ if(el.value){ S.settings[field] = el.value; save(); syncRemindersNative(); renderAll(); } };
   };
   bindTime("setWake","wake"); bindTime("setSleep","sleep"); bindTime("setOutBy","outBy");
+  document.getElementById("setNotifyWake").onclick = ()=>{ S.settings.notifyWake = !S.settings.notifyWake; save(); syncRemindersNative(); renderSet(); };
+  document.getElementById("setNotifySleep").onclick = ()=>{ S.settings.notifySleep = !S.settings.notifySleep; save(); syncRemindersNative(); renderSet(); };
   document.getElementById("setGrace").onchange = e=>{ S.settings.grace=Math.max(0,Math.min(180,+e.target.value||0)); save(); renderAll(); };
   document.getElementById("setRadius").onchange = e=>{ S.settings.radius=Math.max(50,+e.target.value||300); save(); renderAll(); };
 
   document.querySelectorAll("#themeSeg button").forEach(b=>b.onclick=()=>{
     S.settings.theme = b.dataset.theme; save(); applyTheme(); renderAll();
   });
-  document.getElementById("btnCheckUpdate").onclick = checkUpdate;
+  document.getElementById("btnCheckUpdate").onclick = ()=>checkUpdate(false);
   document.getElementById("setAnchor").onclick = ()=>{
     if(!navigator.geolocation) return toast("不支持定位");
     navigator.geolocation.getCurrentPosition(p=>{
@@ -1204,6 +1313,11 @@ save();                       /* 补齐旧版本缺失的默认字段 */
 document.getElementById("themeBtn").onclick = toggleTheme;
 applyTheme();
 renderAll();
+syncRemindersNative();        /* 把打卡/就寝提醒同步到原生闹钟 */
+setTimeout(()=>{ if(window.NativeUI) checkUpdate(true); }, 1500);   /* 启动自动检查更新，发现新版弹窗 */
+document.getElementById("updGo").onclick = downloadUpdate;
+document.getElementById("updLater").onclick = closeUpdModal;
+document.getElementById("updMask").onclick = e=>{ if(e.target.id === "updMask") closeUpdModal(); };
 </script>
 </body>
 </html>
