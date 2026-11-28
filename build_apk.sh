@@ -5,7 +5,7 @@ set -e
 
 # 注意：D8（build-tools 33.0.2）与 JDK 25 不兼容，构建须用 JDK 17。
 # 如需换 JDK，请修改下面这一行。
-export JAVA_HOME="/root/.local/share/mise/installs/java/17"
+export JAVA_HOME="${JAVA_HOME:-/usr/lib/jvm/java-17-openjdk-amd64}"
 export ANDROID_HOME="${ANDROID_HOME:-/opt/android-sdk}"
 BT="$ANDROID_HOME/build-tools/33.0.2"
 AJ="$ANDROID_HOME/platforms/android-33/android.jar"
@@ -17,8 +17,8 @@ BUILD="$ROOT/.build"
 OUT="${OUT:-$ROOT/自律OS-v1.3.apk}"
 KS="$APP/签名/selfdrive.jks"
 
-VER_CODE="${VER_CODE:-19}"
-VER_NAME="${VER_NAME:-1.3.15}"
+VER_CODE="${VER_CODE:-20}"
+VER_NAME="${VER_NAME:-1.3.16}"
 MIN_SDK=21
 # targetSdk 保持 32，各机型兼容性最稳。
 TGT_SDK=32

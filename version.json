@@ -1,5 +1,5 @@
 {
-  "version": "1.3.15",
-  "apkUrl": "https://cdn.jsdelivr.net/gh/bsssst99-collab/zilv-os@master/dist/zilv-os-v1.3.15.apk",
-  "notes": "v1.3.15：今日页任务卡宽度恢复与 1.3.13 一致（跟随屏幕自适应全宽），仅将高度调整为与宽度相等构成正方形；今日页保持一屏不滚动。"
+  "version": "1.3.16",
+  "apkUrl": "https://cdn.jsdelivr.net/gh/bsssst99-collab/zilv-os@master/dist/zilv-os-v1.3.16.apk",
+  "notes": "v1.3.16：今日页全新手绘手账风界面——天空蓝渐变背景、纸白卡片、四色任务卡、草地绿底部栏、手写风标题、金句卡焕新；深色主题保持不变。"
 }
