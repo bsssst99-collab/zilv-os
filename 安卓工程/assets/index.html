@@ -3,25 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#F4F7EE">
+<meta name="theme-color" content="#BFDCF0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>自律日记</title>
 <style>
 :root{
-  --accRGB:164,207,74;
-  --acc:#a4cf4a; --onacc:#1B2A08;
-  --accSoft:#edf7be;
-  --alpha:rgba(var(--accRGB),.12);
-  --alphaLine:rgba(var(--accRGB),.30);
-  --bg:#F4F7EE; --card:#FFFFFF; --card2:#F0F3E8; --line:rgba(17,20,24,.08);
-  --tx:#15171A; --dim:#71767D; --dim2:#9AA0A6;
-  --sheet:#FFFFFF; --tabbar:rgba(255,255,255,.9); --ph:#FAFBF5;
-  --hero1:#FFFFFF; --hero2:#EDF6D8;
-  --toastBg:#1D2025; --toastTx:#FFFFFF;
-  --track:rgba(17,20,24,.07);
-  --shadow:0 1px 2px rgba(16,24,40,.03), 0 8px 22px -16px rgba(16,24,40,.10);
+  --accRGB:226,161,60;
+  --acc:#E2A13C; --onacc:#3A2D12;
+  --accSoft:#FAECCF;
+  --alpha:rgba(var(--accRGB),.14);
+  --alphaLine:rgba(var(--accRGB),.38);
+  --bg:#F6EFDC; --card:#FDF8EA; --card2:#F3EBD5; --line:rgba(74,60,34,.15);
+  --tx:#33302A; --dim:#8A8374; --dim2:#A9A290;
+  --sheet:#FDF8EA; --tabbar:rgba(250,243,227,.94); --ph:#F7F0DD;
+  --hero1:#FDF8EA; --hero2:#F6ECD2;
+  --toastBg:#3A342A; --toastTx:#FFF9EA;
+  --track:rgba(74,60,34,.11);
+  --shadow:0 2px 0 rgba(120,100,60,.07), 0 12px 26px -20px rgba(120,100,60,.38);
   --warn:#C97A12; --warnBg:rgba(224,138,30,.13); --bad:#D9483E;
+  --hand:"Kaiti SC","STKaiti","KaiTi","Xingkai SC","FZKaiTi","FZKai-Z03S","LXGW WenKai","Noto Serif CJK SC","Songti SC","SimSun",serif;
 }
 [data-theme="dark"]{
   --accRGB:164,207,74;
@@ -311,6 +312,114 @@ textarea::placeholder{color:var(--dim2)}
 .dcell .dv{font-size:11px;color:var(--dim);line-height:1.5;flex:1;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
 .dcell .act{font-size:11px;color:var(--acc);font-weight:600}
 .dcell .dthumb{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:8px;object-fit:cover;border:1px solid var(--line)}
+
+/* ===== 手绘纸质主题（手账风 · 仅浅色） ===== */
+html[data-theme="light"] body{
+  background:linear-gradient(180deg,#BFDCF0 0%,#CBE2F2 20%,#F1E9D2 42%,#F6EFDC 55%,#F6EFDC 100%);
+  background-attachment:fixed;
+  padding-bottom:calc(158px + env(safe-area-inset-bottom));
+}
+/* 标题与手写字体 */
+html[data-theme="light"] .hd .hello{
+  font-family:var(--hand);font-size:28px;font-weight:800;letter-spacing:.03em;color:#2F2C24;
+}
+html[data-theme="light"] .hd .date{font-family:var(--hand);color:#6E6752;letter-spacing:.12em}
+html[data-theme="light"] .sec h2{font-family:var(--hand);font-size:15px;font-weight:700;color:#57503E;letter-spacing:.1em}
+html[data-theme="light"] .sec span{color:#8A8374}
+html[data-theme="light"] .themebtn{
+  background:#FDF8EA;border:1.5px solid rgba(74,60,34,.22);color:#57503E;
+  border-radius:50% 46% 52% 48%/48% 52% 46% 54%;
+}
+/* 纸质卡片基础：不规则纸边 + 温和纸阴影 */
+html[data-theme="light"] .hero,
+html[data-theme="light"] .panel,
+html[data-theme="light"] .stat{
+  border:1.5px solid rgba(74,60,34,.22);
+  border-radius:16px 22px 15px 24px / 22px 15px 24px 16px;
+}
+html[data-theme="light"] .hero{background:linear-gradient(165deg,#FDF8EA 0%,#F6ECD2 100%)}
+html[data-theme="light"] .ring .pct b{font-family:var(--hand)}
+html[data-theme="light"] .hinfo .s{font-family:var(--hand)}
+/* 今日任务四色卡 */
+html[data-theme="light"] .tsk{
+  border:1.5px solid rgba(74,60,34,.24);
+  box-shadow:0 2px 0 rgba(120,100,60,.08),0 10px 22px -18px rgba(120,100,60,.4);
+}
+html[data-theme="light"] .taskgrid .tsk:nth-child(1){border-radius:18px 20px 16px 24px / 22px 16px 24px 18px;background:#FAF1D9}
+html[data-theme="light"] .taskgrid .tsk:nth-child(2){border-radius:20px 16px 24px 16px / 16px 24px 18px 22px;background:#F9DCA8}
+html[data-theme="light"] .taskgrid .tsk:nth-child(3){border-radius:16px 24px 18px 20px / 24px 18px 16px 20px;background:#DFEBC6}
+html[data-theme="light"] .taskgrid .tsk:nth-child(4){border-radius:22px 18px 20px 16px / 18px 22px 16px 24px;background:#E3DCF1}
+html[data-theme="light"] .tsk .nm{font-family:var(--hand);font-weight:700;font-size:14.5px;color:#33302A}
+html[data-theme="light"] .tsk .ico{
+  background:#FFFDF6;border:1.5px solid rgba(74,60,34,.2);border-radius:14px;
+  box-shadow:0 2px 0 rgba(120,100,60,.1);
+}
+html[data-theme="light"] .tsk.done{border-color:rgba(74,60,34,.42);filter:saturate(.92)}
+html[data-theme="light"] .tsk.done::after{border-color:transparent;opacity:.3}
+/* 任务卡顶部胶带 */
+html[data-theme="light"] .tsk::after{
+  content:"";position:absolute;top:-8px;left:50%;width:58px;height:17px;z-index:2;
+  transform:translateX(-50%) rotate(-3deg);
+  background:rgba(226,197,146,.62);
+  border-left:1px dashed rgba(120,90,40,.18);border-right:1px dashed rgba(120,90,40,.18);
+  border-radius:2px;pointer-events:none;
+  box-shadow:0 1px 2px rgba(120,90,40,.12);
+}
+/* 金句卡：奶油纸 + 爱心涂鸦 */
+html[data-theme="light"] .quote{
+  background:#FAF3E1;border:1.5px solid rgba(74,60,34,.24);
+  border-radius:18px 24px 16px 26px / 24px 16px 26px 18px;
+  height:122px;
+}
+html[data-theme="light"] .quote .qtxt{color:#3B372C;text-shadow:none;font-family:var(--hand);font-size:19px}
+html[data-theme="light"] .quote .qmark{color:rgba(74,60,34,.10)}
+html[data-theme="light"] .quote .qsrc .qa{background:rgba(74,60,34,.08)}
+html[data-theme="light"] .quote .qsrc .qi b{color:#5A5340}
+html[data-theme="light"] .quote .qsrc .qi span{color:#9A917B}
+html[data-theme="light"] .quote .qsrc{margin-top:2px;flex:0 0 26px}
+html[data-theme="light"] .quote .qsrc .qa{width:26px;height:26px;font-size:13px;flex:0 0 26px}
+html[data-theme="light"] .quote::before{
+  content:"";position:absolute;top:-8px;left:20px;width:52px;height:16px;
+  transform:rotate(-4deg);background:rgba(226,197,146,.62);
+  border-left:1px dashed rgba(120,90,40,.18);border-right:1px dashed rgba(120,90,40,.18);
+  border-radius:2px;
+}
+html[data-theme="light"] .quote::after{
+  content:"♥ ～";position:absolute;right:20px;bottom:34px;color:#E25C4A;
+  font-size:15px;font-weight:700;letter-spacing:2px;opacity:.85;pointer-events:none;
+}
+/* 设置行 / 开关 / 按钮 */
+html[data-theme="light"] .row input[type=time],html[data-theme="light"] .row input[type=number]{
+  border:1.5px solid rgba(74,60,34,.2);background:#F7F0DD;
+}
+html[data-theme="light"] .opt button{background:#F7F0DD;border:1.5px solid rgba(74,60,34,.2)}
+html[data-theme="light"] textarea{background:#F7F0DD;border:1.5px solid rgba(74,60,34,.2)}
+html[data-theme="light"] .gps{background:#F7F0DD;border:1.5px solid rgba(74,60,34,.2)}
+html[data-theme="light"] .ph{border:1.5px dashed rgba(74,60,34,.3);background:#F7F0DD}
+html[data-theme="light"] .shotbox{border:1.5px dashed rgba(74,60,34,.3);background:#F7F0DD}
+html[data-theme="light"] .dcell{border:1.5px solid rgba(74,60,34,.22);border-radius:14px 20px 14px 20px/20px 14px 20px 14px}
+html[data-theme="light"] .calgrid{
+  border:1.5px solid rgba(74,60,34,.18);border-radius:16px 22px 16px 22px/22px 16px 22px 16px;
+  background:rgba(253,248,234,.6);
+}
+/* 底部标签栏：奶油纸 + 草地花丛装饰 */
+html[data-theme="light"] .tabbar{
+  background:rgba(250,243,227,.96);
+  border-top:1.5px solid rgba(74,60,34,.2);
+  backdrop-filter:blur(10px);
+}
+html[data-theme="light"] .tabbar button.on{color:#2F2C24;font-weight:700}
+html[data-theme="light"] .tabbar button span{font-weight:400}
+html[data-theme="light"] .tabbar::before{
+  content:"";position:absolute;left:0;right:0;bottom:100%;height:56px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='56' viewBox='0 0 360 56'%3E%3Cpath d='M0 20 Q30 12 60 19 T120 18 T180 19 T240 17 T300 19 T360 17 V56 H0 Z' fill='%23C7E09A'/%3E%3Cpath d='M18 20 l4 -11 3 11 Z M52 19 l3 -9 3 9 Z M96 19 l4 -10 3 10 Z M150 18 l3 -9 3 9 Z M204 19 l4 -11 3 11 Z M262 18 l3 -8 3 8 Z M318 19 l4 -10 3 10 Z M340 20 l3 -8 3 8 Z' fill='%23A9CC77'/%3E%3Cg fill='%23FFFFFF'%3E%3Ccircle cx='38' cy='13' r='3.2'/%3E%3Ccircle cx='132' cy='12' r='2.6'/%3E%3Ccircle cx='288' cy='13' r='3.2'/%3E%3C/g%3E%3Cg fill='%23E9B23C'%3E%3Ccircle cx='38' cy='13' r='1.4'/%3E%3Ccircle cx='132' cy='12' r='1.2'/%3E%3Ccircle cx='288' cy='13' r='1.4'/%3E%3C/g%3E%3Cpath d='M228 16 q6 -8 12 -2 q-7 4 -12 2 Z' fill='%23DDA254'/%3E%3C/svg%3E") repeat-x left bottom/360px 56px;
+  pointer-events:none;
+}
+html[data-theme="light"] .tabbar{padding-top:10px}
+/* 弹层 / 提示 */
+html[data-theme="light"] .sheet{border-top:1.5px solid rgba(74,60,34,.22)}
+html[data-theme="light"] .modal{background:rgba(58,48,28,.34)}
+html[data-theme="light"] .ucard{border:1.5px solid rgba(74,60,34,.24);border-radius:16px 22px 16px 22px/22px 16px 22px 16px}
 </style>
 </head>
 <body>
@@ -542,7 +651,7 @@ function applyTheme(){
   const btn = document.getElementById("themeBtn");
   if(btn) btn.textContent = dark ? "☀" : "☾";
   const meta = document.querySelector('meta[name="theme-color"]');
-  if(meta) meta.setAttribute("content", dark?"#0B0C0E":"#F4F7EE");
+  if(meta) meta.setAttribute("content", dark?"#0B0C0E":"#BFDCF0");
   try{ if(window.NativeUI && window.NativeUI.setDark) window.NativeUI.setDark(dark); }catch(e){}
 }
 if(window.matchMedia){
