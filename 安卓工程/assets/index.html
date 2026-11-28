@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#BFDCF0">
+<meta name="theme-color" content="#C9E1F4">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>自律日记</title>
@@ -14,10 +14,10 @@
   --accSoft:#FAECCF;
   --alpha:rgba(var(--accRGB),.14);
   --alphaLine:rgba(var(--accRGB),.38);
-  --bg:#F6EFDC; --card:#FDF8EA; --card2:#F3EBD5; --line:rgba(74,60,34,.15);
+  --bg:#FDFAE1; --card:#FEFFFF; --card2:#FDFAE1; --line:rgba(74,60,34,.15);
   --tx:#33302A; --dim:#8A8374; --dim2:#A9A290;
-  --sheet:#FDF8EA; --tabbar:rgba(250,243,227,.94); --ph:#F7F0DD;
-  --hero1:#FDF8EA; --hero2:#F6ECD2;
+  --sheet:#FEFFFF; --tabbar:#BCD98A; --ph:#FDFAE1;
+  --hero1:#FEFFFF; --hero2:#FDFAE1;
   --toastBg:#3A342A; --toastTx:#FFF9EA;
   --track:rgba(74,60,34,.11);
   --shadow:0 2px 0 rgba(120,100,60,.07), 0 12px 26px -20px rgba(120,100,60,.38);
@@ -313,9 +313,13 @@ textarea::placeholder{color:var(--dim2)}
 .dcell .act{font-size:11px;color:var(--acc);font-weight:600}
 .dcell .dthumb{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:8px;object-fit:cover;border:1px solid var(--line)}
 
-/* ===== 手绘纸质主题（手账风 · 仅浅色） ===== */
+/* ===== 手绘纸质主题（手账风 · 仅浅色） =====
+   统一字体层级（自上而下）：
+   问候语 28px 手写体 > 页面标题/弹层标题 17-18px > 卡片名 14.5px
+   > 区块标题 14px > 金句正文 16px > 正文辅助 12-12.5px > 注释 11-11.5px
+   数字展示（统计/进度）用手写体，长文本正文保持无衬线保证可读性 */
 html[data-theme="light"] body{
-  background:linear-gradient(180deg,#BFDCF0 0%,#CBE2F2 20%,#F1E9D2 42%,#F6EFDC 55%,#F6EFDC 100%);
+  background:linear-gradient(180deg,#C9E1F4 0%,#CFE5F4 20%,#FDFAE1 46%,#FDFAE1 100%);
   background-attachment:fixed;
   padding-bottom:calc(158px + env(safe-area-inset-bottom));
 }
@@ -324,60 +328,51 @@ html[data-theme="light"] .hd .hello{
   font-family:var(--hand);font-size:28px;font-weight:800;letter-spacing:.03em;color:#2F2C24;
 }
 html[data-theme="light"] .hd .date{font-family:var(--hand);color:#6E6752;letter-spacing:.12em}
-html[data-theme="light"] .sec h2{font-family:var(--hand);font-size:15px;font-weight:700;color:#57503E;letter-spacing:.1em}
-html[data-theme="light"] .sec span{color:#8A8374}
+html[data-theme="light"] .sec h2{font-family:var(--hand);font-size:14px;font-weight:700;color:#57503E;letter-spacing:.1em}
+html[data-theme="light"] .sec span{color:#8A8374;font-size:12px}
 html[data-theme="light"] .themebtn{
-  background:#FDF8EA;border:1.5px solid rgba(74,60,34,.22);color:#57503E;
+  background:#FEFFFF;border:1.5px solid rgba(74,60,34,.22);color:#57503E;
   border-radius:50% 46% 52% 48%/48% 52% 46% 54%;
 }
 /* 纸质卡片基础：不规则纸边 + 温和纸阴影 */
 html[data-theme="light"] .hero,
 html[data-theme="light"] .panel,
 html[data-theme="light"] .stat{
-  border:1.5px solid rgba(74,60,34,.22);
+  border:1.5px solid rgba(74,60,34,.20);
   border-radius:16px 22px 15px 24px / 22px 15px 24px 16px;
 }
-html[data-theme="light"] .hero{background:linear-gradient(165deg,#FDF8EA 0%,#F6ECD2 100%)}
+html[data-theme="light"] .hero{background:linear-gradient(165deg,#FEFFFF 0%,#FDFAE1 100%)}
 html[data-theme="light"] .ring .pct b{font-family:var(--hand)}
 html[data-theme="light"] .hinfo .s{font-family:var(--hand)}
+html[data-theme="light"] .stat .v{font-family:var(--hand)}
 /* 今日任务四色卡 */
 html[data-theme="light"] .tsk{
-  border:1.5px solid rgba(74,60,34,.24);
-  box-shadow:0 2px 0 rgba(120,100,60,.08),0 10px 22px -18px rgba(120,100,60,.4);
+  border:1.5px solid rgba(74,60,34,.22);
+  box-shadow:0 2px 0 rgba(120,100,60,.07),0 10px 22px -18px rgba(120,100,60,.38);
 }
 html[data-theme="light"] .taskgrid .tsk:nth-child(1){border-radius:18px 20px 16px 24px / 22px 16px 24px 18px;background:#FAF1D9}
 html[data-theme="light"] .taskgrid .tsk:nth-child(2){border-radius:20px 16px 24px 16px / 16px 24px 18px 22px;background:#F9DCA8}
 html[data-theme="light"] .taskgrid .tsk:nth-child(3){border-radius:16px 24px 18px 20px / 24px 18px 16px 20px;background:#DFEBC6}
 html[data-theme="light"] .taskgrid .tsk:nth-child(4){border-radius:22px 18px 20px 16px / 18px 22px 16px 24px;background:#E3DCF1}
 html[data-theme="light"] .tsk .nm{font-family:var(--hand);font-weight:700;font-size:14.5px;color:#33302A}
+html[data-theme="light"] .tsk .st{font-size:11px;color:#8A8374}
 html[data-theme="light"] .tsk .ico{
-  background:#FFFDF6;border:1.5px solid rgba(74,60,34,.2);border-radius:14px;
+  background:#FEFFFF;border:1.5px solid rgba(74,60,34,.2);border-radius:14px;
   box-shadow:0 2px 0 rgba(120,100,60,.1);
 }
-html[data-theme="light"] .tsk.done{border-color:rgba(74,60,34,.42);filter:saturate(.92)}
-html[data-theme="light"] .tsk.done::after{border-color:transparent;opacity:.3}
-/* 任务卡顶部胶带 */
-html[data-theme="light"] .tsk::after{
-  content:"";position:absolute;top:-8px;left:50%;width:58px;height:17px;z-index:2;
-  transform:translateX(-50%) rotate(-3deg);
-  background:rgba(226,197,146,.62);
-  border-left:1px dashed rgba(120,90,40,.18);border-right:1px dashed rgba(120,90,40,.18);
-  border-radius:2px;pointer-events:none;
-  box-shadow:0 1px 2px rgba(120,90,40,.12);
-}
-/* 金句卡：奶油纸 + 爱心涂鸦 */
+html[data-theme="light"] .tsk.done{border-color:rgba(74,60,34,.4);filter:saturate(.92)}
+/* 金句卡：纸白卡 + 爱心涂鸦；正文 16px、出处 11/11.5px、行距收紧 */
 html[data-theme="light"] .quote{
-  background:#FAF3E1;border:1.5px solid rgba(74,60,34,.24);
+  background:#FEFFFF;border:1.5px solid rgba(74,60,34,.22);
   border-radius:18px 24px 16px 26px / 24px 16px 26px 18px;
-  height:122px;
+  height:112px;
 }
-html[data-theme="light"] .quote .qtxt{color:#3B372C;text-shadow:none;font-family:var(--hand);font-size:19px}
-html[data-theme="light"] .quote .qmark{color:rgba(74,60,34,.10)}
-html[data-theme="light"] .quote .qsrc .qa{background:rgba(74,60,34,.08)}
-html[data-theme="light"] .quote .qsrc .qi b{color:#5A5340}
-html[data-theme="light"] .quote .qsrc .qi span{color:#9A917B}
+html[data-theme="light"] .quote .qtxt{color:#3B372C;text-shadow:none;font-family:var(--hand);font-size:16px;line-height:1.5}
+html[data-theme="light"] .quote .qmark{color:rgba(74,60,34,.10);top:-4px;font-size:54px}
 html[data-theme="light"] .quote .qsrc{margin-top:2px;flex:0 0 26px}
-html[data-theme="light"] .quote .qsrc .qa{width:26px;height:26px;font-size:13px;flex:0 0 26px}
+html[data-theme="light"] .quote .qsrc .qa{width:24px;height:24px;font-size:12px;flex:0 0 24px;background:rgba(74,60,34,.08)}
+html[data-theme="light"] .quote .qsrc .qi b{color:#5A5340;font-size:11.5px;line-height:1.3;font-weight:600}
+html[data-theme="light"] .quote .qsrc .qi span{color:#9A917B;font-size:11px;line-height:1.3}
 html[data-theme="light"] .quote::before{
   content:"";position:absolute;top:-8px;left:20px;width:52px;height:16px;
   transform:rotate(-4deg);background:rgba(226,197,146,.62);
@@ -385,41 +380,44 @@ html[data-theme="light"] .quote::before{
   border-radius:2px;
 }
 html[data-theme="light"] .quote::after{
-  content:"♥ ～";position:absolute;right:20px;bottom:34px;color:#E25C4A;
-  font-size:15px;font-weight:700;letter-spacing:2px;opacity:.85;pointer-events:none;
+  content:"♥ ～";position:absolute;right:20px;bottom:30px;color:#E25C4A;
+  font-size:14px;font-weight:700;letter-spacing:2px;opacity:.85;pointer-events:none;
 }
 /* 设置行 / 开关 / 按钮 */
 html[data-theme="light"] .row input[type=time],html[data-theme="light"] .row input[type=number]{
-  border:1.5px solid rgba(74,60,34,.2);background:#F7F0DD;
+  border:1.5px solid rgba(74,60,34,.2);background:#FDFAE1;
 }
-html[data-theme="light"] .opt button{background:#F7F0DD;border:1.5px solid rgba(74,60,34,.2)}
-html[data-theme="light"] textarea{background:#F7F0DD;border:1.5px solid rgba(74,60,34,.2)}
-html[data-theme="light"] .gps{background:#F7F0DD;border:1.5px solid rgba(74,60,34,.2)}
-html[data-theme="light"] .ph{border:1.5px dashed rgba(74,60,34,.3);background:#F7F0DD}
-html[data-theme="light"] .shotbox{border:1.5px dashed rgba(74,60,34,.3);background:#F7F0DD}
-html[data-theme="light"] .dcell{border:1.5px solid rgba(74,60,34,.22);border-radius:14px 20px 14px 20px/20px 14px 20px 14px}
+html[data-theme="light"] .opt button{background:#FDFAE1;border:1.5px solid rgba(74,60,34,.2)}
+html[data-theme="light"] textarea{background:#FDFAE1;border:1.5px solid rgba(74,60,34,.2)}
+html[data-theme="light"] .gps{background:#FDFAE1;border:1.5px solid rgba(74,60,34,.2)}
+html[data-theme="light"] .ph{border:1.5px dashed rgba(74,60,34,.3);background:#FDFAE1}
+html[data-theme="light"] .shotbox{border:1.5px dashed rgba(74,60,34,.3);background:#FDFAE1}
+html[data-theme="light"] .dcell{border:1.5px solid rgba(74,60,34,.2);border-radius:14px 20px 14px 20px/20px 14px 20px 14px}
 html[data-theme="light"] .calgrid{
   border:1.5px solid rgba(74,60,34,.18);border-radius:16px 22px 16px 22px/22px 16px 22px 16px;
-  background:rgba(253,248,234,.6);
+  background:rgba(254,255,255,.65);
 }
-/* 底部标签栏：奶油纸 + 草地花丛装饰 */
+html[data-theme="light"] .calnav .m{font-family:var(--hand);font-size:17px}
+/* 底部标签栏：整条草地绿，草丛长在栏顶上 */
 html[data-theme="light"] .tabbar{
-  background:rgba(250,243,227,.96);
-  border-top:1.5px solid rgba(74,60,34,.2);
-  backdrop-filter:blur(10px);
+  background:#BCD98A;
+  border-top:0;
+  padding-top:10px;
 }
-html[data-theme="light"] .tabbar button.on{color:#2F2C24;font-weight:700}
-html[data-theme="light"] .tabbar button span{font-weight:400}
+html[data-theme="light"] .tabbar button{color:#5E6E38}
+html[data-theme="light"] .tabbar button.on{color:#31401C;font-weight:700}
+html[data-theme="light"] .tabbar button.on span{color:#31401C}
 html[data-theme="light"] .tabbar::before{
   content:"";position:absolute;left:0;right:0;bottom:100%;height:56px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='56' viewBox='0 0 360 56'%3E%3Cpath d='M0 20 Q30 12 60 19 T120 18 T180 19 T240 17 T300 19 T360 17 V56 H0 Z' fill='%23C7E09A'/%3E%3Cpath d='M18 20 l4 -11 3 11 Z M52 19 l3 -9 3 9 Z M96 19 l4 -10 3 10 Z M150 18 l3 -9 3 9 Z M204 19 l4 -11 3 11 Z M262 18 l3 -8 3 8 Z M318 19 l4 -10 3 10 Z M340 20 l3 -8 3 8 Z' fill='%23A9CC77'/%3E%3Cg fill='%23FFFFFF'%3E%3Ccircle cx='38' cy='13' r='3.2'/%3E%3Ccircle cx='132' cy='12' r='2.6'/%3E%3Ccircle cx='288' cy='13' r='3.2'/%3E%3C/g%3E%3Cg fill='%23E9B23C'%3E%3Ccircle cx='38' cy='13' r='1.4'/%3E%3Ccircle cx='132' cy='12' r='1.2'/%3E%3Ccircle cx='288' cy='13' r='1.4'/%3E%3C/g%3E%3Cpath d='M228 16 q6 -8 12 -2 q-7 4 -12 2 Z' fill='%23DDA254'/%3E%3C/svg%3E") repeat-x left bottom/360px 56px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='56' viewBox='0 0 360 56'%3E%3Cpath d='M0 20 Q30 12 60 19 T120 18 T180 19 T240 17 T300 19 T360 17 V56 H0 Z' fill='%23BCD98A'/%3E%3Cpath d='M18 20 l4 -11 3 11 Z M52 19 l3 -9 3 9 Z M96 19 l4 -10 3 10 Z M150 18 l3 -9 3 9 Z M204 19 l4 -11 3 11 Z M262 18 l3 -8 3 8 Z M318 19 l4 -10 3 10 Z M340 20 l3 -8 3 8 Z' fill='%23A2C46B'/%3E%3Cg fill='%23FFFFFF'%3E%3Ccircle cx='38' cy='13' r='3.2'/%3E%3Ccircle cx='132' cy='12' r='2.6'/%3E%3Ccircle cx='288' cy='13' r='3.2'/%3E%3C/g%3E%3Cg fill='%23E9B23C'%3E%3Ccircle cx='38' cy='13' r='1.4'/%3E%3Ccircle cx='132' cy='12' r='1.2'/%3E%3Ccircle cx='288' cy='13' r='1.4'/%3E%3C/g%3E%3Cpath d='M228 16 q6 -8 12 -2 q-7 4 -12 2 Z' fill='%23DDA254'/%3E%3C/svg%3E") repeat-x left bottom/360px 56px;
   pointer-events:none;
 }
-html[data-theme="light"] .tabbar{padding-top:10px}
 /* 弹层 / 提示 */
-html[data-theme="light"] .sheet{border-top:1.5px solid rgba(74,60,34,.22)}
+html[data-theme="light"] .sheet{border-top:1.5px solid rgba(74,60,34,.2);background:#FEFFFF}
+html[data-theme="light"] .sheet h3{font-family:var(--hand);font-size:18px}
 html[data-theme="light"] .modal{background:rgba(58,48,28,.34)}
-html[data-theme="light"] .ucard{border:1.5px solid rgba(74,60,34,.24);border-radius:16px 22px 16px 22px/22px 16px 22px 16px}
+html[data-theme="light"] .ucard{border:1.5px solid rgba(74,60,34,.22);border-radius:16px 22px 16px 22px/22px 16px 22px 16px}
+html[data-theme="light"] .ucard .ut{font-family:var(--hand)}
 </style>
 </head>
 <body>
@@ -651,7 +649,7 @@ function applyTheme(){
   const btn = document.getElementById("themeBtn");
   if(btn) btn.textContent = dark ? "☀" : "☾";
   const meta = document.querySelector('meta[name="theme-color"]');
-  if(meta) meta.setAttribute("content", dark?"#0B0C0E":"#BFDCF0");
+  if(meta) meta.setAttribute("content", dark?"#0B0C0E":"#C9E1F4");
   try{ if(window.NativeUI && window.NativeUI.setDark) window.NativeUI.setDark(dark); }catch(e){}
 }
 if(window.matchMedia){
