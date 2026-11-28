@@ -17,8 +17,8 @@ BUILD="$ROOT/.build"
 OUT="${OUT:-$ROOT/自律OS-v1.3.apk}"
 KS="$APP/签名/selfdrive.jks"
 
-VER_CODE="${VER_CODE:-20}"
-VER_NAME="${VER_NAME:-1.3.16}"
+VER_CODE="${VER_CODE:-21}"
+VER_NAME="${VER_NAME:-1.3.17}"
 MIN_SDK=21
 # targetSdk 保持 32，各机型兼容性最稳。
 TGT_SDK=32
@@ -29,12 +29,8 @@ echo "==> 使用 ANDROID_HOME=$ANDROID_HOME"
 rm -rf "$BUILD"
 mkdir -p "$BUILD/classes" "$BUILD/dex"
 
-# 0. 主 HTML 同步进 assets；字体随包分发
+# 0. 主 HTML 同步进 assets
 cp "$ROOT/自律OS.html" "$APP/assets/index.html"
-mkdir -p "$APP/assets/fonts" "$ROOT/fonts"
-if [ -f "$ROOT/fonts/ChenYuluoyan-subset.woff2" ]; then
-  cp "$ROOT/fonts/ChenYuluoyan-subset.woff2" "$APP/assets/fonts/"
-fi
 echo "[0] 已同步 自律OS.html -> assets/index.html"
 
 # 1. 编译 Java

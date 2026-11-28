@@ -8,32 +8,26 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>自律日记</title>
 <style>
-@font-face{
-  font-family:"ChenYuluoyan";
-  src:url("fonts/ChenYuluoyan-subset.woff2") format("woff2"),
-      url("https://cdn.jsdelivr.net/gh/bsssst99-collab/zilv-os@master/fonts/ChenYuluoyan-subset.woff2") format("woff2");
-  font-display:swap;
-}
 :root{
-  --accRGB:180,212,90;
-  --acc:#B4D45A; --onacc:#26320D;
+  --accRGB:164,207,74;
+  --acc:#a4cf4a; --onacc:#26320D;
   --accSoft:#EFF6D8;
   --alpha:rgba(var(--accRGB),.16);
   --alphaLine:rgba(var(--accRGB),.42);
-  --bg:#FDFAE1; --card:#FEFFFF; --card2:#FDFAE1; --line:rgba(96,124,44,.30);
+  --bg:#FDFAE1; --card:#FEFFFF; --card2:#FDFAE1; --line:rgba(122,155,52,.30);
   --tx:#33302A; --dim:#7E8760; --dim2:#A9A290;
-  --sheet:#FEFFFF; --tabbar:#B4D45A; --ph:#FDFAE1;
+  --sheet:#FEFFFF; --tabbar:#a4cf4a; --ph:#FDFAE1;
   --hero1:#FEFFFF; --hero2:#FDFAE1;
   --toastBg:#3A342A; --toastTx:#FFF9EA;
-  --track:rgba(96,124,44,.14);
+  --track:rgba(122,155,52,.14);
   --shadow:0 2px 0 rgba(120,140,70,.08), 0 12px 26px -20px rgba(120,140,70,.38);
   --warn:#C97A12; --warnBg:rgba(224,138,30,.13); --bad:#D9483E;
   --hand:"PingFang SC","HarmonyOS Sans SC","MiSans","Source Han Sans SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;
-  --luoyan:"ChenYuluoyan","PingFang SC","HarmonyOS Sans SC","MiSans",sans-serif;
+  --song:"Songti SC","STSong","SimSun","Noto Serif CJK SC","Source Han Serif SC",serif;
 }
 [data-theme="dark"]{
-  --accRGB:180,212,90;
-  --acc:#B4D45A; --onacc:#0B0C0E;
+  --accRGB:164,207,74;
+  --acc:#a4cf4a; --onacc:#0B0C0E;
   --accSoft:#2A3318;
   --alpha:rgba(var(--accRGB),.16);
   --alphaLine:rgba(var(--accRGB),.42);
@@ -166,7 +160,8 @@ body.fit{overflow:hidden}
 .row:last-child{border-bottom:0}
 .row .lb{font-size:14px}
 .row .ds{font-size:11.5px;color:var(--dim);margin-top:2px}
-.row input[type=time],.row input[type=number]{background:var(--card2);border:1px solid var(--line);color:var(--tx);
+/* 微信读书 skill 的 Key 设置输入框同样式 */
+.row input[type=time],.row input[type=number],.row input[type=text]{background:var(--card2);border:1px solid var(--line);color:var(--tx);
   border-radius:10px;padding:8px 10px;font-size:14px;font-family:inherit;width:112px;text-align:center}
 .row input[type=time]{width:128px}
 .panel-h{font-size:12.5px;color:var(--dim);margin:0 0 8px;font-weight:400}
@@ -182,11 +177,11 @@ body.fit{overflow:hidden}
 
 /* tabbar */
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;
-  padding:4px 10px calc(5px + env(safe-area-inset-bottom));
+  padding:2px 10px calc(3px + env(safe-area-inset-bottom));
   background:var(--tabbar);backdrop-filter:blur(18px);border-top:1px solid var(--line)}
-.tabbar button{flex:1;background:none;border:0;color:var(--dim);font-family:inherit;font-size:13px;
-  font-weight:600;padding:3px 0 3px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}
-.tabbar button span{font-size:21px;line-height:1;font-weight:600}
+.tabbar button{flex:1;background:none;border:0;color:var(--dim);font-family:inherit;font-size:12.5px;
+  padding:8px 0 6px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
+.tabbar button span{font-size:18px;line-height:1}
 .tabbar button.on{color:var(--tx)}
 .tabbar button.on span{color:var(--acc)}
 
@@ -328,8 +323,8 @@ textarea::placeholder{color:var(--dim2)}
 /* ===== 手绘纸质主题（手账风 · 仅浅色） =====
    统一字体层级（自上而下）：
    问候语 28px 黑体加粗 > 页面标题/弹层标题 17-18px > 卡片名 14.5px
-   > 区块标题 14px > 金句正文 16px 落雁体 > 正文辅助 12-12.5px > 注释 11-11.5px
-   除金句用「辰宇落雁体」外，其余全部黑体；强调色统一为草绿 #B4D45A */
+   > 区块标题 14px > 金句正文 16px 宋体 > 正文辅助 12-12.5px > 注释 11-11.5px
+   除金句用宋体外，其余全部黑体；强调色统一为草绿 #a4cf4a */
 html[data-theme="light"] body{
   background:linear-gradient(180deg,#C9E1F4 0%,#CFE5F4 20%,#FDFAE1 46%,#FDFAE1 100%);
   background-attachment:fixed;
@@ -343,14 +338,14 @@ html[data-theme="light"] .hd .date{font-family:var(--hand);color:#5B6637;letter-
 html[data-theme="light"] .sec h2{font-family:var(--hand);font-size:14px;font-weight:700;color:#3E4A1E;letter-spacing:.1em}
 html[data-theme="light"] .sec span{color:#5B6637;font-size:12px}
 html[data-theme="light"] .themebtn{
-  background:#FEFFFF;border:1.5px solid rgba(96,124,44,.35);color:#3E4A1E;
+  background:#FEFFFF;border:1.5px solid rgba(122,155,52,.35);color:#3E4A1E;
   border-radius:50% 46% 52% 48%/48% 52% 46% 54%;
 }
 /* 纸质卡片基础：不规则纸边 + 温和纸阴影 */
 html[data-theme="light"] .hero,
 html[data-theme="light"] .panel,
 html[data-theme="light"] .stat{
-  border:1.5px solid rgba(96,124,44,.30);
+  border:1.5px solid rgba(122,155,52,.30);
   border-radius:16px 22px 15px 24px / 22px 15px 24px 16px;
 }
 html[data-theme="light"] .hero{background:linear-gradient(165deg,#FEFFFF 0%,#FDFAE1 100%)}
@@ -359,71 +354,66 @@ html[data-theme="light"] .hinfo .s{font-family:var(--hand)}
 html[data-theme="light"] .stat .v{font-family:var(--hand)}
 /* 今日任务四色卡 */
 html[data-theme="light"] .tsk{
-  border:1.5px solid rgba(96,124,44,.32);
+  border:1.5px solid rgba(122,155,52,.32);
   box-shadow:0 2px 0 rgba(120,140,70,.07),0 10px 22px -18px rgba(120,140,70,.38);
 }
 html[data-theme="light"] .taskgrid .tsk:nth-child(1){border-radius:18px 20px 16px 24px / 22px 16px 24px 18px;background:#FAF1D9}
-html[data-theme="light"] .taskgrid .tsk:nth-child(2){border-radius:20px 16px 24px 16px / 16px 24px 18px 22px;background:#50B3C6}
+html[data-theme="light"] .taskgrid .tsk:nth-child(2){border-radius:20px 16px 24px 16px / 16px 24px 18px 22px;background:#F7C6D3}
 html[data-theme="light"] .taskgrid .tsk:nth-child(3){border-radius:16px 24px 18px 20px / 24px 18px 16px 20px;background:#DFEBC6}
 html[data-theme="light"] .taskgrid .tsk:nth-child(4){border-radius:22px 18px 20px 16px / 18px 22px 16px 24px;background:#E3DCF1}
 html[data-theme="light"] .tsk .nm{font-family:var(--hand);font-weight:700;font-size:14.5px;color:#26320D}
 html[data-theme="light"] .tsk .st{font-size:11px;color:#4E5638}
 html[data-theme="light"] .tsk .ico{
-  background:#FEFFFF;border:1.5px solid rgba(96,124,44,.30);border-radius:14px;
+  background:#FEFFFF;border:1.5px solid rgba(122,155,52,.30);border-radius:14px;
   box-shadow:0 2px 0 rgba(120,140,70,.1);
 }
-html[data-theme="light"] .tsk.done{border-color:rgba(96,124,44,.55);filter:saturate(.92)}
-/* 金句卡：纸白卡 + 爱心涂鸦；正文辰宇落雁体 16px，出处 11/12px */
+html[data-theme="light"] .tsk.done{border-color:rgba(122,155,52,.55);filter:saturate(.92)}
+/* 金句卡：纸白卡；正文宋体 16px，出处 11/12px */
 html[data-theme="light"] .quote{
-  background:#FEFFFF;border:1.5px solid rgba(96,124,44,.30);
+  background:#FEFFFF;border:1.5px solid rgba(122,155,52,.30);
   border-radius:18px 24px 16px 26px / 24px 16px 26px 18px;
   height:104px;
 }
-html[data-theme="light"] .quote .qtxt{color:#333A24;text-shadow:none;font-family:var(--luoyan);font-size:15.5px;font-weight:500;line-height:1.45}
-html[data-theme="light"] .quote .qmark{color:rgba(96,124,44,.10);top:-4px;font-size:54px}
+html[data-theme="light"] .quote .qtxt{color:#333A24;text-shadow:none;font-family:var(--song);font-size:15.5px;font-weight:500;line-height:1.45}
+html[data-theme="light"] .quote .qmark{color:rgba(122,155,52,.10);top:-4px;font-size:54px}
 html[data-theme="light"] .quote .qsrc{margin-top:2px;flex:0 0 28px}
 html[data-theme="light"] .quote .qsrc .qcover{width:22px;height:30px;flex:0 0 22px}
-html[data-theme="light"] .quote .qsrc .qa{width:24px;height:24px;font-size:12px;flex:0 0 24px;background:rgba(96,124,44,.10)}
+html[data-theme="light"] .quote .qsrc .qa{width:24px;height:24px;font-size:12px;flex:0 0 24px;background:rgba(122,155,52,.10)}
 html[data-theme="light"] .quote .qsrc .qi b{color:#3E4A1E;font-size:12px;line-height:1.25;font-weight:600}
 html[data-theme="light"] .quote .qsrc .qi span{color:#7E8760;font-size:11px;line-height:1.2}
-html[data-theme="light"] .quote::after{
-  content:"♥ ～";position:absolute;right:20px;bottom:26px;color:#E25C4A;
-  font-size:14px;font-weight:700;letter-spacing:2px;opacity:.85;pointer-events:none;
-}
 /* 设置行 / 开关 / 按钮 */
-html[data-theme="light"] .row input[type=time],html[data-theme="light"] .row input[type=number]{
-  border:1.5px solid rgba(96,124,44,.3);background:#FDFAE1;
+html[data-theme="light"] .row input[type=time],html[data-theme="light"] .row input[type=number],html[data-theme="light"] .row input[type=text]{
+  border:1.5px solid rgba(122,155,52,.3);background:#FDFAE1;
 }
-html[data-theme="light"] .opt button{background:#FDFAE1;border:1.5px solid rgba(96,124,44,.3)}
-html[data-theme="light"] textarea{background:#FDFAE1;border:1.5px solid rgba(96,124,44,.3)}
-html[data-theme="light"] .gps{background:#FDFAE1;border:1.5px solid rgba(96,124,44,.3)}
-html[data-theme="light"] .ph{border:1.5px solid rgba(96,124,44,.35);background:#FDFAE1}
-html[data-theme="light"] .shotbox{border:1.5px solid rgba(96,124,44,.35);background:#FDFAE1}
-html[data-theme="light"] .dcell{border:1.5px solid rgba(96,124,44,.28);border-radius:14px 20px 14px 20px/20px 14px 20px 14px}
+html[data-theme="light"] .opt button{background:#FDFAE1;border:1.5px solid rgba(122,155,52,.3)}
+html[data-theme="light"] textarea{background:#FDFAE1;border:1.5px solid rgba(122,155,52,.3)}
+html[data-theme="light"] .gps{background:#FDFAE1;border:1.5px solid rgba(122,155,52,.3)}
+html[data-theme="light"] .ph{border:1.5px solid rgba(122,155,52,.35);background:#FDFAE1}
+html[data-theme="light"] .shotbox{border:1.5px solid rgba(122,155,52,.35);background:#FDFAE1}
+html[data-theme="light"] .dcell{border:1.5px solid rgba(122,155,52,.28);border-radius:14px 20px 14px 20px/20px 14px 20px 14px}
 html[data-theme="light"] .calgrid{
-  border:1.5px solid rgba(96,124,44,.24);border-radius:16px 22px 16px 22px/22px 16px 22px 16px;
+  border:1.5px solid rgba(122,155,52,.24);border-radius:16px 22px 16px 22px/22px 16px 22px 16px;
   background:rgba(254,255,255,.65);
 }
 html[data-theme="light"] .calnav .m{font-family:var(--hand);font-size:17px}
-/* 底部标签栏：整条草绿 #B4D45A，草丛长在栏顶上 */
+/* 底部标签栏：整条草绿 #a4cf4a，草丛长在栏顶上 */
 html[data-theme="light"] .tabbar{
-  background:#B4D45A;
+  background:#a4cf4a;
   border-top:0;
   padding-top:2px;
 }
-html[data-theme="light"] .tabbar button{color:#3E4A1E}
-html[data-theme="light"] .tabbar button.on{color:#1F2B08;font-weight:700}
-html[data-theme="light"] .tabbar button.on span{color:#1F2B08}
+html[data-theme="light"] .tabbar button{color:#43502B}
+html[data-theme="light"] .tabbar button.on{color:#26320D}
 html[data-theme="light"] .tabbar::before{
   content:"";position:absolute;left:0;right:0;bottom:100%;height:44px;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='44' viewBox='0 0 360 44'%3E%3Cpath d='M0 16 Q30 9 60 15 T120 14 T180 15 T240 13 T300 15 T360 13 V44 H0 Z' fill='%23B4D45A'/%3E%3Cpath d='M18 16 l4 -9 3 9 Z M52 15 l3 -7 3 7 Z M96 15 l4 -8 3 8 Z M150 14 l3 -7 3 7 Z M204 15 l4 -9 3 9 Z M262 14 l3 -6 3 6 Z M318 15 l4 -8 3 8 Z M340 16 l3 -6 3 6 Z' fill='%23A0C34A'/%3E%3Cg fill='%23FFFFFF'%3E%3Ccircle cx='38' cy='10' r='3'/%3E%3Ccircle cx='132' cy='9' r='2.4'/%3E%3Ccircle cx='288' cy='10' r='3'/%3E%3C/g%3E%3Cg fill='%23E9B23C'%3E%3Ccircle cx='38' cy='10' r='1.3'/%3E%3Ccircle cx='132' cy='9' r='1.1'/%3E%3Ccircle cx='288' cy='10' r='1.3'/%3E%3C/g%3E%3Cpath d='M228 12 q6 -7 12 -2 q-7 4 -12 2 Z' fill='%23DDA254'/%3E%3C/svg%3E") repeat-x left bottom/360px 44px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='44' viewBox='0 0 360 44'%3E%3Cpath d='M0 16 Q30 9 60 15 T120 14 T180 15 T240 13 T300 15 T360 13 V44 H0 Z' fill='%23a4cf4a'/%3E%3Cpath d='M18 16 l4 -9 3 9 Z M52 15 l3 -7 3 7 Z M96 15 l4 -8 3 8 Z M150 14 l3 -7 3 7 Z M204 15 l4 -9 3 9 Z M262 14 l3 -6 3 6 Z M318 15 l4 -8 3 8 Z M340 16 l3 -6 3 6 Z' fill='%238FB84A'/%3E%3Cg fill='%23FFFFFF'%3E%3Ccircle cx='38' cy='10' r='3'/%3E%3Ccircle cx='132' cy='9' r='2.4'/%3E%3Ccircle cx='288' cy='10' r='3'/%3E%3C/g%3E%3Cg fill='%23E9B23C'%3E%3Ccircle cx='38' cy='10' r='1.3'/%3E%3Ccircle cx='132' cy='9' r='1.1'/%3E%3Ccircle cx='288' cy='10' r='1.3'/%3E%3C/g%3E%3Cpath d='M228 12 q6 -7 12 -2 q-7 4 -12 2 Z' fill='%23DDA254'/%3E%3C/svg%3E") repeat-x left bottom/360px 44px;
   pointer-events:none;
 }
 /* 弹层 / 提示 */
-html[data-theme="light"] .sheet{border-top:1.5px solid rgba(96,124,44,.28);background:#FEFFFF}
+html[data-theme="light"] .sheet{border-top:1.5px solid rgba(122,155,52,.28);background:#FEFFFF}
 html[data-theme="light"] .sheet h3{font-family:var(--hand);font-size:18px}
 html[data-theme="light"] .modal{background:rgba(58,64,28,.34)}
-html[data-theme="light"] .ucard{border:1.5px solid rgba(96,124,44,.30);border-radius:16px 22px 16px 22px/22px 16px 22px 16px}
+html[data-theme="light"] .ucard{border:1.5px solid rgba(122,155,52,.30);border-radius:16px 22px 16px 22px/22px 16px 22px 16px}
 html[data-theme="light"] .ucard .ut{font-family:var(--hand)}
 </style>
 </head>
@@ -468,7 +458,7 @@ html[data-theme="light"] .ucard .ut{font-family:var(--hand)}
 "use strict";
 /* ===== 存储 ===== */
 const LS = "selfdrive.v1";
-const APP_VERSION = "1.3.16";
+const APP_VERSION = "1.3.17";
 /* 更新信息 JSON 地址：走 jsDelivr（国内可达），失败回退 gh-proxy 镜像。留空时「检查更新」会提示未配置。 */
 const UPDATE_JSON_URL = "https://cdn.jsdelivr.net/gh/bsssst99-collab/zilv-os@master/version.json";
 const UPDATE_JSON_URL_FB = "https://gh-proxy.com/https://raw.githubusercontent.com/bsssst99-collab/zilv-os/master/version.json";
@@ -499,10 +489,11 @@ function SHOT_IMG(p){
 /* ===== 每日金句：微信读书划线笔记（Agent Gateway，随机展示），失败回退一言 =====
    点击卡片 → 跳微信读书对应书籍/笔记；双击 → 随机换一条 */
 const WEREAD_API = "https://i.weread.qq.com/api/agent/gateway";
-const WEREAD_KEY = "wrk-2XBhcNLBRwacqU7QyO0bSgAA";
+/* key 不写死在代码里：设置页可填写自己的微信读书 Key（存本机），未填写时金句回退一言 */
 const WR_SKILL_VERSION = "1.0.6";
 const QUOTE_API = "https://v1.hitokoto.cn/?c=j&c=d&c=k&c=h&c=i";
-const WR_POOL_LS = "selfdrive.wrp.v1";
+const WR_POOL_LS = "selfdrive.wrp.v2";      // v2：书信息含跳转链接（旧池无链接，弃用）
+function wrKey(){ try{ return ((S && S.settings && S.settings.wereadKey) || "").trim(); }catch(e){ return ""; } }
 const WR_POOL_TTL = 3 * 86400000;           // 划线池每 3 天自动补抓一本书
 const WR_POOL_MAX = 300;                    // 划线池上限（太大会拖慢 localStorage）
 let _curQuote = null;                       // 本次会话展示的金句
@@ -517,7 +508,7 @@ async function wrCall(api, extra){
   const body = Object.assign({api_name: api, skill_version: WR_SKILL_VERSION}, extra || {});
   const r = await fetch(WEREAD_API, {
     method: "POST",
-    headers: {"Authorization": "Bearer " + WEREAD_KEY, "Content-Type": "application/json"},
+    headers: {"Authorization": "Bearer " + wrKey(), "Content-Type": "application/json"},
     body: JSON.stringify(body)
   });
   return await r.json();
@@ -534,6 +525,7 @@ async function wrFetchOneBook(){
   const nbk = pick.book || {};
   const ups = (bm && bm.updated) || [];
   return ups.map(u => ({
+    type:"weread",
     t:  (u.markText || "").trim(),
     bt: bk.title  || nbk.title || "",
     ba: bk.author || nbk.author || "",
@@ -544,6 +536,7 @@ async function wrFetchOneBook(){
 
 /* 保证划线池可用：没池 / 过期 / 强制时补抓一本书并入池 */
 async function wrEnsurePool(force){
+  if(!wrKey()) return null;                 // 未配置 key：不抓划线
   let p = wrPool();
   if(p && p.items && p.items.length && !force && (Date.now() - p.ts) < WR_POOL_TTL) return p;
   if(_wrLoading) return p;
@@ -610,10 +603,12 @@ function openQuoteLink(){
   const q = _curQuote;
   if(!q){ refreshQuote(); return; }
   if(q.type === "weread" || q.bt){
-    if(!q.bl){ toast("这本书暂无跳转链接"); return; }
-    if(window.NativeUI && typeof NativeUI.openUrlSmart === "function"){ try{ NativeUI.openUrlSmart(q.bl); return; }catch(e){} }
-    if(window.NativeUI){ try{ NativeUI.openUrl(q.bl); return; }catch(e){} }
-    window.location.href = q.bl;
+    /* 微信读书划线：有直链走直链，没有则用书名打开微信读书站内搜索（原生桥会定向到微信读书 App） */
+    let url = q.bl;
+    if(!url) url = "https://weread.qq.com/web/search/books?keyword=" + encodeURIComponent(q.bt || "");
+    if(window.NativeUI && typeof NativeUI.openUrlSmart === "function"){ try{ NativeUI.openUrlSmart(url); return; }catch(e){} }
+    if(window.NativeUI){ try{ NativeUI.openUrl(url); return; }catch(e){} }
+    window.location.href = url;
     return;
   }
   const kw = encodeURIComponent(q.src || "一言");
@@ -627,8 +622,12 @@ function openQuoteLink(){
   window.location.href = url;
 }
 
-/* 双击：本地随机换一条划线；池不够时补抓 */
+/* 双击：本地随机换一条划线；池不够时补抓（未配置 key 则走一言） */
 function refreshQuote(){
+  if(!wrKey()){
+    fetchOnlineQuote().then(h => { if(h){ applyQuote(h); toast("已换一条金句"); } else { toast("网络不给力，稍后再试"); } });
+    return;
+  }
   const p = wrPool();
   if(p && p.items.length >= 2){
     let q = pickFromPool(), guard = 0;
@@ -653,13 +652,13 @@ function onQuoteTap(){
   _quoteClickTimer = setTimeout(()=>{ _quoteClickTimer = null; openQuoteLink(); }, 500);
 }
 
-/* 初次渲染后调用：本次会话随机展示一条；池为空则先一言占位，划线到位后自动替换 */
+/* 初次渲染后调用：配置了 key 且池中有划线则随机展示，否则一言兜底 */
 function primeOnlineQuote(){
   if(_curQuote) return;
   const q = pickFromPool();
   if(q){ _curQuote = q; renderQuoteCard(); return; }
   fetchOnlineQuote().then(h => { if(!_curQuote && h){ _curQuote = h; renderQuoteCard(); } });
-  wrEnsurePool(false).then(() => {
+  if(wrKey()) wrEnsurePool(false).then(() => {
     if(!_curQuote || _curQuote.type !== "weread"){
       const nq = pickFromPool();
       if(nq) applyQuote(nq);
@@ -675,7 +674,7 @@ function defState(){
     settings:{
       wake:"07:00", sleep:"23:00", outBy:"23:00",
       grace:30, radius:300, anchor:null,
-      notifyWake:true, notifySleep:true, theme:"light"
+      notifyWake:true, notifySleep:true, theme:"light", wereadKey:""
     },
     days:{},
     flags:{}
@@ -1424,6 +1423,17 @@ function renderSet(){
   </div>
 
   <div class="panel">
+    <div class="panel-h">微信读书金句</div>
+    <div class="row">
+      <div><div class="lb">划线 API Key</div><div class="ds">填入微信读书 skill 的 Key（wrk- 开头），金句即展示你自己的划线笔记；留空则显示一言金句。Key 只保存在本机。</div></div>
+    </div>
+    <div class="row" style="border-bottom:0">
+      <input type="text" id="setWrKey" value="${esc(s.wereadKey||"")}" placeholder="wrk-..." style="flex:1;min-width:0">
+      <button class="btn ghost" id="setWrKeySave" style="flex:0 0 auto">保存</button>
+    </div>
+  </div>
+
+  <div class="panel">
     <div class="panel-h">出门判定</div>
     <div class="row">
       <div><div class="lb">出门半径</div><div class="ds">距基准点多少米外算「出门」</div></div>
@@ -1482,6 +1492,16 @@ function renderSet(){
     S.settings.theme = b.dataset.theme; save(); applyTheme(); renderAll();
   });
   document.getElementById("btnCheckUpdate").onclick = ()=>checkUpdate(false);
+  document.getElementById("setWrKeySave").onclick = ()=>{
+    const el = document.getElementById("setWrKey");
+    S.settings.wereadKey = (el.value || "").trim();
+    save();
+    try{ localStorage.removeItem(WR_POOL_LS); }catch(e){}   /* key 变了，划线池重建 */
+    if(_curQuote){ _curQuote = null; primeOnlineQuote(); }
+    if(S.settings.wereadKey){ toast("已保存，正在拉取你的划线…"); wrEnsurePool(true).catch(()=>{}); }
+    else { toast("已保存，金句将使用一言"); }
+    renderAll();
+  };
   document.getElementById("setAnchor").onclick = ()=>{
     if(!navigator.geolocation) return toast("不支持定位");
     navigator.geolocation.getCurrentPosition(p=>{
