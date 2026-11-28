@@ -57,11 +57,20 @@ public class NativeUI {
         });
     }
 
-    /** 智能打开外链：豆瓣链接优先定向到豆瓣 App（包名 com.douban.frodo），打不开再回退系统浏览器。 */
+    /** 智能打开外链：微信读书链接优先定向到微信读书 App（包名 com.weread.app.fenko），豆瓣链接优先豆瓣 App，打不开再回退系统浏览器。 */
     @JavascriptInterface
     public void openUrlSmart(final String url) {
         host.runOnUiThread(new Runnable() {
             public void run() {
+                if (url != null && url.contains("weread.qq.com")) {
+                    try {
+                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        i.setPackage("com.weread.app.fenko");
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        host.startActivity(i);
+                        return;
+                    } catch (Exception ignored) {}
+                }
                 if (url != null && url.contains("douban.com")) {
                     try {
                         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));

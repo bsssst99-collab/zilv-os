@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
         if (Build.VERSION.SDK_INT >= 21) {
             s.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
-        web.setBackgroundColor(0xFFF4F7EE);
+        web.setBackgroundColor(0xFFC9E1F4);
         web.setOverScrollMode(View.OVER_SCROLL_NEVER);
         web.addJavascriptInterface(new NativeUI(this), "NativeUI");
 
@@ -127,10 +127,11 @@ public class MainActivity extends Activity {
     }
 
     void applySystemBars(boolean dark) {
-        int bg = dark ? 0xFF0B0C0E : 0xFFF4F7EE;
+        // 状态栏（刘海区）与页面顶部天空蓝同色；导航栏（小白条）与底部草绿 tab 栏同色
+        int bg = dark ? 0xFF0B0C0E : 0xFFC9E1F4;
+        int nav = dark ? 0xFF14161A : 0xFFB4D45A;
         getWindow().setStatusBarColor(bg);
-        // 底部小白条(手势条)区域与底层 tab 栏同色（白），而不是页面淡绿背景
-        getWindow().setNavigationBarColor(dark ? 0xFF14161A : 0xFFFFFFFF);
+        getWindow().setNavigationBarColor(nav);
         View dv = getWindow().getDecorView();
         if (Build.VERSION.SDK_INT >= 23) {
             int flags = dv.getSystemUiVisibility();

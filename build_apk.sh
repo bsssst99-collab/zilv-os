@@ -29,8 +29,12 @@ echo "==> 使用 ANDROID_HOME=$ANDROID_HOME"
 rm -rf "$BUILD"
 mkdir -p "$BUILD/classes" "$BUILD/dex"
 
-# 0. 主 HTML 同步进 assets
+# 0. 主 HTML 同步进 assets；字体随包分发
 cp "$ROOT/自律OS.html" "$APP/assets/index.html"
+mkdir -p "$APP/assets/fonts" "$ROOT/fonts"
+if [ -f "$ROOT/fonts/ChenYuluoyan-subset.woff2" ]; then
+  cp "$ROOT/fonts/ChenYuluoyan-subset.woff2" "$APP/assets/fonts/"
+fi
 echo "[0] 已同步 自律OS.html -> assets/index.html"
 
 # 1. 编译 Java
